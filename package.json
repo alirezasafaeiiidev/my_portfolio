@@ -14,7 +14,9 @@
     "db:push": "prisma db push",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
-    "db:reset": "prisma migrate reset"
+    "db:reset": "prisma migrate reset",
+    "verify": "bash scripts/verify.sh",
+    "scan:external": "bash scripts/offline-external-scan.sh"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

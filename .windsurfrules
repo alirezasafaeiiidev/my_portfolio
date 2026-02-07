@@ -1,0 +1,26 @@
+# Windsurf Rules - Project Constitution Summary
+# See full rules in: .windsurf/rules/00-project-constitution.md
+
+## Core Principles
+- LOCAL-FIRST: Zero runtime external dependencies, self-hosted assets
+- BILINGUAL: Persian/English with proper RTL/LTR
+- STRICT CODE: TypeScript strict, zero `any`, Zod validation
+- UI/UX: WCAG AA, mobile-first, professional design
+- TESTED: Unit, integration, E2E, a11y, offline tests
+- DOCUMENTED: Every change documented with evidence
+
+## Communication
+- Explanations: Persian (Farsi)
+- Code/Commits: English or bilingual
+- Evidence required: file paths + snippets
+
+## Non-Negotiables
+1. No external CDN fonts/scripts without local fallback
+2. External analytics OFF by default
+3. All claims must have evidence
+4. Run verify.sh before push
+5. Conventional commits
+
+## Verification
+- scripts/verify.sh - lint, test, build
+- scripts/offline-external-scan.sh - check external requests
