@@ -126,10 +126,8 @@ export function FloatingShapes() {
           rotate: [0, 360],
         }}
         transition={{
-          duration: 30,
-          repeat: Infinity,
-          ease: "linear",
         }}
+      />
     </div>
   )
 }
