@@ -121,11 +121,7 @@ export function FloatingShapes() {
 
       {/* Triangle */}
       <motion.div
-        className="absolute w-16 h-16"
-        style={{ bottom: '40%', right: '15%' }}
-        style={{
-          clipPath: 'polygon(50% 0%, 100% 100%, 50% 50%, 0% 0%)',
-        }}
+        className="absolute w-16 h-16 bg-gradient-to-br from-accent/20 to-primary/20"
         animate={{
           rotate: [0, 360],
         }}
@@ -134,8 +130,6 @@ export function FloatingShapes() {
           repeat: Infinity,
           ease: "linear",
         }}
-        className="bg-gradient-to-br from-accent/20 to-primary/20"
-      />
     </div>
   )
 }

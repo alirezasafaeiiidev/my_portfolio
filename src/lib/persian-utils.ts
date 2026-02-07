@@ -155,9 +155,9 @@ export function toJalaliDate(gregorianDate: Date | string): string {
 
   // Simplified algorithm for Gregorian to Jalali conversion
   // This is an approximation. For accurate conversions, use a library like jalaali-js
-  let gy = gregorianYear - 1600
-  let gm = gregorianMonth - 1
-  let gd = gregorianDay - 1
+  const gy = gregorianYear - 1600
+  const gm = gregorianMonth - 1
+  const gd = gregorianDay - 1
 
   const gDayNo = 365 * gy + Math.floor((gy + 3) / 4) - Math.floor((gy + 99) / 100) +
                  Math.floor((gy + 399) / 400) + Math.floor((367 * gm + 362) / 12) + gd
