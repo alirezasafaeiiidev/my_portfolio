@@ -39,7 +39,6 @@ export function rateLimit(
   const current = rateLimitStore.get(identifier) || { count: 0, resetTime: now + windowMs }
 
   if (current.count >= maxRequests) {
-    const secondsUntilReset = Math.ceil((current.resetTime - now) / 1000)
     return {
       success: false,
       remaining: 0,

@@ -25,7 +25,7 @@ export function generateMetadata({
   const siteUrl = url || 'https://yourportfolio.com'
   const defaultImage = image || '/og-image.jpg'
 
-  const metadata: Record<string, any> = {
+  const metadata: Record<string, string | number | boolean | object> = {
     title: `${title} | ${siteName}`,
     description,
     keywords: keywords?.join(', '),

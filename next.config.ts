@@ -2,11 +2,14 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: "standalone",
-  /* config options here */
+  
+  // TypeScript - strict mode (fail on errors)
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false,
   },
-  reactStrictMode: false,
+  
+  // React - enable strict mode
+  reactStrictMode: true,
 
   // Performance optimizations
   compress: true,
@@ -17,12 +20,8 @@ const nextConfig: NextConfig = {
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: '**',
-      },
-    ],
+    // Local-first: no external image domains
+    remotePatterns: [],
     minimumCacheTTL: 60,
     dangerouslyAllowSVG: true,
     contentDispositionType: 'attachment',
@@ -40,7 +39,6 @@ const nextConfig: NextConfig = {
       {
         source: '/(.*)',
         headers: [
-          // Security headers
           {
             key: 'X-DNS-Prefetch-Control',
             value: 'on'
@@ -57,19 +55,9 @@ const nextConfig: NextConfig = {
             key: 'Referrer-Policy',
             value: 'origin-when-cross-origin',
           },
-          // Performance headers
           {
             key: 'Cache-Control',
             value: 'public, max-age=31536000, immutable',
-          },
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
-          },
-          // Preconnect hints
-          {
-            key: 'Link',
-            value: '</api/rss?lang=en>; rel=alternate; type=application/rss+xml, </api/rss?lang=fa>; rel=alternate; type=application/rss+xml',
           },
         ],
       },
