@@ -180,3 +180,20 @@ bun run verify
 ---
 **گزارش تهیه شده توسط**: Windsurf Cascade AI  
 **تاریخ**: ۸ فوریه ۲۰۲۶
+
+---
+
+## به‌روزرسانی CI و امنیت (2026-02-08)
+
+### تغییرات اعمال‌شده
+- افزودن workflow جدید CI در مسیر `.github/workflows/ci.yml` با jobهای مستقل برای install، lint، type-check، test، build.
+- افزودن اجرای `scripts/verify.sh` و `scripts/offline-external-scan.sh` در همان pipeline.
+- افزودن workflow مستقل امنیتی در `.github/workflows/security-audit.yml` برای dependency review روی PR و `bun audit`.
+- افزودن badge وضعیت CI در `README.md`.
+- افزودن script جدید `type-check` در `package.json` برای اجرای `tsc --noEmit`.
+
+### شواهد (Evidence)
+- فایل workflow CI: `.github/workflows/ci.yml`
+- فایل workflow امنیت: `.github/workflows/security-audit.yml`
+- badge: `README.md`
+- اسکریپت type-check: `package.json`
