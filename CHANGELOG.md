@@ -64,6 +64,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added CHANGELOG.md
 
 ### Developer Experience
+- Migrated CI/security workflows and verification commands from Bun to pnpm (including lockfile and docs updates)
 - Added GitHub Actions workflows for CI (install/lint/type-check/test/build + verify/scan scripts) and security audits
 - Added ESLint with Next.js configuration
 - Added Prettier for code formatting

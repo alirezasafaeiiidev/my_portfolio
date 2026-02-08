@@ -2,7 +2,7 @@
 
 A production-ready, enterprise-grade portfolio website built with Next.js 16, TypeScript, and modern best practices.
 
-[![CI](https://github.com/OWNER/REPO/actions/workflows/ci.yml/badge.svg)](https://github.com/OWNER/REPO/actions/workflows/ci.yml)
+[![CI](https://github.com/yourusername/portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/yourusername/portfolio/actions/workflows/ci.yml)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)](https://www.typescriptlang.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-16.1-black)](https://nextjs.org/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
@@ -54,7 +54,7 @@ A production-ready, enterprise-grade portfolio website built with Next.js 16, Ty
 - **Database**: SQLite (client: @prisma/client)
 
 ### DevTools & Quality
-- **Package Manager**: Bun
+- **Package Manager**: pnpm
 - **Testing**: Vitest, Testing Library, jsdom
 - **Linting**: ESLint 9 with Next.js config
 - **Code Formatting**: Prettier with consistent rules
@@ -84,11 +84,9 @@ cd portfolio
 
 ### Install Dependencies
 ```bash
-bun install
+pnpm install
 # or
 npm install
-# or
-pnpm install
 # or
 yarn install
 ```
@@ -110,48 +108,48 @@ DATABASE_URL="file:./db/custom.db"
 ### Database Setup
 ```bash
 # Generate Prisma Client
-bun run db:generate
+pnpm run db:generate
 
 # Push schema to database
-bun run db:push
+pnpm run db:push
 ```
 
 ## 🏃 Running the Project
 
 ### Development Mode
 ```bash
-bun run dev
+pnpm run dev
 ```
 Visit [http://localhost:3000](http://localhost:3000)
 
 ### Production Build
 ```bash
 # Create optimized production build
-bun run build
+pnpm run build
 
 # Start production server
-bun run start
+pnpm run start
 ```
 
 ### Testing
 ```bash
 # Run tests once
-bun run test
+pnpm run test
 
 # Run tests in watch mode
-bun run test:watch
+pnpm run test:watch
 
 # Run tests with UI
-bun run test:ui
+pnpm run test:ui
 
 # Run tests with coverage
-bun run test:coverage
+pnpm run test:coverage
 ```
 
 ### Linting
 ```bash
 # Check code quality
-bun run lint
+pnpm run lint
 ```
 
 ## 📁 Project Structure
@@ -327,13 +325,13 @@ Delete a specific message.
 ### Running Tests
 ```bash
 # All tests
-bun run test
+pnpm run test
 
 # Watch mode
-bun run test:watch
+pnpm run test:watch
 
 # Coverage report
-bun run test:coverage
+pnpm run test:coverage
 ```
 
 ### Test Coverage Target: 80%

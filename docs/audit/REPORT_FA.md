@@ -197,3 +197,21 @@ bun run verify
 - فایل workflow امنیت: `.github/workflows/security-audit.yml`
 - badge: `README.md`
 - اسکریپت type-check: `package.json`
+
+## مهاجرت Package Manager به pnpm (2026-02-08)
+
+### تغییرات
+- مهاجرت workflowهای CI و Security از Bun به pnpm.
+- استفاده از `pnpm/action-setup` و `actions/setup-node` با cache برای pnpm.
+- تغییر `scripts/verify.sh` برای اجرای `pnpm run` به‌جای `bun run`.
+- رفع باگ شمارنده در `scripts/verify.sh` که با `set -e` باعث شکست کاذب می‌شد.
+- افزودن `packageManager: pnpm@10.18.3` و تولید `pnpm-lock.yaml`.
+- به‌روزرسانی README (badge و دستورات اجرایی) برای pnpm.
+
+### Evidence
+- `.github/workflows/ci.yml`
+- `.github/workflows/security-audit.yml`
+- `scripts/verify.sh`
+- `package.json`
+- `pnpm-lock.yaml`
+- `README.md`

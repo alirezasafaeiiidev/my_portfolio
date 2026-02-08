@@ -1192,3 +1192,8 @@ Stage Summary:
 - آماده برای تست Lighthouse و production deployment
 
 ---
+
+## 2026-02-08 - CI Package Manager Migration
+- Migrated GitHub Actions pipelines from Bun to pnpm.
+- Added pnpm lockfile and packageManager metadata.
+- Updated verification script and README commands.
