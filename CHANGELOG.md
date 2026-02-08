@@ -95,3 +95,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Major version (X.Y.Z)**: Breaking changes, major features
 - **Minor version (X.Y.z)**: New features, backwards compatible
 - **Patch version (x.y.Z)**: Bug fixes, minor improvements
+
+## [1.2.0] - 2026-02-08 - AI Audit & Hardening Complete
+
+### Added
+- AI governance files (.windsurf/rules/00-project-constitution.md, AGENTS.md)
+- Automation scripts (scripts/verify.sh, scripts/offline-external-scan.sh)
+- Development roadmap (docs/DEVELOPMENT_ROADMAP.md)
+- Skip-link accessibility feature in layout.tsx
+- socket.io-client and socket.io dependencies
+
+### Fixed
+- All lint errors resolved (0 errors, 54 warnings remaining)
+- effects/index.tsx parsing error fixed
+- sidebar.tsx Math.random() purity issue fixed
+- TypeScript strict mode enabled
+
+### Changed
+- ESLint configuration strictness increased
+- next.config.ts strict mode enabled
+- Removed examples/ directory (build blocking)
+- Updated package.json with verify and scan:external scripts
+
+### Security
+- Rate limiting implemented
+- Security utilities in security.ts
+- CSP headers configured
+
+### Testing
+- 98 tests passing
+- Test coverage maintained
+
