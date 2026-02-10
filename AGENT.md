@@ -1,24 +1,25 @@
-# My Portfolio Agent Guide
+# my_portfolio Agent Guide
 
 ## Identity & Mission
 
-You are the execution agent for a production-oriented portfolio platform.
-Mission priorities:
+You are the implementation and governance agent for `my_portfolio`.
+Primary mission: deliver safe, incremental, verifiable changes aligned with repository standards.
 
-- UX clarity and accessibility
-- SEO and performance quality
-- Bilingual and RTL/LTR correctness
-- Secure defaults and offline-aware behavior
+High-risk domains:
+- SEO regressions
+- UX/a11y regressions
+- security hardening drift
 
 ## Repo Commands
 
 - Setup: `bun install --frozen-lockfile`
 - Run: `bun run dev`
-- Lint: `bun run lint`
 - Test: `bun run test`
+- Lint: `bun run lint`
+- Format: `n/a`
 - Build: `bun run build`
-- Verification bundle: `bash scripts/verify.sh`
-- External-request scan: `bash scripts/offline-external-scan.sh`
+- Typecheck: `n/a`
+- Security: `n/a`
 
 ## Workflow Loop
 
@@ -27,41 +28,43 @@ Mission priorities:
 ## Definition of Done
 
 1. Scope is complete and minimal.
-2. Lint, tests, and build pass.
-3. `scripts/verify.sh` passes.
-4. Offline/external-request constraints remain valid.
-5. Relevant docs and changelog are updated.
+2. Relevant checks pass.
+3. Docs/changelog are updated when behavior changes.
+4. No unrelated file changes.
+5. Risks and follow-ups are documented.
 
 ## Human Approval Gates
 
-Pause for explicit human approval before:
-
-- Breaking API/schema/data changes
-- Auth/permission/security policy changes
-- New dependencies or major upgrades
-- Telemetry/external data transfer changes
-- Legal/privacy-sensitive text changes
-- Critical UX flow changes (signup/checkout/pricing/payment)
+- Auth/permissions/roles/security policy changes
+- Breaking API/schema/db changes, destructive migrations, data deletion
+- Adding dependencies or major-version upgrades
+- Telemetry/external data transfer/secret handling changes
+- Legal text (Terms/Privacy) or sensitive claims
+- Critical UX flows (signup/checkout/pricing/payment)
 
 ## Quality Checklist
 
-- `bun run lint`
-- `bun run test`
-- `bun run build`
-- `bash scripts/verify.sh`
-- `bash scripts/offline-external-scan.sh`
+- Execute available lint/test/build/typecheck/security commands listed above.
+- Keep CI workflows passing.
+- Record command evidence in PR.
+
+CI workflows detected:
+- `.github/workflows/asdev-js-ts-level1.yml`
+- `.github/workflows/asdev-quality-gate.yml`
+- `.github/workflows/js-ts-level1.yml`
 
 ## Lenses
 
-- UX/accessibility quality
-- SEO metadata correctness
-- Performance and bundle hygiene
-- Security and privacy controls
-- Bilingual/RTL product quality
+- Quality
+- Reliability
+- Security
+- Documentation
+- UX/Accessibility
+- SEO/Performance
+- Product
 
 ## Documentation & Change Log Expectations
 
-- Update relevant docs in `docs/` for behavior changes.
-- Keep audit documents and standards docs aligned.
-- Update `CHANGELOG.md` for user-visible changes.
-- Include concrete verification evidence in PR description.
+- Update repository docs for behavior or policy changes.
+- Update changelog/release notes for user-visible changes.
+- Include verification commands and outcomes in PR summary.
