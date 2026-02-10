@@ -98,6 +98,29 @@
 2. افزودن baseline امنیتی تکمیلی (CSP سخت‌گیرانه و تست خودکار headerها).
 3. اجرای Lighthouse budget و ثبت score هدف‌مند در CI.
 
+## به‌روزرسانی Enterprise (2026-02-11)
+
+- انجام شد:
+  - `env governance` با `zod` در `src/lib/env.ts`
+  - `structured logging` با redaction در `src/lib/logger.ts`
+  - `API security wrapper` در `src/lib/api-security.ts`
+  - hardening روی routeهای:
+    - `src/app/api/contact/route.ts`
+    - `src/app/api/messages/route.ts`
+    - `src/app/api/admin/messages/route.ts`
+    - `src/app/api/admin/projects/route.ts`
+    - `src/app/api/route.ts` (health endpoint)
+  - تست‌های جدید:
+    - `src/__tests__/lib/env.test.ts`
+    - `src/__tests__/lib/api-security.test.ts`
+
+- وضعیت verify:
+  - `bun run lint` ✅
+  - `bun run type-check` ✅
+  - `bun run test` ✅ (104 tests)
+  - `bun run build` ✅
+  - `bash scripts/verify.sh` ✅
+
 ## تعریف Done
 
 - lint/type-check/test/build/verify/scan = `pass`

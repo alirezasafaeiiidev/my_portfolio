@@ -1,137 +1,153 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { z } from 'zod'
+import { checkRateLimit, createRequestId, withCommonApiHeaders } from '@/lib/api-security'
+import { logger } from '@/lib/logger'
+import { hasSqlInjection, isLikelySpam } from '@/lib/security'
+import { isValidEmail, sanitizeInput } from '@/lib/validators'
 
-/**
- * Sanitize input to prevent XSS attacks
- */
-function sanitizeInput(input: string): string {
-  return input
-    .replace(/[<>]/g, '') // Remove < and > to prevent HTML/JS injection
-    .replace(/javascript:/gi, '') // Remove javascript: protocol
-    .replace(/on\w+=/gi, '') // Remove event handlers like onclick=
-    .trim()
-}
+const contactSchema = z.object({
+  name: z.string().min(2).max(100),
+  email: z.string().email().max(255),
+  subject: z.string().max(200).optional().default(''),
+  message: z.string().min(10).max(5000),
+})
 
-/**
- * Validate email format
- */
-function isValidEmail(email: string): boolean {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  return emailRegex.test(email)
-}
+type ContactPayload = z.infer<typeof contactSchema>
 
-/**
- * Validate form data
- */
-function validateFormData(data: {
-  name: string
-  email: string
-  subject: string
-  message: string
-}): { valid: boolean; errors: string[] } {
-  const errors: string[] = []
-
-  if (!data.name || data.name.trim().length < 2) {
-    errors.push('Name must be at least 2 characters long')
-  }
-
-  if (!data.email || !isValidEmail(data.email)) {
-    errors.push('Please enter a valid email address')
-  }
-
-  if (!data.message || data.message.trim().length < 10) {
-    errors.push('Message must be at least 10 characters long')
-  }
-
-  // Maximum length checks
-  if (data.name.length > 100) {
-    errors.push('Name is too long (maximum 100 characters)')
-  }
-
-  if (data.message.length > 5000) {
-    errors.push('Message is too long (maximum 5000 characters)')
-  }
-
+function normalizePayload(input: ContactPayload): ContactPayload {
   return {
-    valid: errors.length === 0,
-    errors,
+    name: sanitizeInput(input.name, 100),
+    email: sanitizeInput(input.email, 255).toLowerCase(),
+    subject: sanitizeInput(input.subject, 200),
+    message: sanitizeInput(input.message, 5000),
   }
+}
+
+function containsMaliciousContent(payload: ContactPayload): boolean {
+  return (
+    hasSqlInjection(payload.name) ||
+    hasSqlInjection(payload.subject) ||
+    hasSqlInjection(payload.message) ||
+    isLikelySpam(payload.message)
+  )
 }
 
 export async function POST(request: NextRequest) {
-  try {
-    const body = await request.json()
-
-    // Sanitize inputs
-    const sanitizedData = {
-      name: sanitizeInput(body.name || ''),
-      email: sanitizeInput(body.email || ''),
-      subject: sanitizeInput(body.subject || ''),
-      message: sanitizeInput(body.message || ''),
-    }
-
-    // Validate form data
-    const validation = validateFormData(sanitizedData)
-
-    if (!validation.valid) {
-      return NextResponse.json(
+  const requestId = createRequestId()
+  const limit = checkRateLimit(request, 'contact')
+  if (!limit.allowed) {
+    return withCommonApiHeaders(
+      NextResponse.json(
         {
           success: false,
-          message: 'Validation failed',
-          errors: validation.errors,
+          message: 'Too many requests. Please try again later.',
+          retryAt: limit.retryAt,
         },
-        { status: 400 }
+        { status: 429 }
+      ),
+      requestId,
+      limit.headers
+    )
+  }
+
+  try {
+    const body: unknown = await request.json()
+    const parsed = contactSchema.safeParse(body)
+    if (!parsed.success) {
+      return withCommonApiHeaders(
+        NextResponse.json(
+          {
+            success: false,
+            message: 'Validation failed',
+            errors: parsed.error.issues.map((issue) => issue.message),
+          },
+          { status: 400 }
+        ),
+        requestId,
+        limit.headers
       )
     }
 
-    // Here you would typically:
-    // 1. Send email using a service like Resend, SendGrid, or Nodemailer
-    // 2. Store in database
-    // 3. Log the submission
-
-    // Example email sending (commented out):
-    /*
-    const emailData = {
-      to: 'your-email@example.com',
-      subject: `Portfolio Contact: ${sanitizedData.subject || 'New Message'}`,
-      html: `
-        <h2>New Contact Form Submission</h2>
-        <p><strong>Name:</strong> ${sanitizedData.name}</p>
-        <p><strong>Email:</strong> ${sanitizedData.email}</p>
-        <p><strong>Subject:</strong> ${sanitizedData.subject}</p>
-        <p><strong>Message:</strong></p>
-        <p>${sanitizedData.message.replace(/\n/g, '<br>')}</p>
-      `,
+    const payload = normalizePayload(parsed.data)
+    if (!isValidEmail(payload.email)) {
+      return withCommonApiHeaders(
+        NextResponse.json(
+          {
+            success: false,
+            message: 'Please enter a valid email address',
+          },
+          { status: 400 }
+        ),
+        requestId,
+        limit.headers
+      )
     }
-    */
 
-    console.log('Contact form submission:', {
-      name: sanitizedData.name,
-      email: sanitizedData.email,
-      subject: sanitizedData.subject,
-      timestamp: new Date().toISOString(),
+    if (containsMaliciousContent(payload)) {
+      logger.warn('Blocked suspicious contact payload', {
+        requestId,
+        subject: payload.subject,
+      })
+      return withCommonApiHeaders(
+        NextResponse.json(
+          {
+            success: false,
+            message: 'Request blocked by security policy',
+          },
+          { status: 400 }
+        ),
+        requestId,
+        limit.headers
+      )
+    }
+
+    logger.info('Contact form submission accepted', {
+      requestId,
+      name: payload.name,
+      email: payload.email,
+      subject: payload.subject,
     })
 
-    return NextResponse.json({
-      success: true,
-      message: 'Message sent successfully',
-    })
+    return withCommonApiHeaders(
+      NextResponse.json({
+        success: true,
+        message: 'Message sent successfully',
+      }),
+      requestId,
+      limit.headers
+    )
   } catch (error) {
-    console.error('Contact form error:', error)
-    return NextResponse.json(
-      {
-        success: false,
-        message: 'An error occurred while sending your message',
-      },
-      { status: 500 }
+    logger.error('Contact form processing failed', {
+      requestId,
+      error: error instanceof Error ? error.message : 'unknown',
+    })
+    return withCommonApiHeaders(
+      NextResponse.json(
+        {
+          success: false,
+          message: 'An error occurred while sending your message',
+        },
+        { status: 500 }
+      ),
+      requestId,
+      limit.headers
     )
   }
 }
 
-export async function GET() {
-  return NextResponse.json(
-    {
-      message: 'This endpoint only accepts POST requests',
-    },
-    { status: 405 }
+export async function GET(request: NextRequest) {
+  const requestId = createRequestId()
+  const limit = checkRateLimit(request, 'contact:get')
+
+  return withCommonApiHeaders(
+    NextResponse.json(
+      {
+        message: 'This endpoint only accepts POST requests',
+      },
+      { status: 405 }
+    ),
+    requestId,
+    limit.headers
   )
 }
+

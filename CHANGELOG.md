@@ -14,6 +14,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Replaced placeholder sitemap domain in `public/robots.txt` with local default URL.
 
 ### Added
+- Enterprise API baseline utilities:
+  - `src/lib/env.ts` for validated runtime configuration with `zod`
+  - `src/lib/logger.ts` for structured logs with sensitive-field redaction
+  - `src/lib/api-security.ts` for request-id, common API security headers, optional admin token checks, and rate limiting helpers
+- Health endpoint behavior on `GET /api` with service status payload
+- New tests:
+  - `src/__tests__/lib/env.test.ts`
+  - `src/__tests__/lib/api-security.test.ts`
+
+### Changed
+- Hardened API routes (`contact`, `messages`, `admin/messages`, `admin/projects`) with unified security/limit handling and safer validation.
+
+### Added
 - Complete portfolio website with all major sections
 - Hero section with professional introduction and stats
 - Portfolio section with project showcase and modal details

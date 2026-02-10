@@ -1,9 +1,15 @@
 'use client'
 
 import { useEffect } from 'react'
+import { env } from '@/lib/env'
 
 export function WebVitals() {
   useEffect(() => {
+    const isEnabled = env.NEXT_PUBLIC_ENABLE_WEB_VITALS === 'true'
+    if (!isEnabled) {
+      return
+    }
+
     if (typeof window !== 'undefined' && 'performance' in window) {
       const reportWebVitals = async () => {
         const vitals = {
@@ -13,9 +19,7 @@ export function WebVitals() {
           FCP: await getFCP(),
           TTFB: await getTTFB(),
         }
-
-        // Send to analytics
-        console.log('Web Vitals:', vitals)
+        console.warn('Web Vitals:', vitals)
 
         // Send to your analytics service
         // await fetch('/api/analytics/web-vitals', {
@@ -40,8 +44,8 @@ async function getLCP() {
   return new Promise<number>((resolve) => {
     new PerformanceObserver((list) => {
       const entries = list.getEntries()
-      const entry = entries[entries.length - 1] as any
-      resolve(entry.startTime)
+      const entry = entries[entries.length - 1]
+      resolve(entry?.startTime ?? 0)
     }).observe({ entryTypes: ['largest-contentful-paint'] })
   })
 }
@@ -50,8 +54,8 @@ async function getFID() {
   return new Promise<number>((resolve) => {
     new PerformanceObserver((list) => {
       const entries = list.getEntries()
-      const entry = entries[0] as any
-      resolve(entry.processingStart - entry.startTime)
+      const entry = entries[0] as PerformanceEntry & { processingStart?: number }
+      resolve((entry.processingStart ?? 0) - (entry.startTime ?? 0))
     }).observe({ entryTypes: ['first-input'] })
   })
 }
@@ -62,9 +66,9 @@ async function getCLS() {
     new PerformanceObserver((list) => {
       const entries = list.getEntries()
       for (const entry of entries) {
-        const clsEntry = entry as any
+        const clsEntry = entry as PerformanceEntry & { hadRecentInput?: boolean; value?: number }
         if (!clsEntry.hadRecentInput) {
-          clsValue += clsEntry.value
+          clsValue += clsEntry.value ?? 0
         }
       }
       resolve(clsValue)
@@ -85,6 +89,9 @@ async function getFCP() {
 }
 
 async function getTTFB() {
-  const navigation = performance.getEntriesByType('navigation')[0] as any
+  const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined
+  if (!navigation) {
+    return 0
+  }
   return navigation.responseStart - navigation.requestStart
 }

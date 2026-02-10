@@ -223,3 +223,32 @@ bun run verify
 - `bun run build` ✅
 - `bash scripts/verify.sh` ✅
 - `bash scripts/offline-external-scan.sh` ✅ (با warning غیرمسدودکننده)
+
+---
+
+## ارتقای Enterprise API Baseline (2026-02-11)
+
+### تغییرات
+- افزودن لایه مدیریت env مبتنی بر `zod`:
+  - `src/lib/env.ts`
+- افزودن logging ساختاریافته با redaction داده حساس:
+  - `src/lib/logger.ts`
+- افزودن utility امنیت API:
+  - `src/lib/api-security.ts`
+  - قابلیت‌ها: `request-id`, `common headers`, `optional admin token`, `rate-limit`
+- بازطراحی و سخت‌سازی endpointها:
+  - `src/app/api/contact/route.ts` (zod validation + security checks)
+  - `src/app/api/messages/route.ts`
+  - `src/app/api/admin/messages/route.ts`
+  - `src/app/api/admin/projects/route.ts`
+  - `src/app/api/route.ts` (health endpoint)
+- تست‌های جدید:
+  - `src/__tests__/lib/env.test.ts`
+  - `src/__tests__/lib/api-security.test.ts`
+
+### شواهد اجرا
+- `bun run lint` ✅
+- `bun run type-check` ✅
+- `bun run test` ✅ (104 tests)
+- `bun run build` ✅
+- `bash scripts/verify.sh` ✅

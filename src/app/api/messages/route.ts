@@ -1,8 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { checkRateLimit, createRequestId, withCommonApiHeaders } from '@/lib/api-security'
 import { db } from '@/lib/db'
+import { logger } from '@/lib/logger'
 
 // GET /api/messages - Fetch all messages
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
+  const requestId = createRequestId()
+  const limit = checkRateLimit(_request, 'messages:get')
+  if (!limit.allowed) {
+    return withCommonApiHeaders(
+      NextResponse.json({ error: 'Too many requests', retryAt: limit.retryAt }, { status: 429 }),
+      requestId,
+      limit.headers
+    )
+  }
+
   try {
     const messages = await db.contactMessage.findMany({
       orderBy: {
@@ -10,26 +22,47 @@ export async function GET(request: NextRequest) {
       },
     })
 
-    return NextResponse.json({ messages })
+    return withCommonApiHeaders(NextResponse.json({ messages }), requestId, limit.headers)
   } catch (error) {
-    console.error('Error fetching messages:', error)
-    return NextResponse.json(
+    logger.error('Error fetching messages', {
+      requestId,
+      error: error instanceof Error ? error.message : 'unknown',
+    })
+    return withCommonApiHeaders(
+      NextResponse.json(
       { error: 'Failed to fetch messages' },
       { status: 500 }
+      ),
+      requestId,
+      limit.headers
     )
   }
 }
 
 // DELETE /api/messages - Delete a message
 export async function DELETE(request: NextRequest) {
+  const requestId = createRequestId()
+  const limit = checkRateLimit(request, 'messages:delete')
+  if (!limit.allowed) {
+    return withCommonApiHeaders(
+      NextResponse.json({ error: 'Too many requests', retryAt: limit.retryAt }, { status: 429 }),
+      requestId,
+      limit.headers
+    )
+  }
+
   try {
     const { searchParams } = new URL(request.url)
     const id = searchParams.get('id')
 
     if (!id) {
-      return NextResponse.json(
+      return withCommonApiHeaders(
+        NextResponse.json(
         { error: 'Message ID is required' },
         { status: 400 }
+        ),
+        requestId,
+        limit.headers
       )
     }
 
@@ -37,12 +70,19 @@ export async function DELETE(request: NextRequest) {
       where: { id },
     })
 
-    return NextResponse.json({ success: true })
+    return withCommonApiHeaders(NextResponse.json({ success: true }), requestId, limit.headers)
   } catch (error) {
-    console.error('Error deleting message:', error)
-    return NextResponse.json(
+    logger.error('Error deleting message', {
+      requestId,
+      error: error instanceof Error ? error.message : 'unknown',
+    })
+    return withCommonApiHeaders(
+      NextResponse.json(
       { error: 'Failed to delete message' },
       { status: 500 }
+      ),
+      requestId,
+      limit.headers
     )
   }
 }

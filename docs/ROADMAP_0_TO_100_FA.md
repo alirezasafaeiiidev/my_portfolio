@@ -42,6 +42,7 @@
 - [x] به‌روزرسانی `CHANGELOG.md` (در صورت اثر کاربری)
 
 ## Phase 5 - Production Readiness (Remaining)
+- [x] افزودن E2E-like API hardening baseline (request-id, rate-limit, structured logging)
 - [ ] افزودن E2E smoke tests (home, i18n switch, contact path)
 - [ ] بررسی WCAG AA (focus states, keyboard flow, contrast)
 - [ ] CSP policy و hardening هدرها
