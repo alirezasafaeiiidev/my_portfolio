@@ -206,7 +206,7 @@ export function AnimationDemo() {
                 <span className="font-semibold">1. Stagger animations:</span>
                 <p className="text-muted-foreground mt-1">
                   Use different delays to create cascading effects.
-                  delay={index * 100} creates a 100ms stagger.
+                  Example: delay value like index * 100 creates a 100ms stagger.
                 </p>
               </div>
               <div>

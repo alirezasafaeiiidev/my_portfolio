@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, type Variants } from 'framer-motion'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -106,13 +106,13 @@ export function Testimonials() {
 
   const currentTestimonial = testimonials[currentIndex]
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0, x: 100 },
     visible: {
       opacity: 1,
       x: 0,
       transition: {
-        type: "spring",
+        type: 'spring',
         stiffness: 300,
         damping: 30,
       },
@@ -181,7 +181,7 @@ export function Testimonials() {
 
             {/* Carousel */}
             <div className="overflow-hidden mx-8">
-              <AnimatePresence mode="wait" custom direction={direction}>
+              <AnimatePresence mode="wait" custom={direction}>
                 <motion.div
                   key={currentIndex}
                   variants={containerVariants}
@@ -191,7 +191,7 @@ export function Testimonials() {
                   drag="x"
                   dragConstraints={{ left: 0, right: 0 }}
                   dragElastic={0.2}
-                  onDragEnd={(e, { offset }) => {
+                  onDragEnd={(_, { offset }) => {
                     if (offset.x < -50) {
                       nextSlide()
                     } else if (offset.x > 50) {

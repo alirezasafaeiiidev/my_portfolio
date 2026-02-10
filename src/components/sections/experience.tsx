@@ -2,7 +2,7 @@
 
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Calendar, MapPin, Briefcase, GraduationCap, Building2 } from 'lucide-react'
+import { Calendar, MapPin, Building2 } from 'lucide-react'
 import { motion } from 'framer-motion'
 
 interface Experience {
@@ -11,7 +11,7 @@ interface Experience {
   company: string
   location?: string
   startDate: string
-  endDate?: string
+  endDate?: string | null
   description: string
   current: boolean
   type: 'work' | 'education'
@@ -78,7 +78,7 @@ const education: Experience[] = [
   },
 ]
 
-function formatDateRange(startDate: string, endDate: string | null, current: boolean): string {
+function formatDateRange(startDate: string, endDate: string | null | undefined, current: boolean): string {
   const start = new Date(startDate).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
@@ -86,7 +86,10 @@ function formatDateRange(startDate: string, endDate: string | null, current: boo
   if (current) {
     return `${start} - Present`
   }
-  const end = new Date(endDate!).toLocaleDateString('en-US', {
+  if (!endDate) {
+    return start
+  }
+  const end = new Date(endDate).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
   })
@@ -98,8 +101,6 @@ function ExperienceCard({ experience, index }: { experience: Experience; index: 
     hidden: { opacity: 0, x: -50 },
     visible: { opacity: 1, x: 0 },
   }
-
-  const Icon = experience.type === 'education' ? GraduationCap : Briefcase
 
   return (
     <motion.div

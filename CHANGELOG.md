@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- Resolved TypeScript/build blockers in animation demo, experience timeline, testimonials animation variants, theme provider typing, SEO metadata typing, and Vitest coverage typing.
+- Fixed false failure behavior in `scripts/verify.sh` counter increments under `set -e`.
+- Hardened `scripts/offline-external-scan.sh` to ignore build artifacts (`.next`, `node_modules`, `.git`, `dist`, `coverage`) and support documented allowlist filtering.
+- Replaced placeholder sitemap domain in `public/robots.txt` with local default URL.
+
 ### Added
 - Complete portfolio website with all major sections
 - Hero section with professional introduction and stats
@@ -64,6 +70,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added CHANGELOG.md
 
 ### Developer Experience
+- Added GitHub Actions workflows for CI (install/lint/type-check/test/build + verify/scan scripts) and security audits
 - Added ESLint with Next.js configuration
 - Added Prettier for code formatting
 - Added pre-commit hooks (Husky)
@@ -125,4 +132,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Testing
 - 98 tests passing
 - Test coverage maintained
-

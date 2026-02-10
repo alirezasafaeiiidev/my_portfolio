@@ -1,3 +1,6 @@
+import { getSiteUrl } from './site-config'
+import type { Metadata } from 'next'
+
 export interface SEOProps {
   title: string
   description: string
@@ -20,31 +23,42 @@ export function generateMetadata({
   author,
   publishDate,
   modifiedDate,
-}: SEOProps) {
+}: SEOProps): Metadata {
   const siteName = 'Portfolio'
-  const siteUrl = url || 'https://yourportfolio.com'
+  const siteUrl = url || getSiteUrl()
   const defaultImage = image || '/og-image.jpg'
+  const sharedOpenGraph = {
+    url: siteUrl,
+    title,
+    description,
+    siteName,
+    images: [
+      {
+        url: defaultImage,
+        width: 1200,
+        height: 630,
+        alt: title,
+      },
+    ],
+  } satisfies NonNullable<Metadata['openGraph']>
+  const openGraph: Metadata['openGraph'] = type === 'article'
+    ? {
+        ...sharedOpenGraph,
+        type: 'article',
+        publishedTime: publishDate,
+        modifiedTime: modifiedDate || publishDate,
+      }
+    : {
+        ...sharedOpenGraph,
+        type: 'website',
+      }
 
-  const metadata: Record<string, string | number | boolean | object> = {
+  const metadata: Metadata = {
     title: `${title} | ${siteName}`,
     description,
     keywords: keywords?.join(', '),
     authors: author ? [{ name: author }] : [],
-    openGraph: {
-      type,
-      url: siteUrl,
-      title,
-      description,
-      siteName,
-      images: [
-        {
-          url: defaultImage,
-          width: 1200,
-          height: 630,
-          alt: title,
-        },
-      ],
-    },
+    openGraph,
     twitter: {
       card: type === 'article' ? 'summary_large_image' : 'summary',
       title,
@@ -53,23 +67,18 @@ export function generateMetadata({
     },
   }
 
-  // Add article specific metadata
-  if (type === 'article' && publishDate) {
-    metadata.openGraph.publishedTime = publishDate
-    metadata.openGraph.modifiedTime = modifiedDate || publishDate
-  }
-
   return metadata
 }
 
 // Schema.org structured data generators
 export function generatePersonSchema() {
+  const siteUrl = getSiteUrl()
   return {
     '@context': 'https://schema.org',
     '@type': 'Person',
     name: 'Your Name',
     jobTitle: 'Full Stack Developer',
-    url: 'https://yourportfolio.com',
+    url: siteUrl,
     sameAs: [
       'https://github.com/yourusername',
       'https://linkedin.com/in/yourusername',
@@ -87,17 +96,18 @@ export function generatePersonSchema() {
 }
 
 export function generateWebSiteSchema() {
+  const siteUrl = getSiteUrl()
   return {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: 'Portfolio',
-    url: 'https://yourportfolio.com',
+    url: siteUrl,
     description: 'Professional portfolio showcasing web development projects and technical expertise',
     potentialAction: {
       '@type': 'SearchAction',
       target: {
         '@type': 'EntryPoint',
-        urlTemplate: 'https://yourportfolio.com/search?q={search_term_string}',
+        urlTemplate: `${siteUrl}/search?q={search_term_string}`,
       },
       'query-input': 'required name=search_term_string',
     },
@@ -162,7 +172,7 @@ export function generateProjectSchema({
   author?: string
   dateCreated?: string
 }) {
-  const siteUrl = 'https://yourportfolio.com'
+  const siteUrl = getSiteUrl()
 
   return {
     '@context': 'https://schema.org',
@@ -206,7 +216,7 @@ export function generateBlogPostSchema({
   tags?: string[]
   readTime?: number
 }) {
-  const siteUrl = 'https://yourportfolio.com'
+  const siteUrl = getSiteUrl()
 
   return {
     '@context': 'https://schema.org',
@@ -232,12 +242,13 @@ export function generateBlogPostSchema({
 
 // Organization Schema
 export function generateOrganizationSchema() {
+  const siteUrl = getSiteUrl()
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: 'Portfolio',
-    url: 'https://yourportfolio.com',
-    logo: 'https://yourportfolio.com/logo.png',
+    url: siteUrl,
+    logo: `${siteUrl}/logo.png`,
     description: 'Professional portfolio showcasing web development projects',
     contactPoint: {
       '@type': 'ContactPoint',
@@ -268,7 +279,7 @@ export function generateTechArticleSchema({
   publishDate: string
   technologies?: string[]
 }) {
-  const siteUrl = 'https://yourportfolio.com'
+  const siteUrl = getSiteUrl()
 
   return {
     '@context': 'https://schema.org',
@@ -285,4 +296,3 @@ export function generateTechArticleSchema({
     dependencies: technologies,
   }
 }
-

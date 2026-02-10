@@ -23,27 +23,75 @@ ALLOWED_EXTERNALS=(
     # "example.com/api"  # External API with local fallback
 )
 
+# Directories to skip from repository-wide scans
+SCAN_EXCLUDES=(
+    ".git"
+    "node_modules"
+    ".next"
+    "dist"
+    "coverage"
+)
+
+build_exclude_args() {
+    local args=()
+    for path in "${SCAN_EXCLUDES[@]}"; do
+        args+=(--glob "!${path}/**")
+    done
+    printf '%s\n' "${args[@]}"
+}
+
+is_allowed_external() {
+    local line="$1"
+    for allowed in "${ALLOWED_EXTERNALS[@]}"; do
+        if [[ "$line" == *"$allowed"* ]]; then
+            return 0
+        fi
+    done
+    return 1
+}
+
+print_filtered_matches() {
+    local matches="$1"
+    local filtered=""
+    while IFS= read -r line; do
+        [ -z "$line" ] && continue
+        if ! is_allowed_external "$line"; then
+            filtered+="${line}"$'\n'
+        fi
+    done <<< "$matches"
+    printf '%s' "$filtered"
+}
+
 echo ""
 echo "📁 Scanning source files for external URLs..."
 echo "------------------------------------------"
 
-# Scan src directory for http(s):// patterns
+# Scan for runtime outbound requests (high signal, low false positives)
 if [ -d "src" ]; then
-    SRC_EXTERNALS=$(grep -r "https\?://" src/ --include="*.ts" --include="*.tsx" --include="*.js" --include="*.jsx" 2>/dev/null || true)
-    if [ -n "$SRC_EXTERNALS" ]; then
-        echo -e "${YELLOW}⚠ Found external URLs in src/:${NC}"
-        echo "$SRC_EXTERNALS"
+    echo "Checking runtime request patterns in src/..."
+    RUNTIME_FETCH=$(rg -n "fetch\\s*\\(\\s*['\\\"]https?://" src --glob "*.{ts,tsx,js,jsx}" || true)
+    RUNTIME_AXIOS=$(rg -n "axios\\.(get|post|put|patch|delete)\\s*\\(\\s*['\\\"]https?://" src --glob "*.{ts,tsx,js,jsx}" || true)
+    RUNTIME_WS=$(rg -n "(WebSocket|EventSource)\\s*\\(\\s*['\\\"](wss?|https?)://" src --glob "*.{ts,tsx,js,jsx}" || true)
+
+    if [ -n "$RUNTIME_FETCH" ] || [ -n "$RUNTIME_AXIOS" ] || [ -n "$RUNTIME_WS" ]; then
+        echo -e "${RED}❌ Found runtime external requests in src/:${NC}"
+        [ -n "$RUNTIME_FETCH" ] && echo "$RUNTIME_FETCH"
+        [ -n "$RUNTIME_AXIOS" ] && echo "$RUNTIME_AXIOS"
+        [ -n "$RUNTIME_WS" ] && echo "$RUNTIME_WS"
         FOUND_EXTERNAL=1
+    else
+        echo -e "${GREEN}✓ No runtime external requests found in src/${NC}"
     fi
 fi
 
-# Scan public directory
+# Scan public text files only (-I ignores binary files)
 if [ -d "public" ]; then
-    PUB_EXTERNALS=$(grep -r "https\?://" public/ 2>/dev/null || true)
+    echo "Checking public/ text assets for external URLs..."
+    PUB_EXTERNALS=$(grep -rInI "https\\?://" public/ --exclude="*.png" --exclude="*.jpg" --exclude="*.jpeg" --exclude="*.webp" --exclude="*.ico" --exclude="*.woff" --exclude="*.woff2" --exclude="*.ttf" --exclude="*.otf" 2>/dev/null || true)
     if [ -n "$PUB_EXTERNALS" ]; then
-        echo -e "${YELLOW}⚠ Found external URLs in public/:${NC}"
+        echo -e "${YELLOW}⚠ Found external URLs in public/ text assets:${NC}"
         echo "$PUB_EXTERNALS"
-        FOUND_EXTERNAL=1
+        WARNINGS+=("External URLs in public text assets")
     fi
 fi
 
@@ -64,17 +112,37 @@ for file in "${CONFIG_FILES[@]}"; do
     fi
 done
 
+# Check for placeholder production domain
+echo ""
+echo "🏷️ Checking for placeholder domain..."
+echo "------------------------------------------"
+
+PLACEHOLDER_REFS=$(rg -n "yourportfolio\\.com" src --glob "*.{ts,tsx,js,jsx}" --glob "!src/**/__tests__/**" || true)
+if [ -n "$PLACEHOLDER_REFS" ]; then
+    echo -e "${RED}❌ Found placeholder domain references (yourportfolio.com):${NC}"
+    echo "$PLACEHOLDER_REFS"
+    FOUND_EXTERNAL=1
+fi
+
 # Check for CDN references
 echo ""
 echo "🌐 Checking for CDN references..."
 echo "------------------------------------------"
 
 CDN_PATTERNS=("googleapis.com" "cdnjs.cloudflare.com" "unpkg.com" "jsdelivr.net" "fonts.googleapis.com")
+mapfile -t RG_EXCLUDES < <(build_exclude_args)
 for pattern in "${CDN_PATTERNS[@]}"; do
-    CDN_REFS=$(grep -r "$pattern" . --include="*.html" --include="*.tsx" --include="*.ts" --include="*.js" --include="*.css" 2>/dev/null | grep -v node_modules | grep -v ".git" || true)
-    if [ -n "$CDN_REFS" ]; then
+    CDN_REFS=$(rg -n "$pattern" . \
+        --glob "*.html" \
+        --glob "*.tsx" \
+        --glob "*.ts" \
+        --glob "*.js" \
+        --glob "*.css" \
+        "${RG_EXCLUDES[@]}" || true)
+    FILTERED_CDN_REFS=$(print_filtered_matches "$CDN_REFS")
+    if [ -n "$FILTERED_CDN_REFS" ]; then
         echo -e "${RED}❌ Found CDN reference ($pattern):${NC}"
-        echo "$CDN_REFS"
+        echo "$FILTERED_CDN_REFS"
         FOUND_EXTERNAL=1
     fi
 done
@@ -86,10 +154,16 @@ echo "------------------------------------------"
 
 ANALYTICS_PATTERNS=("google-analytics" "gtag" "analytics" "tracking" "segment.io" "mixpanel")
 for pattern in "${ANALYTICS_PATTERNS[@]}"; do
-    ANALYTICS_REFS=$(grep -r "$pattern" . --include="*.ts" --include="*.tsx" --include="*.js" --include="*.html" 2>/dev/null | grep -v node_modules | grep -v ".git" || true)
-    if [ -n "$ANALYTICS_REFS" ]; then
+    ANALYTICS_REFS=$(rg -n "$pattern" . \
+        --glob "*.ts" \
+        --glob "*.tsx" \
+        --glob "*.js" \
+        --glob "*.html" \
+        "${RG_EXCLUDES[@]}" || true)
+    FILTERED_ANALYTICS_REFS=$(print_filtered_matches "$ANALYTICS_REFS")
+    if [ -n "$FILTERED_ANALYTICS_REFS" ]; then
         echo -e "${YELLOW}⚠ Found potential analytics reference ($pattern):${NC}"
-        echo "$ANALYTICS_REFS"
+        echo "$FILTERED_ANALYTICS_REFS"
         WARNINGS+=("Analytics reference found: $pattern")
     fi
 done
@@ -99,10 +173,17 @@ echo ""
 echo "🔤 Checking for Google Fonts..."
 echo "------------------------------------------"
 
-FONT_REFS=$(grep -r "fonts.googleapis.com\|fonts.gstatic.com" . --include="*.ts" --include="*.tsx" --include="*.js" --include="*.html" --include="*.css" 2>/dev/null | grep -v node_modules | grep -v ".git" || true)
-if [ -n "$FONT_REFS" ]; then
+FONT_REFS=$(rg -n "fonts.googleapis.com|fonts.gstatic.com" . \
+    --glob "*.ts" \
+    --glob "*.tsx" \
+    --glob "*.js" \
+    --glob "*.html" \
+    --glob "*.css" \
+    "${RG_EXCLUDES[@]}" || true)
+FILTERED_FONT_REFS=$(print_filtered_matches "$FONT_REFS")
+if [ -n "$FILTERED_FONT_REFS" ]; then
     echo -e "${RED}❌ Found Google Fonts references (MUST be self-hosted):${NC}"
-    echo "$FONT_REFS"
+    echo "$FILTERED_FONT_REFS"
     FOUND_EXTERNAL=1
 fi
 

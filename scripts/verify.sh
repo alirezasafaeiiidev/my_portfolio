@@ -29,10 +29,10 @@ run_check() {
     
     if eval "$command"; then
         echo -e "${GREEN}✓ $name passed${NC}"
-        ((PASS_COUNT++))
+        PASS_COUNT=$((PASS_COUNT + 1))
     else
         echo -e "${RED}✗ $name failed${NC}"
-        ((FAIL_COUNT++))
+        FAIL_COUNT=$((FAIL_COUNT + 1))
         return 1
     fi
 }

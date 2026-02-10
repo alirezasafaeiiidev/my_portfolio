@@ -2,7 +2,7 @@
 ## Project Audit Report (Persian)
 
 > **تاریخ ایجاد**: ۷ فوریه ۲۰۲۵
-> **تاریخ به‌روزرسانی**: ۸ فوریه ۲۰۲۵
+> **تاریخ به‌روزرسانی**: ۱۰ فوریه ۲۰۲۶
 > **وضعیت**: ✅ کامل
 > **شاخه**: ai/audit-hardening
 
@@ -180,3 +180,46 @@ bun run verify
 ---
 **گزارش تهیه شده توسط**: Windsurf Cascade AI  
 **تاریخ**: ۸ فوریه ۲۰۲۶
+
+---
+
+## به‌روزرسانی CI و امنیت (2026-02-08)
+
+### تغییرات اعمال‌شده
+- افزودن workflow جدید CI در مسیر `.github/workflows/ci.yml` با jobهای مستقل برای install، lint، type-check، test، build.
+- افزودن اجرای `scripts/verify.sh` و `scripts/offline-external-scan.sh` در همان pipeline.
+- افزودن workflow مستقل امنیتی در `.github/workflows/security-audit.yml` برای dependency review روی PR و `bun audit`.
+- افزودن badge وضعیت CI در `README.md`.
+- افزودن script جدید `type-check` در `package.json` برای اجرای `tsc --noEmit`.
+
+### شواهد (Evidence)
+- فایل workflow CI: `.github/workflows/ci.yml`
+- فایل workflow امنیت: `.github/workflows/security-audit.yml`
+- badge: `README.md`
+- اسکریپت type-check: `package.json`
+
+---
+
+## به‌روزرسانی پایداری و اجرای خودکار (2026-02-10)
+
+### اقدامات انجام‌شده
+- رفع خطاهای TypeScript و build blocker در:
+  - `src/components/animations/demo.tsx`
+  - `src/components/sections/experience.tsx`
+  - `src/components/sections/testimonials.tsx`
+  - `src/components/theme/theme-provider.tsx`
+  - `src/lib/seo.ts`
+  - `vitest.config.ts`
+- رفع fail کاذب در `scripts/verify.sh` (اصلاح شمارنده‌ها با `set -e`).
+- سخت‌سازی `scripts/offline-external-scan.sh`:
+  - حذف اسکن مسیرهای خروجی build (`.next`, `node_modules`, `.git`, `dist`, `coverage`)
+  - افزودن مکانیزم allowlist برای externalهای مستند
+- حذف placeholder `yourportfolio.com` از `public/robots.txt`.
+
+### شواهد اجرایی
+- `bun run lint` ✅
+- `bun run type-check` ✅
+- `bun run test` ✅ (98 tests)
+- `bun run build` ✅
+- `bash scripts/verify.sh` ✅
+- `bash scripts/offline-external-scan.sh` ✅ (با warning غیرمسدودکننده)
