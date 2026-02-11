@@ -129,6 +129,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Created contributing guidelines
 - Added CHANGELOG.md
 - Synced enterprise audit docs and added chat snapshot evidence (`docs/audit/chat-snapshot-2026-02-11.png`)
+- Closed legacy execution roadmap and release checklist items:
+  - `docs/DEVELOPMENT_ROADMAP.md`
+  - `docs/RELEASE_CHECKLIST_FA.md`
+  - `docs/audit/REPORT_FA.md`
+  - `docs/audit/REMAINING_TASKS_FA.md`
 
 ### Developer Experience
 - Added GitHub Actions workflows for CI (install/lint/type-check/test/build + verify/scan scripts) and security audits

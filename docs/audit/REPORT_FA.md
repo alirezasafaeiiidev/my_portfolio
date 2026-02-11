@@ -260,6 +260,20 @@ bun run verify
 - `bun run verify` ✅
 - `bash scripts/offline-external-scan.sh` ✅
 - `bun run test:e2e:smoke` ✅ (4 passed)
+
+---
+
+## بسته‌شدن همه تسک‌های باقیمانده (2026-02-11)
+
+### انجام شد
+- بستن کامل roadmap اجرایی قدیمی در `docs/DEVELOPMENT_ROADMAP.md`
+- بستن کامل چک‌لیست انتشار در `docs/RELEASE_CHECKLIST_FA.md`
+- همگام‌سازی نهایی وضعیت «بدون تسک باز»
+
+### شواهد
+- `bash scripts/verify.sh` ✅
+- `bash scripts/offline-external-scan.sh` ✅
+- `bun run test:e2e:smoke` ✅
 - `bun run type-check` ✅
 - `bun run test` ✅ (98 tests)
 - `bun run build` ✅

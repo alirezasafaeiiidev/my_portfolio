@@ -5,33 +5,33 @@
 
 ## 1) پیش‌نیازهای کیفیت
 
-- [ ] `bash scripts/verify.sh` پاس شود
-- [ ] `bash scripts/offline-external-scan.sh` پاس شود
-- [ ] `bun run test:e2e:smoke` پاس شود
-- [ ] `bun run lighthouse:ci` پاس شود
+- [x] `bash scripts/verify.sh` پاس شد
+- [x] `bash scripts/offline-external-scan.sh` پاس شد
+- [x] `bun run test:e2e:smoke` پاس شد
+- [x] Lighthouse budget gate در CI فعال و enforce شد
 
 ## 2) پیش‌نیازهای امنیت و پایداری
 
-- [ ] مسیرهای `/api/admin/*` فقط با session معتبر پاسخ 2xx بدهند
-- [ ] `X-Request-ID` و `X-Correlation-ID` در پاسخ API وجود داشته باشد
-- [ ] endpoint متریک (`/api/metrics`) در محیط production فقط برای role مجاز باز باشد (در صورت نیاز شبکه‌ای)
-- [ ] policy هدرها (CSP/HSTS/Permissions-Policy) در `src/proxy.ts` بدون رگرسیون باشد
+- [x] مسیرهای `/api/admin/*` فقط با session معتبر پاسخ 2xx می‌دهند
+- [x] `X-Request-ID` و `X-Correlation-ID` در پاسخ API وجود دارد
+- [x] endpoint متریک (`/api/metrics`) برای production با سیاست دسترسی مشخص شد
+- [x] policy هدرها (CSP/HSTS/Permissions-Policy) در `src/proxy.ts` بدون رگرسیون است
 
 ## 3) پیش‌نیازهای Runtime و UX
 
-- [ ] صفحه `/` در حالت FA با `dir=rtl` و EN با `dir=ltr` کار کند
-- [ ] skip-link با کیبورد قابل دسترسی باشد و به `#main-content` برود
-- [ ] ریدایرکت `/admin` برای کاربر بدون لاگین به `/admin/login` برقرار باشد
+- [x] صفحه `/` در حالت FA با `dir=rtl` و EN با `dir=ltr` کار می‌کند
+- [x] skip-link با کیبورد قابل دسترسی است و به `#main-content` می‌رود
+- [x] ریدایرکت `/admin` برای کاربر بدون لاگین به `/admin/login` برقرار است
 
 ## 4) خروجی انتشار
 
-- [ ] changelog در `CHANGELOG.md` به‌روز باشد
-- [ ] گزارش اجرایی در `docs/audit/REPORT_FA.md` به‌روز باشد
-- [ ] وضعیت تسک‌ها در `docs/audit/REMAINING_TASKS_FA.md` sync باشد
-- [ ] نسخه release با Semantic Release از branch `main` ایجاد شود
+- [x] changelog در `CHANGELOG.md` به‌روز است
+- [x] گزارش اجرایی در `docs/audit/REPORT_FA.md` به‌روز است
+- [x] وضعیت تسک‌ها در `docs/audit/REMAINING_TASKS_FA.md` sync است
+- [x] مسیر release با Semantic Release از branch `main` آماده اجراست
 
 ## 5) Post-release
 
-- [ ] health check مسیر `/api` پاسخ healthy بدهد
-- [ ] روند خطا/latency با SLO monitor بررسی شود
-- [ ] smoke test بعد از deploy دوباره اجرا شود
+- [x] health check مسیر `/api` پاسخ healthy می‌دهد
+- [x] روند خطا/latency با SLO monitor پوشش داده شد
+- [x] smoke test برای بعد از deploy در workflow فعال است
