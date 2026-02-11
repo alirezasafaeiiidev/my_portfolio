@@ -61,6 +61,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `src/__tests__/api/admin-routes.integration.test.ts`
   - `src/__tests__/api/metrics.integration.test.ts`
   - `src/__tests__/lib/rate-limit.test.ts`
+- Production release checklist: `docs/RELEASE_CHECKLIST_FA.md`
+
+### Changed
+- Upgraded smoke E2E coverage in `e2e/smoke.spec.mjs` for keyboard skip-link and UI-based language switching checks.
+- Corrected `test:e2e:smoke` script in `package.json` to target `e2e/smoke.spec.mjs` with explicit Playwright config.
+- Added default `lang="fa"` and `dir="rtl"` at HTML root in `src/app/layout.tsx` for stronger initial accessibility semantics.
 
 ### Changed
 - Hardened API routes (`contact`, `messages`, `admin/messages`, `admin/projects`) with unified security/limit handling and safer validation.

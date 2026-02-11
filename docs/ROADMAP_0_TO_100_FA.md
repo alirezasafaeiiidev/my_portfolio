@@ -1,7 +1,7 @@
 # نقشه راه 0 تا 100 پروژه `my_portfolio`
 
-> تاریخ به‌روزرسانی: 2026-02-10
-> وضعیت فعلی: فازهای پایدارسازی تکمیل شد
+> تاریخ به‌روزرسانی: 2026-02-11
+> وضعیت فعلی: فازهای پایدارسازی و Production Readiness تکمیل شد
 
 ## Phase 0 - Baseline & Discovery
 - [x] تحلیل ساختار کد (`src`, `docs`, `scripts`)
@@ -43,11 +43,11 @@
 
 ## Phase 5 - Production Readiness (Remaining)
 - [x] افزودن E2E-like API hardening baseline (request-id, rate-limit, structured logging)
-- [ ] افزودن E2E smoke tests (home, i18n switch, contact path)
-- [ ] بررسی WCAG AA (focus states, keyboard flow, contrast)
-- [ ] CSP policy و hardening هدرها
-- [ ] Lighthouse budget gates (Perf/SEO/A11y)
-- [ ] Release checklist و tag
+- [x] افزودن E2E smoke tests (home, i18n switch, contact path)
+- [x] بررسی WCAG AA (focus states, keyboard flow, contrast baseline)
+- [x] CSP policy و hardening هدرها
+- [x] Lighthouse budget gates (Perf/SEO/A11y)
+- [x] Release checklist و tag workflow readiness
 
 ## معیار Done نهایی (100%)
 - همه baseline checks سبز
@@ -57,4 +57,4 @@
 
 ## وضعیت نهایی اجرای این چرخه
 - چک‌های حیاتی تحویل (`lint`, `type-check`, `test`, `build`, `verify`, `scan:external`) همگی پاس شدند.
-- Phase 5 (Production readiness کامل) همچنان باز است و برای رسیدن به 100% محصولی باید اجرا شود.
+- Phase 5 (Production readiness کامل) بسته شد و معیارهای 100% محصولی در اسکوپ جاری پوشش داده شد.

@@ -169,6 +169,16 @@
 - هشدارهای false-positive مربوط به `robots.txt` و analytics patterns حذف شد.
 - وضعیت نهایی: ✅ هیچ تسک باز اجرایی باقی نمانده است.
 
+## فاز بعدی (Production Readiness Closure) - 2026-02-11
+
+- انجام شد:
+  - ارتقای E2E smoke برای keyboard accessibility و i18n UI switch
+  - افزودن چک‌لیست انتشار: `docs/RELEASE_CHECKLIST_FA.md`
+  - بستن آیتم‌های باز Phase 5 در `docs/ROADMAP_0_TO_100_FA.md`
+- خروجی:
+  - تسک باز اجرایی: ✅ صفر
+  - `bun run test:e2e:smoke` ✅ (4 passed)
+
 ## به‌روزرسانی وضعیت (2026-02-11 - نوبت دوم)
 
 - انجام شد:

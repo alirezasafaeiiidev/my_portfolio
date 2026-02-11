@@ -245,6 +245,21 @@ bun run verify
 ### شواهد
 - `bash scripts/offline-external-scan.sh` ✅ بدون warning
 - `bash scripts/verify.sh` ✅
+
+---
+
+## فاز بعدی: Production Readiness Closure (2026-02-11)
+
+### انجام شد
+- تکمیل smoke تست‌های E2E با سناریوی keyboard skip-link و language switch از UI
+- اصلاح اسکریپت smoke در `package.json` برای فایل واقعی `e2e/smoke.spec.mjs`
+- افزودن چک‌لیست رسمی انتشار: `docs/RELEASE_CHECKLIST_FA.md`
+- بستن آیتم‌های Phase 5 در `docs/ROADMAP_0_TO_100_FA.md`
+
+### شواهد
+- `bun run verify` ✅
+- `bash scripts/offline-external-scan.sh` ✅
+- `bun run test:e2e:smoke` ✅ (4 passed)
 - `bun run type-check` ✅
 - `bun run test` ✅ (98 tests)
 - `bun run build` ✅

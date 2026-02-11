@@ -1,3 +1,13 @@
+import fs from 'node:fs'
+
+const systemChromePath = '/usr/bin/google-chrome'
+const launchOptions = fs.existsSync(systemChromePath)
+  ? {
+      executablePath: systemChromePath,
+      args: ['--no-sandbox', '--disable-dev-shm-usage'],
+    }
+  : undefined
+
 const config = {
   testDir: './e2e',
   timeout: 30_000,
@@ -5,15 +15,16 @@ const config = {
   use: {
     baseURL: process.env.PLAYWRIGHT_BASE_URL || 'http://127.0.0.1:3000',
     headless: true,
-    trace: 'retain-on-failure',
+    trace: 'on-first-retry',
     screenshot: 'only-on-failure',
-    video: 'retain-on-failure',
+    video: 'off',
+    launchOptions,
   },
   webServer: {
-    command: 'bun run dev',
+    command: 'bun run build && bun run start',
     url: 'http://127.0.0.1:3000',
     reuseExistingServer: true,
-    timeout: 120_000,
+    timeout: 240_000,
   },
 }
 
