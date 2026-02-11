@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { SearchBar } from '@/components/search/search-bar'
-import { ExternalLink, Github, Filter, Eye, Code2 } from 'lucide-react'
+import { ExternalLink, Github, Filter } from 'lucide-react'
 import {
   Select,
   SelectContent,
@@ -359,7 +359,7 @@ export function Portfolio() {
               initial="hidden"
               animate="visible"
             >
-              {otherProjects.map((project, index) => (
+              {otherProjects.map((project) => (
                 <motion.div
                   key={project.id}
                   variants={cardVariants}

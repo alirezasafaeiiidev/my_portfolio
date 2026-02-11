@@ -30,14 +30,14 @@ const socialLinks = [
 ]
 
 const quickLinks = [
-  { name: 'footerQuickHome', href: '#home' },
-  { name: 'footerQuickPortfolio', href: '#portfolio' },
-  { name: 'footerQuickSkills', href: '#skills' },
-  { name: 'footerQuickContact', href: '#contact' },
+  { key: 'quickHome', href: '#home' },
+  { key: 'quickPortfolio', href: '#portfolio' },
+  { key: 'quickSkills', href: '#skills' },
+  { key: 'quickContact', href: '#contact' },
 ]
 
 export function Footer() {
-  const { t, language } = useI18n()
+  const { t } = useI18n()
   const currentYear = new Date().getFullYear()
 
   return (
@@ -60,7 +60,7 @@ export function Footer() {
             <ul className="space-y-2">
               {quickLinks.map((link, index) => (
                 <motion.li
-                  key={link.name}
+                  key={link.key}
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.3, delay: index * 0.1 }}

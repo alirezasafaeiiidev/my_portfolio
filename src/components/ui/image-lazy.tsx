@@ -41,6 +41,7 @@ export function LazyImage({
 
   return (
     <div className={cn('relative overflow-hidden', className)}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         ref={imgRef}
         src={isInView ? src : placeholder}

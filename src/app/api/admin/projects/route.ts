@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
-import { checkRateLimit, createRequestId, enforceOptionalAdminToken, withCommonApiHeaders } from '@/lib/api-security'
+import { checkRateLimit, createRequestId, enforceAdminAccess, withCommonApiHeaders } from '@/lib/api-security'
 import { db } from '@/lib/db'
 import { logger } from '@/lib/logger'
 import { isValidUrl, sanitizeInput } from '@/lib/validators'
@@ -18,12 +18,12 @@ const projectCreateSchema = z.object({
 
 // GET all projects
 export async function GET(request: NextRequest) {
-  const requestId = createRequestId()
-  const unauthorized = enforceOptionalAdminToken(request, requestId)
+  const requestId = createRequestId(request)
+  const unauthorized = await enforceAdminAccess(request, requestId)
   if (unauthorized) {
     return unauthorized
   }
-  const limit = checkRateLimit(request, 'admin:projects:get')
+  const limit = await checkRateLimit(request, 'admin:projects:get')
   if (!limit.allowed) {
     return withCommonApiHeaders(
       NextResponse.json({ error: 'Too many requests', retryAt: limit.retryAt }, { status: 429 }),
@@ -56,12 +56,12 @@ export async function GET(request: NextRequest) {
 
 // POST create project
 export async function POST(request: NextRequest) {
-  const requestId = createRequestId()
-  const unauthorized = enforceOptionalAdminToken(request, requestId)
+  const requestId = createRequestId(request)
+  const unauthorized = await enforceAdminAccess(request, requestId)
   if (unauthorized) {
     return unauthorized
   }
-  const limit = checkRateLimit(request, 'admin:projects:post')
+  const limit = await checkRateLimit(request, 'admin:projects:post')
   if (!limit.allowed) {
     return withCommonApiHeaders(
       NextResponse.json({ error: 'Too many requests', retryAt: limit.retryAt }, { status: 429 }),

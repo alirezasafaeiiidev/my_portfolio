@@ -10,6 +10,9 @@ import { ServiceWorkerProvider } from "@/components/service-worker/client-provid
 import { I18nProvider } from "@/lib/i18n-context";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { generatePersonSchema, generateWebSiteSchema, generateBreadcrumbSchema, generateOrganizationSchema } from "@/lib/seo";
+import { getSiteUrl } from "@/lib/site-config";
+
+const siteUrl = getSiteUrl();
 
 export const metadata: Metadata = {
   title: {
@@ -18,7 +21,7 @@ export const metadata: Metadata = {
   },
   description: "Full Stack Developer with expertise in Next.js, TypeScript, React, and modern web development. Building scalable, performant web applications with best practices.",
   keywords: ["portfolio", "full stack developer", "Next.js", "TypeScript", "React", "web development", "frontend", "backend", "پورتفولیو", "توسعه‌دهنده فول‌استک", "توسعه وب"],
-  authors: [{ name: "Your Name", url: "https://yourportfolio.com" }],
+  authors: [{ name: "Your Name", url: siteUrl }],
   creator: "Your Name",
   publisher: "Your Name",
   formatDetection: {
@@ -26,19 +29,19 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL('https://yourportfolio.com'),
+  metadataBase: new URL(siteUrl),
   alternates: {
     canonical: '/',
     languages: {
-      'en': 'https://yourportfolio.com/en',
-      'fa': 'https://yourportfolio.com/fa',
+      'en': `${siteUrl}/en`,
+      'fa': `${siteUrl}/fa`,
     },
   },
   openGraph: {
     type: 'website',
     locale: 'en_US',
     alternateLocale: ['fa_IR'],
-    url: 'https://yourportfolio.com',
+    url: siteUrl,
     siteName: 'Portfolio | پورتفولیو',
     title: 'Portfolio - Full Stack Developer | پورتفولیو - توسعه‌دهنده فول‌استک',
     description: 'Full Stack Developer with expertise in Next.js, TypeScript, React, and modern web development. Building scalable, performant web applications.',
@@ -115,7 +118,7 @@ export default function RootLayout({
           <JsonLd data={generateWebSiteSchema()} />
           <JsonLd data={generateOrganizationSchema()} />
           <JsonLd data={generateBreadcrumbSchema([
-            { name: 'Home', url: 'https://yourportfolio.com' },
+            { name: 'Home', url: siteUrl },
           ])} />
 
           <Header />

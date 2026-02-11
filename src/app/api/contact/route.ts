@@ -33,8 +33,8 @@ function containsMaliciousContent(payload: ContactPayload): boolean {
 }
 
 export async function POST(request: NextRequest) {
-  const requestId = createRequestId()
-  const limit = checkRateLimit(request, 'contact')
+  const requestId = createRequestId(request)
+  const limit = await checkRateLimit(request, 'contact')
   if (!limit.allowed) {
     return withCommonApiHeaders(
       NextResponse.json(
@@ -136,8 +136,8 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
-  const requestId = createRequestId()
-  const limit = checkRateLimit(request, 'contact:get')
+  const requestId = createRequestId(request)
+  const limit = await checkRateLimit(request, 'contact:get')
 
   return withCommonApiHeaders(
     NextResponse.json(
@@ -150,4 +150,3 @@ export async function GET(request: NextRequest) {
     limit.headers
   )
 }
-

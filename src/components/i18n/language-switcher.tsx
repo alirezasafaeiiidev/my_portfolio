@@ -11,7 +11,7 @@ import {
 import { Languages } from 'lucide-react'
 
 export function LanguageSwitcher() {
-  const { language, setLanguage } = useI18n()
+  const { setLanguage } = useI18n()
 
   return (
     <DropdownMenu>

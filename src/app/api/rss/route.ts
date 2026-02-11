@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { getSiteUrl } from '@/lib/site-config'
 
 // Mock blog posts data - در حالت واقعی این از database می‌آید
 const blogPosts = [
@@ -78,7 +79,7 @@ interface RSSItem {
 }
 
 function generateRSSFeed(items: RSSItem[], language: string): string {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://yourportfolio.com'
+  const siteUrl = getSiteUrl()
   const feedTitle = language === 'fa' ? 'پورتفولیو - بلاگ' : 'Portfolio - Blog'
   const feedDescription = language === 'fa'
     ? 'آخرین مقالات و نکات در مورد توسعه وب و برنامه‌نویسی'
@@ -110,6 +111,7 @@ function generateRSSFeed(items: RSSItem[], language: string): string {
 }
 
 export async function GET(request: Request) {
+  const siteUrl = getSiteUrl()
   const { searchParams } = new URL(request.url)
   const language = (searchParams.get('lang') || 'en') as 'en' | 'fa'
 
@@ -117,9 +119,9 @@ export async function GET(request: Request) {
   const rssItems: RSSItem[] = blogPosts.map(post => ({
     title: post.title[language],
     description: post.description[language],
-    link: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://yourportfolio.com'}#blog`,
+    link: `${siteUrl}#blog`,
     pubDate: post.publishedAt.toUTCString(),
-    guid: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://yourportfolio.com'}/blog/${post.slug}`,
+    guid: `${siteUrl}/blog/${post.slug}`,
     author: post.author,
     category: post.tags,
   }))

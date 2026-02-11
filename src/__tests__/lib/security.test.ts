@@ -3,7 +3,7 @@
  * Testing critical security functions for data sanitization and validation
  */
 
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi, afterEach } from 'vitest'
 import {
   generateMathCaptcha,
   escapeHtml,
@@ -16,6 +16,10 @@ import {
 } from '@/lib/security'
 
 describe('generateMathCaptcha', () => {
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
   it('should generate a captcha with a question and answer', () => {
     const captcha = generateMathCaptcha()
     expect(captcha).toHaveProperty('question')
@@ -29,11 +33,37 @@ describe('generateMathCaptcha', () => {
     expect(captcha.question).toMatch(/^\d+\s*[\+\-\*]\s*\d+\s*=\s*\?$/)
   })
 
-  it('should generate different captchas', () => {
-    const captcha1 = generateMathCaptcha()
-    const captcha2 = generateMathCaptcha()
-    // While there's a small chance they could be the same, it's very unlikely
-    expect(captcha1.question !== captcha2.question || captcha1.answer !== captcha2.answer).toBe(true)
+  it('should generate deterministic addition captcha when random sequence is mocked', () => {
+    const randomSpy = vi.spyOn(Math, 'random')
+    randomSpy.mockReturnValueOnce(0.1) // operator '+'
+    randomSpy.mockReturnValueOnce(0.2) // num1 => 5
+    randomSpy.mockReturnValueOnce(0.3) // num2 => 7
+
+    const captcha = generateMathCaptcha()
+    expect(captcha.question).toBe('5 + 7 = ?')
+    expect(captcha.answer).toBe(12)
+  })
+
+  it('should generate deterministic subtraction captcha when random sequence is mocked', () => {
+    const randomSpy = vi.spyOn(Math, 'random')
+    randomSpy.mockReturnValueOnce(0.5) // operator '-'
+    randomSpy.mockReturnValueOnce(0.6) // num1 => 22
+    randomSpy.mockReturnValueOnce(0.4) // num2 => 8
+
+    const captcha = generateMathCaptcha()
+    expect(captcha.question).toBe('22 - 8 = ?')
+    expect(captcha.answer).toBe(14)
+  })
+
+  it('should generate deterministic multiplication captcha when random sequence is mocked', () => {
+    const randomSpy = vi.spyOn(Math, 'random')
+    randomSpy.mockReturnValueOnce(0.9) // operator '*'
+    randomSpy.mockReturnValueOnce(0.1) // num1 => 2
+    randomSpy.mockReturnValueOnce(0.8) // num2 => 6
+
+    const captcha = generateMathCaptcha()
+    expect(captcha.question).toBe('2 * 6 = ?')
+    expect(captcha.answer).toBe(12)
   })
 })
 

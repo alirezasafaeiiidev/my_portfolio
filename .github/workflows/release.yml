@@ -1,0 +1,35 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  semantic-release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Semantic release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: >
+          npx
+          -p semantic-release@24.2.3
+          -p @semantic-release/changelog@6.0.3
+          -p @semantic-release/commit-analyzer@13.0.1
+          -p @semantic-release/git@10.0.1
+          -p @semantic-release/github@11.0.2
+          -p @semantic-release/release-notes-generator@14.1.0
+          semantic-release

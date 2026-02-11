@@ -2,6 +2,7 @@
 
 A production-ready, enterprise-grade portfolio website built with Next.js 16, TypeScript, and modern best practices.
 
+[![CI](https://github.com/OWNER/REPO/actions/workflows/ci.yml/badge.svg)](https://github.com/OWNER/REPO/actions/workflows/ci.yml)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)](https://www.typescriptlang.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-16.1-black)](https://nextjs.org/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
@@ -63,7 +64,7 @@ A production-ready, enterprise-grade portfolio website built with Next.js 16, Ty
 ### Performance & Security
 - **Image Optimization**: Next.js Image component with AVIF/WebP
 - **Code Splitting**: Automatic with dynamic imports
-- **Rate Limiting**: In-memory with configurable windows
+- **Rate Limiting**: Redis REST distributed mode with in-memory fallback
 - **Security**: CSP headers, input sanitization, SQL injection prevention
 - **Monitoring**: Web Vitals tracking (LCP, FID, CLS)
 
@@ -103,7 +104,14 @@ DATABASE_URL="file:./db/custom.db"
 # NEXT_PUBLIC_GA_ID="your-analytics-id"
 
 # Optional: Admin credentials
+# ADMIN_USERNAME="admin"
 # ADMIN_PASSWORD="your-secure-password"
+# ADMIN_SESSION_SECRET="at-least-32-characters-secret"
+# ADMIN_SESSION_MAX_AGE_SECONDS="28800"
+
+# Optional: Redis-backed distributed rate limiting
+# REDIS_REST_URL="https://<upstash-host>"
+# REDIS_REST_TOKEN="<upstash-token>"
 ```
 
 ### Database Setup
@@ -145,12 +153,21 @@ bun run test:ui
 
 # Run tests with coverage
 bun run test:coverage
+
+# Run API integration tests
+bun run test:integration
+
+# Run smoke E2E tests (requires Playwright runtime)
+bun run test:e2e:smoke
 ```
 
 ### Linting
 ```bash
 # Check code quality
 bun run lint
+
+# Run enterprise verification pipeline
+bun run verify
 ```
 
 ## 📁 Project Structure
@@ -308,6 +325,19 @@ Send a message through the contact form.
 - 5 requests per 15 minutes per email
 
 ### Admin API
+
+Admin routes require either:
+- `Authorization: Bearer <ADMIN_API_TOKEN>`
+- Valid session cookie from `POST /api/admin/auth/login`
+
+#### POST `/api/admin/auth/login`
+Create admin session cookie (`asdev_admin_session`).
+
+#### POST `/api/admin/auth/logout`
+Clear admin session cookie.
+
+#### GET `/api/admin/auth/session`
+Check current admin authentication status.
 
 #### GET `/api/admin/projects`
 Get all projects.

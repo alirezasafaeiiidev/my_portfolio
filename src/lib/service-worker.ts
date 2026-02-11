@@ -4,7 +4,7 @@ export function registerServiceWorker() {
       navigator.serviceWorker
         .register('/sw.js')
         .then((registration) => {
-          console.log('Service Worker registered with scope:', registration.scope)
+          console.warn('Service Worker registered with scope:', registration.scope)
 
           // Check for updates
           registration.addEventListener('updatefound', () => {

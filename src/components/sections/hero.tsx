@@ -1,17 +1,9 @@
 'use client'
 
-import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
-import { SearchBar } from '@/components/search/search-bar'
-import { FadeIn, ScrollReveal } from '@/components/animations'
+import { ScrollReveal } from '@/components/animations'
 import { useI18n } from '@/lib/i18n-context'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
 import { ArrowRight, Mail, Github, Linkedin, Twitter, Sparkles } from 'lucide-react'
 
 const containerVariants = {
@@ -38,11 +30,6 @@ const itemVariants = {
 
 export function Hero() {
   const { t } = useI18n()
-  const [searchQuery, setSearchQuery] = useState('')
-
-  const handleSearch = (query: string) => {
-    setSearchQuery(query)
-  }
 
   const scrollToSection = (sectionId: string) => {
     const element = document.querySelector(sectionId)

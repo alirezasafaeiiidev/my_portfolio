@@ -1,11 +1,12 @@
 'use client'
 
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { MessageSquare, Briefcase, BarChart3, Users, Settings, Trash2 } from 'lucide-react'
+import { MessageSquare, Briefcase, BarChart3, Users, Trash2, LogOut } from 'lucide-react'
 import { toast } from '@/hooks/use-toast'
 
 interface Message {
@@ -18,18 +19,23 @@ interface Message {
 }
 
 export function AdminDashboard() {
+  const router = useRouter()
   const [activeTab, setActiveTab] = useState<'messages' | 'projects' | 'stats'>('messages')
   const [messages, setMessages] = useState<Message[]>([])
   const [loading, setLoading] = useState(false)
 
   // Fetch messages
-  const fetchMessages = async () => {
+  const fetchMessages = useCallback(async () => {
     setLoading(true)
     try {
       const response = await fetch('/api/admin/messages')
+      if (response.status === 401 || response.status === 503) {
+        router.replace('/admin/login')
+        return
+      }
       const data = await response.json()
       setMessages(data.messages || [])
-    } catch (error) {
+    } catch {
       toast({
         title: 'Error',
         description: 'Failed to fetch messages',
@@ -38,6 +44,12 @@ export function AdminDashboard() {
     } finally {
       setLoading(false)
     }
+  }, [router])
+
+  const logout = async () => {
+    await fetch('/api/admin/auth/logout', { method: 'POST' })
+    router.replace('/admin/login')
+    router.refresh()
   }
 
   const deleteMessage = async (id: string) => {
@@ -48,7 +60,7 @@ export function AdminDashboard() {
         title: 'Success',
         description: 'Message deleted successfully',
       })
-    } catch (error) {
+    } catch {
       toast({
         title: 'Error',
         description: 'Failed to delete message',
@@ -58,17 +70,25 @@ export function AdminDashboard() {
   }
 
   // Load messages on mount
-  useState(() => {
+  useEffect(() => {
     fetchMessages()
-  })
+  }, [fetchMessages])
 
   return (
     <section className="py-20">
       <div className="container mx-auto px-4">
         {/* Admin Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Admin Dashboard</h1>
-          <p className="text-muted-foreground">Manage your portfolio content</p>
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <h1 className="text-3xl font-bold mb-2">Admin Dashboard</h1>
+              <p className="text-muted-foreground">Manage your portfolio content</p>
+            </div>
+            <Button variant="outline" onClick={logout}>
+              <LogOut className="h-4 w-4 mr-2" />
+              Logout
+            </Button>
+          </div>
         </div>
 
         {/* Stats Cards */}

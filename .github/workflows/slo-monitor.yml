@@ -1,0 +1,22 @@
+name: SLO Monitor
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check-slo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate SLO from deployed metrics
+        env:
+          SITE_URL: ${{ vars.SITE_URL }}
+          SLO_MAX_ERROR_RATE: ${{ vars.SLO_MAX_ERROR_RATE }}
+          SLO_MIN_SAMPLE_SIZE: ${{ vars.SLO_MIN_SAMPLE_SIZE }}
+        run: bash scripts/check-slo.sh

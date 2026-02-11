@@ -1,16 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { checkRateLimit, createRequestId, enforceOptionalAdminToken, withCommonApiHeaders } from '@/lib/api-security'
+import { checkRateLimit, createRequestId, enforceAdminAccess, withCommonApiHeaders } from '@/lib/api-security'
 import { db } from '@/lib/db'
 import { logger } from '@/lib/logger'
 
 // GET all contact messages
 export async function GET(request: NextRequest) {
-  const requestId = createRequestId()
-  const unauthorized = enforceOptionalAdminToken(request, requestId)
+  const requestId = createRequestId(request)
+  const unauthorized = await enforceAdminAccess(request, requestId)
   if (unauthorized) {
     return unauthorized
   }
-  const limit = checkRateLimit(request, 'admin:messages:get')
+  const limit = await checkRateLimit(request, 'admin:messages:get')
   if (!limit.allowed) {
     return withCommonApiHeaders(
       NextResponse.json({ error: 'Too many requests', retryAt: limit.retryAt }, { status: 429 }),
@@ -43,12 +43,12 @@ export async function GET(request: NextRequest) {
 
 // DELETE message
 export async function DELETE(request: NextRequest) {
-  const requestId = createRequestId()
-  const unauthorized = enforceOptionalAdminToken(request, requestId)
+  const requestId = createRequestId(request)
+  const unauthorized = await enforceAdminAccess(request, requestId)
   if (unauthorized) {
     return unauthorized
   }
-  const limit = checkRateLimit(request, 'admin:messages:delete')
+  const limit = await checkRateLimit(request, 'admin:messages:delete')
   if (!limit.allowed) {
     return withCommonApiHeaders(
       NextResponse.json({ error: 'Too many requests', retryAt: limit.retryAt }, { status: 429 }),

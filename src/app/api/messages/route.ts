@@ -5,8 +5,8 @@ import { logger } from '@/lib/logger'
 
 // GET /api/messages - Fetch all messages
 export async function GET(_request: NextRequest) {
-  const requestId = createRequestId()
-  const limit = checkRateLimit(_request, 'messages:get')
+  const requestId = createRequestId(_request)
+  const limit = await checkRateLimit(_request, 'messages:get')
   if (!limit.allowed) {
     return withCommonApiHeaders(
       NextResponse.json({ error: 'Too many requests', retryAt: limit.retryAt }, { status: 429 }),
@@ -41,8 +41,8 @@ export async function GET(_request: NextRequest) {
 
 // DELETE /api/messages - Delete a message
 export async function DELETE(request: NextRequest) {
-  const requestId = createRequestId()
-  const limit = checkRateLimit(request, 'messages:delete')
+  const requestId = createRequestId(request)
+  const limit = await checkRateLimit(request, 'messages:delete')
   if (!limit.allowed) {
     return withCommonApiHeaders(
       NextResponse.json({ error: 'Too many requests', retryAt: limit.retryAt }, { status: 429 }),

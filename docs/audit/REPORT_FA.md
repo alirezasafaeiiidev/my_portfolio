@@ -218,6 +218,20 @@ bun run verify
 
 ### شواهد اجرایی
 - `bun run lint` ✅
+
+---
+
+## به‌روزرسانی نهایی همگام‌سازی (2026-02-11)
+
+### خروجی اعتبارسنجی
+- `bash scripts/verify.sh` ✅
+- `bash scripts/offline-external-scan.sh` ✅
+- `bun run test` ✅ (121 تست پاس)
+
+### اسناد و شواهد
+- تصویر اسنپ‌شات چت: `docs/audit/chat-snapshot-2026-02-11.png`
+- وضعیت backlog سازمانی: `docs/ENTERPRISE_BACKLOG_FA.md` (Completed)
+- تغییرات API/امنیت: `docs/api.md` و `CHANGELOG.md`
 - `bun run type-check` ✅
 - `bun run test` ✅ (98 tests)
 - `bun run build` ✅
@@ -252,3 +266,106 @@ bun run verify
 - `bun run test` ✅ (104 tests)
 - `bun run build` ✅
 - `bash scripts/verify.sh` ✅
+
+---
+
+## به‌روزرسانی i18n و پایداری تست‌ها (2026-02-11)
+
+### تغییرات
+- رفع mismatch منبع ترجمه در runtime:
+  - `src/lib/i18n-context.tsx` از `src/lib/i18n/translations.ts` استفاده می‌کند.
+  - `src/lib/i18n.ts` به wrapper سازگار با backward-compatibility و single source of truth تبدیل شد.
+- تکمیل دیکشنری فارسی در navigation:
+  - `src/lib/i18n/translations.ts`:
+    - `nav.about`
+    - `nav.testimonials`
+- حذف flaky test در CAPTCHA:
+  - `src/__tests__/lib/security.test.ts`:
+    - جایگزینی assertion تصادفی با تست‌های deterministic مبتنی بر mock
+- افزودن تست رگرسیونی parity کلیدهای ترجمه:
+  - `src/__tests__/lib/i18n-translations.test.ts`
+
+### شواهد اجرا
+- `bun run test src/__tests__/lib/i18n-translations.test.ts src/__tests__/lib/security.test.ts` ✅ (38 tests)
+- `bun run verify` ✅
+  - Lint ✅
+  - Type-check ✅
+  - Tests ✅ (108 tests)
+  - Build ✅
+  - External scan ✅ (با warning غیرمسدودکننده)
+
+---
+
+## ارتقای Enterprise Auth + Middleware Security (2026-02-11)
+
+### تغییرات
+- پیاده‌سازی authn/authz واقعی برای admin routeها:
+  - `src/lib/admin-auth.ts`
+  - پشتیبانی از bearer token و session token امضاشده با نقش `admin`
+  - حذف bypass اختیاری در مسیرهای admin API
+- اضافه‌شدن endpointهای session-based admin auth:
+  - `src/app/api/admin/auth/login/route.ts`
+  - `src/app/api/admin/auth/logout/route.ts`
+  - `src/app/api/admin/auth/session/route.ts`
+- سخت‌سازی سراسری header policy در middleware:
+  - `src/proxy.ts`
+  - CSP, Permissions-Policy, X-Frame-Options, Cross-Origin policies
+  - HSTS در production
+  - محافظت مسیر `/admin` با redirect به `/admin/login`
+- اضافه‌شدن UI ورود ادمین:
+  - `src/app/admin/login/page.tsx`
+  - `src/components/admin/admin-login-form.tsx`
+- همگام‌سازی dashboard:
+  - `src/app/admin/page.tsx` (استفاده از `AdminDashboard`)
+  - `src/components/admin/admin-dashboard.tsx` (logout + redirect on 401/503)
+
+### تست و شواهد
+- `bun run test` ✅ (111 tests)
+- `bun run verify` ✅
+  - Lint ✅
+  - Type-check ✅
+  - Tests ✅ (111 tests)
+  - Build ✅
+  - External scan ✅ (warningهای غیرمسدودکننده)
+
+---
+
+## تکمیل Enterprise Runtime/CI/Observability (2026-02-11)
+
+### تغییرات
+- distributed rate limiting:
+  - `src/lib/rate-limit.ts`
+  - پشتیبانی Redis REST + fallback حافظه‌ای
+  - افزودن `X-RateLimit-Store`
+- correlation-id propagation و policy سراسری:
+  - `src/proxy.ts`
+  - تزریق/پراپاگیشن `X-Request-ID` و `X-Correlation-ID`
+- observability:
+  - `src/lib/metrics.ts`
+  - `src/app/api/metrics/route.ts` (Prometheus format)
+  - `scripts/check-slo.sh`
+- integration/contract tests:
+  - `src/__tests__/api/admin-auth.integration.test.ts`
+  - `src/__tests__/api/admin-routes.integration.test.ts`
+  - `src/__tests__/api/metrics.integration.test.ts`
+  - `src/__tests__/lib/rate-limit.test.ts`
+- E2E smoke + CI:
+  - `playwright.config.mjs`
+  - `e2e/smoke.spec.mjs`
+  - `.github/workflows/e2e-smoke.yml`
+- Lighthouse budgets + CI:
+  - `lighthouserc.json`
+  - `.github/workflows/lighthouse.yml`
+- release engineering:
+  - `.releaserc.json`
+  - `.github/workflows/release.yml`
+- SLO monitor:
+  - `.github/workflows/slo-monitor.yml`
+
+### شواهد اجرا
+- `bun run verify` ✅
+  - Lint ✅
+  - Type-check ✅
+  - Tests ✅ (121 tests)
+  - Build ✅
+  - External scan ✅ (با warning غیرمسدودکننده)

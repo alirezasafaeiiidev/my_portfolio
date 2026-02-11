@@ -110,10 +110,12 @@ export const translations = {
       home: 'خانه',
       english: 'انگلیسی',
       persian: 'فارسی',
+      about: 'درباره من',
       portfolio: 'نمونه کارها',
       skills: 'مهارت‌ها',
       experience: 'تجربه کاری',
       blog: 'بلاگ',
+      testimonials: 'نظرات',
       contact: 'تماس',
     },
     hero: {

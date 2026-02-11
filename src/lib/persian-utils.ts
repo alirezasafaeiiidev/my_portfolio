@@ -91,19 +91,6 @@ const persianMonths = [
 ]
 
 /**
- * Persian days of week names (Saturday first)
- */
-const persianDays = [
-  'شنبه',
-  'یک‌شنبه',
-  'دوشنبه',
-  'سه‌شنبه',
-  'چهارشنبه',
-  'پنج‌شنبه',
-  'جمعه',
-]
-
-/**
  * Convert Jalali date string to Persian formatted string
  * @param jalaliDate - Jalali date string in format "YYYY-MM-DD"
  * @param format - Format: 'full', 'short', 'day', or custom

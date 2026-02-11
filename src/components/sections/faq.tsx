@@ -81,7 +81,7 @@ export function FAQ() {
 
         {/* FAQ Accordion */}
         <Accordion type="single" collapsible className="max-w-3xl mx-auto">
-          {faqs.map((faq, index) => (
+          {faqs.map((faq) => (
             <AccordionItem key={faq.question} value={faq.question}>
               <AccordionTrigger className="text-left">
                 <div className="flex items-center gap-3">

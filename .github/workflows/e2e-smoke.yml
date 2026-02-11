@@ -1,0 +1,27 @@
+name: E2E Smoke
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - develop
+      - 'feature/**'
+      - 'ai/**'
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install --frozen-lockfile
+      - run: npx playwright@1.51.1 install --with-deps chromium
+      - name: Run smoke tests
+        run: npx playwright@1.51.1 test e2e/smoke.spec.mjs --config=playwright.config.mjs

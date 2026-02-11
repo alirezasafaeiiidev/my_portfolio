@@ -12,6 +12,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed false failure behavior in `scripts/verify.sh` counter increments under `set -e`.
 - Hardened `scripts/offline-external-scan.sh` to ignore build artifacts (`.next`, `node_modules`, `.git`, `dist`, `coverage`) and support documented allowlist filtering.
 - Replaced placeholder sitemap domain in `public/robots.txt` with local default URL.
+- Fixed i18n provider source mismatch by switching runtime translations to `src/lib/i18n/translations.ts` (single source of truth).
+- Added missing Persian navigation keys (`nav.about`, `nav.testimonials`) to prevent fallback key rendering in UI.
+- Removed flaky CAPTCHA randomness assertion and replaced it with deterministic mocked-random tests.
+- Enforced admin API authentication in production-safe mode (removed optional bypass behavior).
+- Migrated Next.js request guard from deprecated `middleware` convention to `src/proxy.ts`.
 
 ### Added
 - Enterprise API baseline utilities:
@@ -22,9 +27,43 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - New tests:
   - `src/__tests__/lib/env.test.ts`
   - `src/__tests__/lib/api-security.test.ts`
+  - `src/__tests__/lib/i18n-translations.test.ts` (EN/FA key parity guard)
+  - `src/__tests__/lib/admin-auth.test.ts` (admin auth/token validation)
+- Enterprise admin authentication/session layer:
+  - `src/lib/admin-auth.ts` (signed session token + bearer token resolver + role=admin)
+  - `src/app/api/admin/auth/login/route.ts`
+  - `src/app/api/admin/auth/logout/route.ts`
+  - `src/app/api/admin/auth/session/route.ts`
+- Global middleware security layer:
+  - `src/proxy.ts` (CSP, HSTS-in-production, permissions policy, frame/resource isolation)
+  - Route guard for `/admin` with redirect to `/admin/login`
+- Admin login UI:
+  - `src/app/admin/login/page.tsx`
+  - `src/components/admin/admin-login-form.tsx`
+- Distributed rate limiting and observability:
+  - `src/lib/rate-limit.ts` (Redis REST + memory fallback)
+  - `src/lib/metrics.ts`
+  - `src/app/api/metrics/route.ts`
+  - `scripts/check-slo.sh`
+- New CI/quality pipelines:
+  - `.github/workflows/e2e-smoke.yml`
+  - `.github/workflows/lighthouse.yml`
+  - `.github/workflows/release.yml`
+  - `.github/workflows/slo-monitor.yml`
+  - `playwright.config.mjs`
+  - `e2e/smoke.spec.mjs`
+  - `lighthouserc.json`
+  - `.releaserc.json`
+- New integration tests:
+  - `src/__tests__/api/admin-auth.integration.test.ts`
+  - `src/__tests__/api/admin-routes.integration.test.ts`
+  - `src/__tests__/api/metrics.integration.test.ts`
+  - `src/__tests__/lib/rate-limit.test.ts`
 
 ### Changed
 - Hardened API routes (`contact`, `messages`, `admin/messages`, `admin/projects`) with unified security/limit handling and safer validation.
+- Updated admin routes to require unified `enforceAdminAccess` checks.
+- Refactored `/admin` page to use shared dashboard component and authenticated session flow.
 
 ### Added
 - Complete portfolio website with all major sections
@@ -81,6 +120,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added deployment guide
 - Created contributing guidelines
 - Added CHANGELOG.md
+- Synced enterprise audit docs and added chat snapshot evidence (`docs/audit/chat-snapshot-2026-02-11.png`)
 
 ### Developer Experience
 - Added GitHub Actions workflows for CI (install/lint/type-check/test/build + verify/scan scripts) and security audits

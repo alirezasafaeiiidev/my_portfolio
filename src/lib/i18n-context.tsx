@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, ReactNode } from 'react'
-import { Language, translations, TranslationKey } from './i18n'
+import { Language, translations } from './i18n/translations'
 
 interface I18nContextType {
   language: Language

@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { env } from '@/lib/env'
+import { resolveAdminAuth } from '@/lib/admin-auth'
+import { recordApiResponse } from '@/lib/metrics'
 import { getRateLimitHeaders, rateLimit } from '@/lib/rate-limit'
-import { timingSafeCompare } from '@/lib/security'
 
 export function getClientIp(request: NextRequest): string {
   const forwardedFor = request.headers.get('x-forwarded-for')
@@ -17,7 +18,11 @@ export function getClientIp(request: NextRequest): string {
   return 'unknown'
 }
 
-export function createRequestId(): string {
+export function createRequestId(request?: NextRequest): string {
+  const inboundId = request?.headers.get('x-request-id') || request?.headers.get('x-correlation-id')
+  if (inboundId && inboundId.trim().length > 0) {
+    return inboundId.trim()
+  }
   return crypto.randomUUID()
 }
 
@@ -37,48 +42,44 @@ export function withCommonApiHeaders(
     }
   }
 
+  recordApiResponse(response.status)
+
   return response
 }
 
-export function enforceOptionalAdminToken(request: NextRequest, requestId: string): NextResponse | null {
-  if (!env.ADMIN_API_TOKEN) {
+export async function enforceAdminAccess(request: NextRequest, requestId: string): Promise<NextResponse | null> {
+  const authResult = await resolveAdminAuth(request)
+  if (authResult.authorized) {
     return null
   }
 
-  const authorization = request.headers.get('authorization')
-  if (!authorization?.startsWith('Bearer ')) {
+  if (authResult.reason === 'not_configured') {
     return withCommonApiHeaders(
-      NextResponse.json({ error: 'Unauthorized' }, { status: 401 }),
+      NextResponse.json(
+        { error: 'Admin authentication is not configured' },
+        { status: 503 }
+      ),
       requestId
     )
   }
 
-  const token = authorization.replace('Bearer ', '').trim()
-  if (!timingSafeCompare(token, env.ADMIN_API_TOKEN)) {
-    return withCommonApiHeaders(
-      NextResponse.json({ error: 'Unauthorized' }, { status: 401 }),
-      requestId
-    )
-  }
-
-  return null
+  return withCommonApiHeaders(
+    NextResponse.json({ error: 'Unauthorized' }, { status: 401 }),
+    requestId
+  )
 }
 
-export function checkRateLimit(request: NextRequest, keyPrefix: string) {
+export async function checkRateLimit(request: NextRequest, keyPrefix: string) {
   const identifier = `${keyPrefix}:${getClientIp(request)}`
-  const limitResult = rateLimit(identifier, {
+  const limitResult = await rateLimit(identifier, {
     windowMs: env.API_RATE_LIMIT_WINDOW_MS,
     maxRequests: env.API_RATE_LIMIT_MAX_REQUESTS,
   })
-  const headers = getRateLimitHeaders(identifier, {
-    windowMs: env.API_RATE_LIMIT_WINDOW_MS,
-    maxRequests: env.API_RATE_LIMIT_MAX_REQUESTS,
-  })
+  const headers = getRateLimitHeaders(limitResult)
 
   return {
     allowed: limitResult.success,
     headers,
-    retryAt: limitResult.resetTime?.toISOString(),
+    retryAt: limitResult.resetTime.toISOString(),
   }
 }
-

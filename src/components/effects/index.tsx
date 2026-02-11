@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { cn } from '@/lib/utils'
 
@@ -11,7 +11,6 @@ export function ParallaxBackground({ children, className }: { children: React.Re
     const handleScroll = () => {
       if (ref.current) {
         const scrolled = window.scrollY
-        const rate = scrolled * 0.05
         const yPosition = -scrolled * 0.5
         if (ref.current.style.transform !== `translateY(${yPosition}px)`) {
           ref.current.style.transform = `translateY(${yPosition}px)`

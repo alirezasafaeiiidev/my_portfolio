@@ -268,7 +268,7 @@ export function Blog() {
                 </div>
               </motion.div>
             ) : (
-              filteredPosts.map((post, index) => (
+              filteredPosts.map((post) => (
                 <motion.div
                   key={post.id}
                   variants={itemVariants}

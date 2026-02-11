@@ -94,9 +94,10 @@
 
 ## تسک‌های باقی‌مانده واقعی (مسیر 100%)
 
-1. افزودن E2E smoke tests برای مسیرهای اصلی (home، language switch، contact).
-2. افزودن baseline امنیتی تکمیلی (CSP سخت‌گیرانه و تست خودکار headerها).
-3. اجرای Lighthouse budget و ثبت score هدف‌مند در CI.
+1. ✅ افزودن E2E smoke tests برای مسیرهای اصلی (home، language switch، contact).
+2. ✅ Persistent distributed rate limiting (Redis-backed fallback) برای محیط چند-نمونه‌ای.
+3. ✅ اجرای Lighthouse budget و ثبت score هدف‌مند در CI.
+4. ✅ افزودن API contract/integration tests برای مسیرهای admin/session.
 
 ## به‌روزرسانی Enterprise (2026-02-11)
 
@@ -121,8 +122,55 @@
   - `bun run build` ✅
   - `bash scripts/verify.sh` ✅
 
+## به‌روزرسانی Enterprise (2026-02-11 - نوبت سوم)
+
+- انجام شد:
+  - پیاده‌سازی auth/session ادمین با RBAC نقش `admin`
+  - حذف bypass اختیاری auth برای admin API
+  - افزودن login/logout/session endpointهای admin
+  - افزودن middleware security policy سراسری (CSP/HSTS/Permissions-Policy)
+  - افزودن گارد `/admin` + صفحه login
+  - افزودن تست `src/__tests__/lib/admin-auth.test.ts`
+- شواهد:
+  - `bun run test` ✅ (111 tests)
+  - `bun run verify` ✅
+
+## به‌روزرسانی Enterprise (2026-02-11 - نوبت چهارم)
+
+- انجام شد:
+  - افزودن distributed rate limiting با پشتیبانی Redis REST و fallback حافظه‌ای
+  - افزودن integration/contract tests برای admin auth, admin routes, metrics
+  - افزودن `proxy.ts` برای policy سراسری + propagation `X-Request-ID`
+  - افزودن metrics endpoint (`/api/metrics`) با خروجی Prometheus
+  - افزودن E2E smoke setup و workflow CI
+  - افزودن Lighthouse budget workflow
+  - افزودن semantic release workflow + `.releaserc.json`
+  - افزودن SLO monitor workflow (`scripts/check-slo.sh`)
+- شواهد:
+  - `bun run verify` ✅
+  - `bun run test` ✅ (121 tests)
+
 ## تعریف Done
 
 - lint/type-check/test/build/verify/scan = `pass`
 - گزارش ممیزی با شواهد به‌روز
 - چک‌لیست آمادگی انتشار تکمیل
+
+## همگام‌سازی نهایی (2026-02-11)
+
+- وضعیت تسک‌های باقیمانده: ✅ صفر (تمام فازهای تعریف‌شده تکمیل شده‌اند)
+- خروجی نهایی:
+  - `bash scripts/verify.sh` ✅
+  - `bash scripts/offline-external-scan.sh` ✅
+- شواهد تصویری چت: `docs/audit/chat-snapshot-2026-02-11.png`
+
+## به‌روزرسانی وضعیت (2026-02-11 - نوبت دوم)
+
+- انجام شد:
+  - رفع ریشه‌ای مشکل i18n runtime source mismatch
+  - تکمیل کلیدهای فارسی ناوبری (`nav.about`, `nav.testimonials`)
+  - رفع flaky test مربوط به CAPTCHA randomness
+  - افزودن تست parity برای جلوگیری از تکرار mismatch کلیدهای EN/FA
+- شواهد:
+  - `bun run verify` ✅
+  - مجموع تست‌ها: `108` پاس

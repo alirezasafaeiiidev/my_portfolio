@@ -3,7 +3,7 @@ import { createRequestId, withCommonApiHeaders } from '@/lib/api-security'
 import { env } from '@/lib/env'
 
 export async function GET(_request: NextRequest) {
-  const requestId = createRequestId()
+  const requestId = createRequestId(_request)
   const startedAt = process.uptime()
 
   return withCommonApiHeaders(
@@ -17,4 +17,3 @@ export async function GET(_request: NextRequest) {
     requestId
   )
 }
-

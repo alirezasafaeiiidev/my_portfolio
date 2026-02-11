@@ -26,9 +26,9 @@ describe('validators', () => {
     })
 
     it('should reject non-string values', () => {
-      expect(isValidEmail(null as any)).toBe(false)
-      expect(isValidEmail(undefined as any)).toBe(false)
-      expect(isValidEmail(123 as any)).toBe(false)
+      expect(isValidEmail(null as unknown as string)).toBe(false)
+      expect(isValidEmail(undefined as unknown as string)).toBe(false)
+      expect(isValidEmail(123 as unknown as string)).toBe(false)
     })
   })
 
@@ -48,7 +48,7 @@ describe('validators', () => {
 
     it('should handle empty strings', () => {
       expect(sanitizeInput('')).toBe('')
-      expect(sanitizeInput(null as any)).toBe('')
+      expect(sanitizeInput(null as unknown as string)).toBe('')
     })
   })
 
@@ -65,8 +65,8 @@ describe('validators', () => {
     })
 
     it('should reject non-string values', () => {
-      expect(isValidUrl(null as any)).toBe(false)
-      expect(isValidUrl(undefined as any)).toBe(false)
+      expect(isValidUrl(null as unknown as string)).toBe(false)
+      expect(isValidUrl(undefined as unknown as string)).toBe(false)
     })
   })
 

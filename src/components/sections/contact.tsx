@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { motion } from 'framer-motion'
-import { Mail, Phone, MapPin, Github, Linkedin, Twitter, Send, CheckCircle, Sparkles } from 'lucide-react'
+import { Mail, Phone, MapPin, Github, Linkedin, Twitter, Send, CheckCircle } from 'lucide-react'
 
 const contactInfo = [
   {
@@ -82,7 +82,7 @@ export function Contact() {
       } else {
         throw new Error('Failed to send message')
       }
-    } catch (error) {
+    } catch {
       setIsSubmitting(false)
     }
   }

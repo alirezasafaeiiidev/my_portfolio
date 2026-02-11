@@ -32,5 +32,13 @@ describe('api-security', () => {
     const id = createRequestId()
     expect(id).toMatch(/^[0-9a-f-]{36}$/)
   })
-})
 
+  it('reuses inbound request id when provided', () => {
+    const request = new NextRequest('http://localhost:3000/api/test', {
+      headers: {
+        'x-request-id': 'req-12345',
+      },
+    })
+    expect(createRequestId(request)).toBe('req-12345')
+  })
+})
