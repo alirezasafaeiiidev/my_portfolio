@@ -147,12 +147,21 @@ for pattern in "${CDN_PATTERNS[@]}"; do
     fi
 done
 
-# Check for analytics/tracking
+# Check for analytics/tracking (high-signal only)
 echo ""
 echo "📊 Checking for analytics/tracking..."
 echo "------------------------------------------"
 
-ANALYTICS_PATTERNS=("google-analytics" "gtag" "analytics" "tracking" "segment.io" "mixpanel")
+ANALYTICS_PATTERNS=(
+    "google-analytics"
+    "googletagmanager.com"
+    "gtag\\("
+    "window\\.dataLayer"
+    "segment\\.io"
+    "mixpanel"
+    "plausible\\.io"
+    "posthog"
+)
 for pattern in "${ANALYTICS_PATTERNS[@]}"; do
     ANALYTICS_REFS=$(rg -n "$pattern" . \
         --glob "*.ts" \

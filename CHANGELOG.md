@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed flaky CAPTCHA randomness assertion and replaced it with deterministic mocked-random tests.
 - Enforced admin API authentication in production-safe mode (removed optional bypass behavior).
 - Migrated Next.js request guard from deprecated `middleware` convention to `src/proxy.ts`.
+- Removed residual external-scan false positives by deleting legacy `public/robots.txt` and tightening analytics detection patterns in `scripts/offline-external-scan.sh`.
+- Removed Next.js workspace-root inference warning by setting `turbopack.root` in `next.config.ts`.
 
 ### Added
 - Enterprise API baseline utilities:

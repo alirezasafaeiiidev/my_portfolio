@@ -232,6 +232,19 @@ bun run verify
 - تصویر اسنپ‌شات چت: `docs/audit/chat-snapshot-2026-02-11.png`
 - وضعیت backlog سازمانی: `docs/ENTERPRISE_BACKLOG_FA.md` (Completed)
 - تغییرات API/امنیت: `docs/api.md` و `CHANGELOG.md`
+
+---
+
+## به‌روزرسانی نهایی - حذف false positiveها (2026-02-11)
+
+### انجام شد
+- حذف `public/robots.txt` قدیمی برای جلوگیری از هشدار URL خارجی تکراری
+- سخت‌سازی الگوهای analytics در `scripts/offline-external-scan.sh` با الگوهای high-signal
+- افزودن `turbopack.root` در `next.config.ts` برای حذف هشدار root inference در build
+
+### شواهد
+- `bash scripts/offline-external-scan.sh` ✅ بدون warning
+- `bash scripts/verify.sh` ✅
 - `bun run type-check` ✅
 - `bun run test` ✅ (98 tests)
 - `bun run build` ✅

@@ -164,6 +164,11 @@
   - `bash scripts/offline-external-scan.sh` ✅
 - شواهد تصویری چت: `docs/audit/chat-snapshot-2026-02-11.png`
 
+## بسته‌شدن هشدارهای باقی‌مانده (2026-02-11)
+
+- هشدارهای false-positive مربوط به `robots.txt` و analytics patterns حذف شد.
+- وضعیت نهایی: ✅ هیچ تسک باز اجرایی باقی نمانده است.
+
 ## به‌روزرسانی وضعیت (2026-02-11 - نوبت دوم)
 
 - انجام شد:
