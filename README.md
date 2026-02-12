@@ -102,6 +102,7 @@ DATABASE_URL="file:./db/custom.db"
 
 # Optional: Analytics (if using external service)
 # NEXT_PUBLIC_GA_ID="your-analytics-id"
+# NEXT_PUBLIC_ENABLE_ANALYTICS="false"
 
 # Optional: Admin credentials
 # ADMIN_USERNAME="admin"

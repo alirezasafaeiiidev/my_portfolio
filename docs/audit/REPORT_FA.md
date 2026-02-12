@@ -448,3 +448,25 @@ bun run verify
 - تأیید نهایی:
   - `bash scripts/offline-external-scan.sh` ✅
   - `bash scripts/verify.sh` ✅
+
+## به‌روزرسانی تکمیل فازهای باقیمانده (2026-02-12)
+
+### انجام شد
+- تکمیل فاز `C2` با افزودن پرچم `NEXT_PUBLIC_ENABLE_ANALYTICS` (پیش‌فرض `false`) در:
+  - `src/lib/env.ts`
+  - `src/components/analytics/web-vitals.tsx`
+- حفظ سازگاری عقب‌رو با `NEXT_PUBLIC_ENABLE_WEB_VITALS`.
+- افزودن تست برای منطق فعال‌سازی analytics:
+  - `src/__tests__/components/web-vitals.test.ts`
+  - به‌روزرسانی `src/__tests__/lib/env.test.ts`
+- همگام‌سازی مستندات اجرایی:
+  - `docs/audit/FINAL_DEPLOYMENT_TASKS_FA.md` (تیک کامل فازهای A تا D)
+  - `docs/audit/REMAINING_EXECUTION_TASKS_FA.md` (وضعیت کامل تسک‌ها)
+  - `AGENT.md` (اصلاح مسیر allowlist و نام متغیر سایت)
+
+### شواهد
+- `bun run lint` ✅
+- `bun run type-check` ✅
+- `bun run build` ✅
+- `bash scripts/offline-external-scan.sh` ✅
+- `bash scripts/verify.sh` ✅

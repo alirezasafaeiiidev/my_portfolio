@@ -2,6 +2,17 @@
 
 این سند، مراحل باقی‌مانده را به تسک‌های قابل اجرا با خروجی مشخص تبدیل می‌کند.
 
+## وضعیت فعلی (2026-02-12)
+
+- [x] `T-B1-LINT-STRICT`
+- [x] `T-B2-TS-SEO-COMPONENTS`
+- [x] `T-B3-VERIFY-HARDEN`
+- [x] `T-C1-ALLOWLIST-MAINTAIN`
+- [x] `T-C2-ANALYTICS-TOGGLE`
+- [x] `T-D1-CI-GATES`
+- [x] `T-D3-AGENT-MD`
+- [x] `T-D2-DOCS-SYNC`
+
 ## ترتیب اجرای پیشنهادی
 
 1. `T-B1-LINT-STRICT`

@@ -337,6 +337,7 @@ ADMIN_API_TOKEN="fallback-bearer-token"
 REDIS_REST_URL="https://<redis-host>"
 REDIS_REST_TOKEN="<redis-token>"
 NEXT_PUBLIC_GA_ID="analytics-id"
+NEXT_PUBLIC_ENABLE_ANALYTICS="false"
 ```
 
 ## TypeScript Types

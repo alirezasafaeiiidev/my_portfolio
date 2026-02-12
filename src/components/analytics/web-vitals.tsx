@@ -3,9 +3,19 @@
 import { useEffect } from 'react'
 import { env } from '@/lib/env'
 
+export function isAnalyticsEnabled(config: {
+  NEXT_PUBLIC_ENABLE_ANALYTICS?: string
+  NEXT_PUBLIC_ENABLE_WEB_VITALS?: string
+}): boolean {
+  return (
+    config.NEXT_PUBLIC_ENABLE_ANALYTICS === 'true' ||
+    config.NEXT_PUBLIC_ENABLE_WEB_VITALS === 'true'
+  )
+}
+
 export function WebVitals() {
   useEffect(() => {
-    const isEnabled = env.NEXT_PUBLIC_ENABLE_WEB_VITALS === 'true'
+    const isEnabled = isAnalyticsEnabled(env)
     if (!isEnabled) {
       return
     }
@@ -19,7 +29,7 @@ export function WebVitals() {
           FCP: await getFCP(),
           TTFB: await getTTFB(),
         }
-        console.warn('Web Vitals:', vitals)
+        void vitals
 
         // Send to your analytics service
         // await fetch('/api/analytics/web-vitals', {

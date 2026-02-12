@@ -6,6 +6,7 @@ describe('env', () => {
     const parsed = parseEnv({
       NODE_ENV: undefined,
       NEXT_PUBLIC_SITE_URL: undefined,
+      NEXT_PUBLIC_ENABLE_ANALYTICS: undefined,
       NEXT_PUBLIC_ENABLE_WEB_VITALS: undefined,
       ADMIN_API_TOKEN: undefined,
       ADMIN_USERNAME: undefined,
@@ -19,6 +20,7 @@ describe('env', () => {
     })
 
     expect(parsed.NODE_ENV).toBe('development')
+    expect(parsed.NEXT_PUBLIC_ENABLE_ANALYTICS).toBe('false')
     expect(parsed.NEXT_PUBLIC_ENABLE_WEB_VITALS).toBe('false')
     expect(parsed.ADMIN_SESSION_MAX_AGE_SECONDS).toBe(60 * 60 * 8)
     expect(parsed.API_RATE_LIMIT_WINDOW_MS).toBe(15 * 60 * 1000)
@@ -29,6 +31,7 @@ describe('env', () => {
     const parsed = parseEnv({
       NODE_ENV: 'production',
       NEXT_PUBLIC_SITE_URL: 'https://example.com',
+      NEXT_PUBLIC_ENABLE_ANALYTICS: 'true',
       NEXT_PUBLIC_ENABLE_WEB_VITALS: 'true',
       ADMIN_API_TOKEN: 'abcdefghijklmnopqrstuvwxyz',
       ADMIN_USERNAME: 'admin',
@@ -43,6 +46,7 @@ describe('env', () => {
 
     expect(parsed.NODE_ENV).toBe('production')
     expect(parsed.NEXT_PUBLIC_SITE_URL).toBe('https://example.com')
+    expect(parsed.NEXT_PUBLIC_ENABLE_ANALYTICS).toBe('true')
     expect(parsed.NEXT_PUBLIC_ENABLE_WEB_VITALS).toBe('true')
     expect(parsed.ADMIN_SESSION_MAX_AGE_SECONDS).toBe(1800)
     expect(parsed.REDIS_REST_URL).toBe('https://redis.example.com')

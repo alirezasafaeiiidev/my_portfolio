@@ -3,6 +3,7 @@ import { z } from 'zod'
 const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
   NEXT_PUBLIC_SITE_URL: z.string().url().optional(),
+  NEXT_PUBLIC_ENABLE_ANALYTICS: z.enum(['true', 'false']).default('false'),
   NEXT_PUBLIC_ENABLE_WEB_VITALS: z.enum(['true', 'false']).default('false'),
   ADMIN_API_TOKEN: z.string().min(16).optional(),
   ADMIN_USERNAME: z.string().min(3).optional(),
@@ -24,6 +25,7 @@ export function parseEnv(input: Record<string, string | undefined>): AppEnv {
 const parsed = parseEnv({
   NODE_ENV: process.env.NODE_ENV,
   NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
+  NEXT_PUBLIC_ENABLE_ANALYTICS: process.env.NEXT_PUBLIC_ENABLE_ANALYTICS,
   NEXT_PUBLIC_ENABLE_WEB_VITALS: process.env.NEXT_PUBLIC_ENABLE_WEB_VITALS,
   ADMIN_API_TOKEN: process.env.ADMIN_API_TOKEN,
   ADMIN_USERNAME: process.env.ADMIN_USERNAME,

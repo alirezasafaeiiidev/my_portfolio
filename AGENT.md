@@ -71,7 +71,7 @@ bash scripts/offline-external-scan.sh
    - `bun run type-check` completes successfully.
    - `bun run test` passes all tests.
    - `bun run build` succeeds.
-   - `bash scripts/offline-external-scan.sh` reports no disallowed external links; update `scripts/offline-external-allowlist.txt` if a legitimate link needs to be allowlisted.
+   - `bash scripts/offline-external-scan.sh` reports no disallowed external links; update `scripts/external-scan-allowlist.txt` if a legitimate link needs to be allowlisted.
    - Documentation is synchronized: update `docs/audit/REPORT_FA.md`, `docs/audit/REMAINING_TASKS_FA.md` and `CHANGELOG.md` when user‑facing changes are made.
 4. Open a pull request and request human review. Do not bypass code review.
 5. Once all checks and reviews pass, merge into `main`. The CI pipeline will run `verify.sh` and `offline-external-scan.sh` to ensure the code is in a deployable state.
@@ -91,7 +91,7 @@ The following changes always require human review before merge:
 - [ ] No `any` types or `!` non‑null assertions remain without clear justification.
 - [ ] No unused variables, `console.log` statements or commented‑out code remain.
 - [ ] External resources are self‑hosted or explicitly allowlisted; no references to `yourportfolio.com`.
-- [ ] Domain and configuration values are read from environment variables such as `NEXT_PUBLIC_BASE_URL` and not hard‑coded.
+- [ ] Domain and configuration values are read from environment variables such as `NEXT_PUBLIC_SITE_URL` and not hard‑coded.
 - [ ] Telemetry and analytics are opt‑in via `NEXT_PUBLIC_ENABLE_ANALYTICS=false` by default.
 - [ ] Documentation (`REPORT_FA.md`, `REMAINING_TASKS_FA.md`) and `CHANGELOG.md` are updated to reflect the change.
 - [ ] Pull request includes at least one approving review.

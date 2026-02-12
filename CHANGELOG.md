@@ -27,8 +27,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Documentation
 - Added executable final-deployment checklist for remaining work in `docs/audit/FINAL_DEPLOYMENT_TASKS_FA.md` with phase gates, acceptance criteria, and evidence slots.
+- Added prioritized execution tracker in `docs/audit/REMAINING_EXECUTION_TASKS_FA.md` and synced completion status for phases B/C/D.
 
 ### Fixed
+- Added `NEXT_PUBLIC_ENABLE_ANALYTICS` as the primary analytics gate (default `false`) with backward compatibility for `NEXT_PUBLIC_ENABLE_WEB_VITALS`.
+- Updated web-vitals gating logic and added tests for disabled/default behavior.
 - Resolved TypeScript/build blockers in animation demo, experience timeline, testimonials animation variants, theme provider typing, SEO metadata typing, and Vitest coverage typing.
 - Fixed false failure behavior in `scripts/verify.sh` counter increments under `set -e`.
 - Hardened `scripts/offline-external-scan.sh` to ignore build artifacts (`.next`, `node_modules`, `.git`, `dist`, `coverage`) and support documented allowlist filtering.

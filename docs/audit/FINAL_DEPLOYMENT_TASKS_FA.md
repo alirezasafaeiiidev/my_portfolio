@@ -56,114 +56,114 @@
 
 ### B1: رفع هشدارهای TypeScript و ESLint
 
-- [ ] هشدارهای `no-unused-vars` رفع شده‌اند.
-- [ ] هشدارهای `no-explicit-any` رفع شده‌اند.
-- [ ] هشدارهای `no-console` رفع شده‌اند.
-- [ ] هشدارهای `@typescript-eslint/no-non-null-assertion` رفع شده‌اند.
-- [ ] هشدارهای `next/no-img-element` رفع شده‌اند.
-- [ ] هشدارهای TypeScript مرتبط با type inference/unknown رفع شده‌اند.
+- [x] هشدارهای `no-unused-vars` رفع شده‌اند.
+- [x] هشدارهای `no-explicit-any` رفع شده‌اند.
+- [x] هشدارهای `no-console` رفع شده‌اند.
+- [x] هشدارهای `@typescript-eslint/no-non-null-assertion` رفع شده‌اند.
+- [x] هشدارهای `next/no-img-element` رفع شده‌اند.
+- [x] هشدارهای TypeScript مرتبط با type inference/unknown رفع شده‌اند.
 
 هدف: اجرای strict بدون warning/error.
 
 شاخص پذیرش:
-- [ ] `bun run lint` بدون warning/error.
-- [ ] `bun run type-check` بدون warning/error.
-- [ ] `bun run build` بدون warning/error.
-- [ ] پوشش تست کاهش پیدا نکرده است.
+- [x] `bun run lint` بدون warning/error.
+- [x] `bun run type-check` بدون warning/error.
+- [x] `bun run build` بدون warning/error.
+- [x] پوشش تست کاهش پیدا نکرده است.
 
 ### B2: رفع خطاهای TS و SEO در کامپوننت‌ها
 
-- [ ] `src/components/animations/demo.tsx` اصلاح شد.
-- [ ] `src/components/sections/experience.tsx` اصلاح شد.
-- [ ] `src/components/sections/testimonials.tsx` اصلاح شد.
-- [ ] `src/components/theme/theme-provider.tsx` اصلاح شد.
-- [ ] `src/lib/seo.ts` اصلاح شد.
-- [ ] `vitest.config.ts` اصلاح شد.
-- [ ] استفاده از `any` در مسیرهای هدف حذف شد.
-- [ ] null assertion غیرضروری حذف شد.
-- [ ] بهبودهای SEO اعمال شد.
+- [x] `src/components/animations/demo.tsx` اصلاح شد.
+- [x] `src/components/sections/experience.tsx` اصلاح شد.
+- [x] `src/components/sections/testimonials.tsx` اصلاح شد.
+- [x] `src/components/theme/theme-provider.tsx` اصلاح شد.
+- [x] `src/lib/seo.ts` اصلاح شد.
+- [x] `vitest.config.ts` اصلاح شد.
+- [x] استفاده از `any` در مسیرهای هدف حذف شد.
+- [x] null assertion غیرضروری حذف شد.
+- [x] بهبودهای SEO اعمال شد.
 
 هدف: type-safety کامل UI + رعایت استاندارد SEO.
 
 شاخص پذیرش:
-- [ ] `bun run type-check` بدون خطا.
-- [ ] `bun run test` بدون خطا.
+- [x] `bun run type-check` بدون خطا.
+- [x] `bun run test` بدون خطا.
 
 ### B3: اصلاح اسکریپت verify
 
-- [ ] منطق جمع‌بندی موفق/ناموفق مراحل در `scripts/verify.sh` اصلاح شد.
-- [ ] false failure حذف شد.
-- [ ] کد خروجی در موفقیت کامل برابر `0` است.
+- [x] منطق جمع‌بندی موفق/ناموفق مراحل در `scripts/verify.sh` اصلاح شد.
+- [x] false failure حذف شد.
+- [x] کد خروجی در موفقیت کامل برابر `0` است.
 
 هدف: اتکاپذیری verify برای lint/test/build.
 
 شاخص پذیرش:
-- [ ] `bash scripts/verify.sh` بدون خطا اجرا می‌شود.
-- [ ] خروجی اسکریپت موفقیت همه مراحل را نشان می‌دهد.
+- [x] `bash scripts/verify.sh` بدون خطا اجرا می‌شود.
+- [x] خروجی اسکریپت موفقیت همه مراحل را نشان می‌دهد.
 
 ## فاز C: تقویت اصل Local-First
 
 ### C1: تعریف allowlist برای اسکن منابع خارجی
 
-- [ ] allowlist برای URLهای non-runtime قابل توسعه اضافه شده است.
-- [ ] allowlist از طریق فایل یا پیکربندی قابل تغییر است.
+- [x] allowlist برای URLهای non-runtime قابل توسعه اضافه شده است.
+- [x] allowlist از طریق فایل یا پیکربندی قابل تغییر است.
 
 هدف: کاهش false positive بدون تضعیف Local-First.
 
 شاخص پذیرش:
-- [ ] لینک‌های allowlist شده گزارش خطای مسدودکننده نمی‌گیرند.
-- [ ] لینک‌های غیرمجاز همچنان گزارش می‌شوند.
+- [x] لینک‌های allowlist شده گزارش خطای مسدودکننده نمی‌گیرند.
+- [x] لینک‌های غیرمجاز همچنان گزارش می‌شوند.
 
 ### C2: اختیاری کردن Telemetry/Analytics
 
-- [ ] پرچم پیکربندی برای analytics تعریف شده است (مثال: `NEXT_PUBLIC_ENABLE_ANALYTICS`).
-- [ ] پیش‌فرض telemetry غیرفعال است.
-- [ ] در حالت `false` هیچ درخواست شبکه‌ای telemetry ارسال نمی‌شود.
+- [x] پرچم پیکربندی برای analytics تعریف شده است (مثال: `NEXT_PUBLIC_ENABLE_ANALYTICS`).
+- [x] پیش‌فرض telemetry غیرفعال است.
+- [x] در حالت `false` هیچ درخواست شبکه‌ای telemetry ارسال نمی‌شود.
 
 هدف: فعال‌سازی telemetry فقط با رضایت صریح.
 
 شاخص پذیرش:
-- [ ] تست عملکردی رفتار `disabled` را تایید کند.
-- [ ] بررسی دستی network request در حالت پیش‌فرض، telemetry را نشان ندهد.
+- [x] تست عملکردی رفتار `disabled` را تایید کند.
+- [x] بررسی دستی network request در حالت پیش‌فرض، telemetry را نشان ندهد.
 
 ## فاز D: تضمین صحت، مستندسازی و رهاسازی
 
 ### D1: اجرای verify و offline scan در CI
 
-- [ ] اجرای `scripts/verify.sh` در CI اجباری شده است.
-- [ ] اجرای `scripts/offline-external-scan.sh` در CI اجباری شده است.
-- [ ] شکست هرکدام از گیت‌ها، pipeline را متوقف می‌کند.
+- [x] اجرای `scripts/verify.sh` در CI اجباری شده است.
+- [x] اجرای `scripts/offline-external-scan.sh` در CI اجباری شده است.
+- [x] شکست هرکدام از گیت‌ها، pipeline را متوقف می‌کند.
 
 هدف: تضمین deployability پیوسته.
 
 شاخص پذیرش:
-- [ ] یک pipeline نمونه برای commit جدید با موفقیت کامل عبور کند.
+- [x] یک pipeline نمونه برای commit جدید با موفقیت کامل عبور کند.
 
 ### D2: به‌روزرسانی مستندات و CHANGELOG
 
-- [ ] `docs/audit/REPORT_FA.md` همگام شده است.
-- [ ] `CHANGELOG.md` همگام شده است.
-- [ ] اثر تغییرات سیستمی/کاربری مستند شده است.
+- [x] `docs/audit/REPORT_FA.md` همگام شده است.
+- [x] `CHANGELOG.md` همگام شده است.
+- [x] اثر تغییرات سیستمی/کاربری مستند شده است.
 
 هدف: شفافیت تاریخچه و قابلیت بازبینی.
 
 شاخص پذیرش:
-- [ ] تغییرات هر فاز در commit مرتبط ثبت و قابل ردیابی است.
+- [x] تغییرات هر فاز در commit مرتبط ثبت و قابل ردیابی است.
 
 ### D3: ایجاد و تکمیل فایل AGENT.md
 
-- [ ] فایل `AGENT.md` در ریشه مخزن `my_portfolio` ایجاد/تکمیل شده است.
-- [ ] بخش‌های الزامی: ماموریت، فرمان‌های setup/lint/test/build/run، چرخه کاری، تعریف Done، Human Gates، چک‌لیست کیفیت.
-- [ ] ارجاع تکمیلی به `AGENTS.md` در صورت نیاز.
+- [x] فایل `AGENT.md` در ریشه مخزن `my_portfolio` ایجاد/تکمیل شده است.
+- [x] بخش‌های الزامی: ماموریت، فرمان‌های setup/lint/test/build/run، چرخه کاری، تعریف Done، Human Gates، چک‌لیست کیفیت.
+- [x] ارجاع تکمیلی به `AGENTS.md` در صورت نیاز.
 
 هدف: مرجع واحد عملیاتی برای توسعه‌دهندگان و عامل‌های AI.
 
 شاخص پذیرش:
-- [ ] بازبینی و تایید مالک محصول ثبت شده باشد.
+- [x] بازبینی و تایید مالک محصول ثبت شده باشد.
 
 ## معیار تکمیل کل برنامه
 
-- [ ] همه آیتم‌های فاز A تا D تیک خورده‌اند.
-- [ ] خروجی `bash scripts/verify.sh` موفق است.
-- [ ] خروجی `bash scripts/offline-external-scan.sh` موفق است.
-- [ ] مستندات و changelog نهایی همگام هستند.
+- [x] همه آیتم‌های فاز A تا D تیک خورده‌اند.
+- [x] خروجی `bash scripts/verify.sh` موفق است.
+- [x] خروجی `bash scripts/offline-external-scan.sh` موفق است.
+- [x] مستندات و changelog نهایی همگام هستند.
