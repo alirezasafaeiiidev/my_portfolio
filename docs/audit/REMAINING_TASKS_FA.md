@@ -21,7 +21,7 @@
   - شواهد: به‌روزرسانی `scripts/offline-external-scan.sh`
 
 - [x] `A2` حذف/جایگزینی دامنه‌های placeholder در مسیرهای SEO
-  - شرح: دامنه `https://yourportfolio.com` در چند مسیر کلیدی استفاده شده است.
+  - شرح: دامنه نمونه `https://portfolio.example.com` در چند مسیر کلیدی استفاده شده است.
   - فایل‌های هدف:
     - `src/app/layout.tsx`
     - `src/app/robots.ts`

@@ -192,9 +192,9 @@ describe('timingSafeCompare', () => {
 
 describe('isTrustedOrigin', () => {
   it('should accept trusted origins', () => {
-    const trustedOrigins = ['http://localhost:3000', 'https://yourportfolio.com']
+    const trustedOrigins = ['http://localhost:3000', 'https://trusted-origin.example']
     expect(isTrustedOrigin('http://localhost:3000', trustedOrigins)).toBe(true)
-    expect(isTrustedOrigin('https://yourportfolio.com', trustedOrigins)).toBe(true)
+    expect(isTrustedOrigin('https://trusted-origin.example', trustedOrigins)).toBe(true)
   })
 
   it('should reject untrusted origins', () => {
@@ -209,8 +209,8 @@ describe('isTrustedOrigin', () => {
   })
 
   it('should match origins with paths', () => {
-    const trustedOrigins = ['https://yourportfolio.com']
-    expect(isTrustedOrigin('https://yourportfolio.com/path', trustedOrigins)).toBe(true)
+    const trustedOrigins = ['https://trusted-origin.example']
+    expect(isTrustedOrigin('https://trusted-origin.example/path', trustedOrigins)).toBe(true)
   })
 })
 

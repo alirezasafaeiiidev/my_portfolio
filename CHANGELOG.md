@@ -25,6 +25,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Documentation
+- Added executable final-deployment checklist for remaining work in `docs/audit/FINAL_DEPLOYMENT_TASKS_FA.md` with phase gates, acceptance criteria, and evidence slots.
+
 ### Fixed
 - Resolved TypeScript/build blockers in animation demo, experience timeline, testimonials animation variants, theme provider typing, SEO metadata typing, and Vitest coverage typing.
 - Fixed false failure behavior in `scripts/verify.sh` counter increments under `set -e`.

@@ -18,10 +18,8 @@ FOUND_EXTERNAL=0
 WARNINGS=()
 
 # Allowed exceptions (documented and intentional)
-ALLOWED_EXTERNALS=(
-    # Add documented exceptions here, e.g.:
-    # "example.com/api"  # External API with local fallback
-)
+ALLOWLIST_FILE="${EXTERNAL_SCAN_ALLOWLIST_FILE:-scripts/external-scan-allowlist.txt}"
+ALLOWED_EXTERNALS=()
 
 # Directories to skip from repository-wide scans
 SCAN_EXCLUDES=(
@@ -38,6 +36,26 @@ build_exclude_args() {
         args+=(--glob "!${path}/**")
     done
     printf '%s\n' "${args[@]}"
+}
+
+load_allowlist() {
+    if [ -f "$ALLOWLIST_FILE" ]; then
+        while IFS= read -r line; do
+            line="$(echo "$line" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')"
+            [ -z "$line" ] && continue
+            [[ "$line" =~ ^# ]] && continue
+            ALLOWED_EXTERNALS+=("$line")
+        done < "$ALLOWLIST_FILE"
+    fi
+
+    if [ -n "${EXTERNAL_SCAN_ALLOWLIST:-}" ]; then
+        IFS=',' read -ra extra_allowlist <<< "${EXTERNAL_SCAN_ALLOWLIST}"
+        for item in "${extra_allowlist[@]}"; do
+            item="$(echo "$item" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')"
+            [ -z "$item" ] && continue
+            ALLOWED_EXTERNALS+=("$item")
+        done
+    fi
 }
 
 is_allowed_external() {
@@ -65,6 +83,7 @@ print_filtered_matches() {
 echo ""
 echo "📁 Scanning source files for external URLs..."
 echo "------------------------------------------"
+load_allowlist
 
 # Scan for runtime outbound requests (high signal, low false positives)
 if [ -d "src" ]; then
@@ -81,6 +100,35 @@ if [ -d "src" ]; then
         FOUND_EXTERNAL=1
     else
         echo -e "${GREEN}✓ No runtime external requests found in src/${NC}"
+    fi
+fi
+
+# Scan built runtime output from .next (required for deploy confidence)
+echo ""
+echo "🏗️ Scanning build output (.next) for runtime externals..."
+echo "------------------------------------------"
+
+if [ ! -d ".next" ]; then
+    echo -e "${RED}❌ Build output not found: .next${NC}"
+    echo "Run 'bun run build' before running this scan."
+    FOUND_EXTERNAL=1
+else
+    BUILD_RUNTIME_FETCH=$(rg -n "fetch\\s*\\(\\s*['\\\"]https?://" .next --glob "*.{js,mjs,cjs}" || true)
+    BUILD_RUNTIME_AXIOS=$(rg -n "axios\\.(get|post|put|patch|delete)\\s*\\(\\s*['\\\"]https?://" .next --glob "*.{js,mjs,cjs}" || true)
+    BUILD_RUNTIME_WS=$(rg -n "(WebSocket|EventSource)\\s*\\(\\s*['\\\"](wss?|https?)://" .next --glob "*.{js,mjs,cjs}" || true)
+
+    FILTERED_BUILD_RUNTIME_FETCH=$(print_filtered_matches "$BUILD_RUNTIME_FETCH")
+    FILTERED_BUILD_RUNTIME_AXIOS=$(print_filtered_matches "$BUILD_RUNTIME_AXIOS")
+    FILTERED_BUILD_RUNTIME_WS=$(print_filtered_matches "$BUILD_RUNTIME_WS")
+
+    if [ -n "$FILTERED_BUILD_RUNTIME_FETCH" ] || [ -n "$FILTERED_BUILD_RUNTIME_AXIOS" ] || [ -n "$FILTERED_BUILD_RUNTIME_WS" ]; then
+        echo -e "${RED}❌ Found runtime external requests in .next:${NC}"
+        [ -n "$FILTERED_BUILD_RUNTIME_FETCH" ] && echo "$FILTERED_BUILD_RUNTIME_FETCH"
+        [ -n "$FILTERED_BUILD_RUNTIME_AXIOS" ] && echo "$FILTERED_BUILD_RUNTIME_AXIOS"
+        [ -n "$FILTERED_BUILD_RUNTIME_WS" ] && echo "$FILTERED_BUILD_RUNTIME_WS"
+        FOUND_EXTERNAL=1
+    else
+        echo -e "${GREEN}✓ No runtime external requests found in .next${NC}"
     fi
 fi
 
@@ -117,9 +165,11 @@ echo ""
 echo "🏷️ Checking for placeholder domain..."
 echo "------------------------------------------"
 
-PLACEHOLDER_REFS=$(rg -n "yourportfolio\\.com" src --glob "*.{ts,tsx,js,jsx}" --glob "!src/**/__tests__/**" || true)
+PLACEHOLDER_REFS=$(rg -n "yourportfolio\\.com|portfolio\\.example\\.com" src \
+    --glob "*.{ts,tsx,js,jsx}" \
+    --glob "!src/**/__tests__/**" || true)
 if [ -n "$PLACEHOLDER_REFS" ]; then
-    echo -e "${RED}❌ Found placeholder domain references (yourportfolio.com):${NC}"
+    echo -e "${RED}❌ Found placeholder domain references:${NC}"
     echo "$PLACEHOLDER_REFS"
     FOUND_EXTERNAL=1
 fi
@@ -146,6 +196,23 @@ for pattern in "${CDN_PATTERNS[@]}"; do
         FOUND_EXTERNAL=1
     fi
 done
+
+if [ -d ".next" ]; then
+    for pattern in "${CDN_PATTERNS[@]}"; do
+        BUILD_CDN_REFS=$(rg -n "$pattern" .next \
+            --glob "*.js" \
+            --glob "*.mjs" \
+            --glob "*.cjs" \
+            --glob "*.css" \
+            --glob "*.html" || true)
+        FILTERED_BUILD_CDN_REFS=$(print_filtered_matches "$BUILD_CDN_REFS")
+        if [ -n "$FILTERED_BUILD_CDN_REFS" ]; then
+            echo -e "${RED}❌ Found CDN reference in .next ($pattern):${NC}"
+            echo "$FILTERED_BUILD_CDN_REFS"
+            FOUND_EXTERNAL=1
+        fi
+    done
+fi
 
 # Check for analytics/tracking (high-signal only)
 echo ""

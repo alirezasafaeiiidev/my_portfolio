@@ -378,6 +378,7 @@ bun run test:coverage
 - [API Documentation](#api-documentation)
 - [Security](#security-features)
 - [Performance](#performance-optimization)
+- [Final Deployment Checklist (FA)](docs/audit/FINAL_DEPLOYMENT_TASKS_FA.md)
 
 ## 🤝 Contributing
 

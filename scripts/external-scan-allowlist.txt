@@ -1,0 +1,18 @@
+# External scan allowlist for documented non-runtime links.
+# One pattern per line; substring match is used.
+# You can override/extend via:
+# - EXTERNAL_SCAN_ALLOWLIST_FILE
+# - EXTERNAL_SCAN_ALLOWLIST (comma-separated)
+
+# Social/documentation links commonly present in content or JSON-LD
+github.com
+linkedin.com
+twitter.com
+schema.org
+
+# Next.js compiled @vercel/og internals (non-app source false-positive in .next)
+fonts.googleapis.com/css2
+cdn.jsdelivr.net/gh/twitter/twemoji
+cdn.jsdelivr.net/npm/@svgmoji
+cdn.jsdelivr.net/gh/shuding/fluentui-emoji-unicode
+cdn.jsdelivr.net/gh/svgmoji/svgmoji

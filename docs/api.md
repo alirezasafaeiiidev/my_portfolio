@@ -70,7 +70,7 @@ Content-Type: application/json
 
 **Example Request:**
 ```bash
-curl -X POST https://yourportfolio.com/api/contact \
+curl -X POST https://portfolio.example.com/api/contact \
   -H "Content-Type: application/json" \
   -d '{
     "name": "John Doe",
@@ -118,7 +118,7 @@ Authorization: Bearer your-admin-api-token
 
 **Example Request:**
 ```bash
-curl -X GET https://yourportfolio.com/api/admin/projects \
+curl -X GET https://portfolio.example.com/api/admin/projects \
   -H "Authorization: Bearer your-admin-api-token"
 ```
 
@@ -163,7 +163,7 @@ Authorization: Bearer your-admin-api-token
 
 **Example Request:**
 ```bash
-curl -X POST https://yourportfolio.com/api/admin/projects \
+curl -X POST https://portfolio.example.com/api/admin/projects \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer your-admin-api-token" \
   -d '{
@@ -202,7 +202,7 @@ Authorization: Bearer your-admin-api-token
 
 **Example Request:**
 ```bash
-curl -X GET https://yourportfolio.com/api/admin/messages \
+curl -X GET https://portfolio.example.com/api/admin/messages \
   -H "Authorization: Bearer your-admin-api-token"
 ```
 
@@ -235,7 +235,7 @@ Authorization: Bearer your-admin-api-token
 
 **Example Request:**
 ```bash
-curl -X DELETE "https://yourportfolio.com/api/admin/messages?id=msg-123" \
+curl -X DELETE "https://portfolio.example.com/api/admin/messages?id=msg-123" \
   -H "Authorization: Bearer your-admin-api-token"
 ```
 
