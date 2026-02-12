@@ -1,0 +1,15 @@
+[Unit]
+Description=My Portfolio Staging (PM2 runtime)
+After=network.target
+
+[Service]
+Type=simple
+User=root
+Environment=PM2_HOME=/root/.pm2
+WorkingDirectory=/var/www/my-portfolio/current/staging
+ExecStart=/usr/bin/pm2-runtime start /var/www/my-portfolio/current/staging/ecosystem.config.cjs --only my-portfolio-staging
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,15 @@
+[Unit]
+Description=My Portfolio Production (PM2 runtime)
+After=network.target
+
+[Service]
+Type=simple
+User=root
+Environment=PM2_HOME=/root/.pm2
+WorkingDirectory=/var/www/my-portfolio/current/production
+ExecStart=/usr/bin/pm2-runtime start /var/www/my-portfolio/current/production/ecosystem.config.cjs --only my-portfolio-production
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
