@@ -380,6 +380,7 @@ bun run test:coverage
 - [Security](#security-features)
 - [Performance](#performance-optimization)
 - [Final Deployment Checklist (FA)](docs/audit/FINAL_DEPLOYMENT_TASKS_FA.md)
+- [Server Pre-Deploy Checklist (FA)](docs/DEPLOY_SERVER_PRECHECK_FA.md)
 
 ## 🤝 Contributing
 
