@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/alirezasafaeiiidev/my_portfolio/compare/v1.0.0...v1.1.0) (2026-02-12)
+
+
+### Features
+
+* **analytics:** finalize priority phases and close remaining deploy tasks ([223dbbb](https://github.com/alirezasafaeiiidev/my_portfolio/commit/223dbbba864c6eef3dc1c5f225f6bedbf2228006))
+
 # 1.0.0 (2026-02-12)
 
 
