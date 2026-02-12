@@ -1,3 +1,21 @@
+# 1.0.0 (2026-02-12)
+
+
+### Bug Fixes
+
+* **config:** strict eslint, tsconfig, next.config - enable strict mode, remove ignoreBuildErrors, fix external deps ([f1bc28c](https://github.com/alirezasafaeiiidev/my_portfolio/commit/f1bc28c41a73d7e6f9fd48c595b63860f6578c14))
+* **phase-1:** resolve all lint errors - effects/index.tsx parsing fixed, sidebar.tsx Math.random fixed ([c63ec50](https://github.com/alirezasafaeiiidev/my_portfolio/commit/c63ec508f0a81738faba06dd3095c1b86ce4d1a2))
+* **stabilization:** resolve TS blockers and harden verification pipeline ([7458626](https://github.com/alirezasafaeiiidev/my_portfolio/commit/7458626a56a1f52ab30a25e527ebc16e06baf235))
+
+
+### Features
+
+* **enterprise:** add api hardening, env governance, and observability baseline ([983d339](https://github.com/alirezasafaeiiidev/my_portfolio/commit/983d3396b5ee2a2823652f01db10ad6e0297403e))
+* **enterprise:** finalize hardening, docs sync, and release gates ([1b3bfa3](https://github.com/alirezasafaeiiidev/my_portfolio/commit/1b3bfa3abec6fdbe3a4abb97fa59594f1cf4cfca))
+* **phase-2:** add skip-link for accessibility - UI/UX improvements ([bfa5f1f](https://github.com/alirezasafaeiiidev/my_portfolio/commit/bfa5f1f9b29e2c01f80282853419242b0d98b567))
+* **phase-6:** complete audit hardening - all phases done ([e196b39](https://github.com/alirezasafaeiiidev/my_portfolio/commit/e196b393296232c0834abeae145a13832763b461))
+* **phase5:** close production-readiness with e2e a11y checks ([a8c41ff](https://github.com/alirezasafaeiiidev/my_portfolio/commit/a8c41ff0fcf388f91092a5e08c7a369a07811408))
+
 # Changelog
 
 All notable changes to this project will be documented in this file.
