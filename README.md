@@ -427,3 +427,9 @@ For questions, issues, or feature requests:
 
 - [راهنمای میزبانی چندسایته](docs/HOSTING_MULTI_SITE_FA.md)
 - Operations pack: `ops/`
+
+## Merge Runbook
+See: `docs/merge-runbook.md`
+
+## Reviewer Rotation (CODEOWNERS)
+See: `docs/reviewer-rotation.md`
