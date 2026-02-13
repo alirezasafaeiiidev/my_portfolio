@@ -7,43 +7,37 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { motion } from 'framer-motion'
-import { Mail, Phone, MapPin, Github, Linkedin, Twitter, Send, CheckCircle } from 'lucide-react'
+import { Mail, MapPin, Github, Linkedin, Twitter, Send, CheckCircle } from 'lucide-react'
 
 const contactInfo = [
   {
     icon: Mail,
     label: 'Email',
-    value: 'your.email@example.com',
-    href: 'mailto:your.email@example.com',
-  },
-  {
-    icon: Phone,
-    label: 'Phone',
-    value: '+1 (555) 123-4567',
-    href: 'tel:+15551234567',
+    value: 'contact@portfolio.example.com',
+    href: 'mailto:contact@portfolio.example.com',
   },
   {
     icon: MapPin,
     label: 'Location',
-    value: 'San Francisco, CA',
-    href: 'https://maps.google.com/?q=San+Francisco,+CA',
+    value: 'Remote / Global',
+    href: undefined,
   },
 ]
 
 const socialLinks = [
   {
     name: 'GitHub',
-    href: 'https://github.com/yourusername',
+    href: 'https://github.com/alirezasafaeiiidev',
     icon: Github,
   },
   {
     name: 'LinkedIn',
-    href: 'https://linkedin.com/in/yourusername',
+    href: 'https://linkedin.com',
     icon: Linkedin,
   },
   {
-    name: 'Twitter',
-    href: 'https://twitter.com/yourusername',
+    name: 'X',
+    href: 'https://x.com',
     icon: Twitter,
   },
 ]

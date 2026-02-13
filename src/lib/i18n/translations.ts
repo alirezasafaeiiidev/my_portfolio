@@ -13,7 +13,7 @@ export const translations = {
       contact: 'Contact',
     },
     hero: {
-      title: 'Hi, I\'m Your Name',
+      title: 'Hi, I\'m Portfolio Owner',
       subtitle: 'Full Stack Developer & UI/UX Enthusiast',
       description: 'I build exceptional digital experiences that combine cutting-edge technology with intuitive design. Passionate about creating scalable, performant, and user-centered applications.',
       available: 'Available for opportunities',
@@ -119,7 +119,7 @@ export const translations = {
       contact: 'تماس',
     },
     hero: {
-      title: 'سلام، من نام شما هستم',
+      title: 'سلام، من صاحب پورتفولیو هستم',
       subtitle: 'توسعه‌دهنده فول‌استک و علاقه‌مند به UI/UX',
       description: 'من تجربیات دیجیتال استثنایی می‌سازم که تکنولوژی پیشرفته را با طراحی شهودی ترکیب می‌کند. مشتاق ایجاد برنامه‌های مقیاس‌پذیر، کارآمد و کاربرمحور هستم.',
       available: 'در دسترس برای فرصت‌ها',
