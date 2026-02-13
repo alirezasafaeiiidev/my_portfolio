@@ -147,7 +147,7 @@ POST to /api/contact
     ↓
 Server-side Validation
     ↓
-Process (Email/Database)
+Process (validation + security checks + logging)
     ↓
 Response to Client
 ```
@@ -192,7 +192,7 @@ Components (Use t() function)
 - **File-based routing**: `src/app/` directory structure
 - **Dynamic Routes**: `[slug]` folders for dynamic content
 - **API Routes**: `src/app/api/` for backend endpoints
-- **Middleware**: Authentication and redirects
+- **Auth enforcement**: Route-level checks in admin API handlers
 
 ### Route Structure
 
@@ -249,15 +249,19 @@ experimental: {
 
 ### Authentication
 
-- **NextAuth.js**: OAuth providers, credentials
-- **Session Management**: Secure cookie-based sessions
-- **CSRF Protection**: Built-in with NextAuth
+- **Custom Admin Auth**: Bearer token (`ADMIN_API_TOKEN`) or signed session cookie
+- **Session Management**: HMAC-signed `asdev_admin_session` cookie
+- **Credential Checks**: Timing-safe comparison for secrets
 
 ### Security Headers
 
 ```javascript
 // next.config.ts
 headers: [
+  {
+    key: 'X-DNS-Prefetch-Control',
+    value: 'on',
+  },
   {
     key: 'X-Frame-Options',
     value: 'SAMEORIGIN',
@@ -267,8 +271,8 @@ headers: [
     value: 'nosniff',
   },
   {
-    key: 'Strict-Transport-Security',
-    value: 'max-age=31536000; includeSubDomains',
+    key: 'Referrer-Policy',
+    value: 'origin-when-cross-origin',
   },
 ]
 ```
@@ -351,8 +355,12 @@ bun test:coverage
 
 # Variables
 DATABASE_URL
-NEXTAUTH_SECRET
-NEXTAUTH_URL
+ADMIN_API_TOKEN
+ADMIN_USERNAME
+ADMIN_PASSWORD
+ADMIN_SESSION_SECRET
+API_RATE_LIMIT_WINDOW_MS
+API_RATE_LIMIT_MAX_REQUESTS
 ```
 
 ## Scalability Considerations
@@ -360,7 +368,8 @@ NEXTAUTH_URL
 ### Database
 
 - **Development**: SQLite (file-based)
-- **Production**: PostgreSQL (cloud-hosted)
+- **Production (current)**: SQLite by default
+- **Production (scalable option)**: migrate Prisma schema to PostgreSQL
 - **Connection Pooling**: Prisma connection pool
 - **Caching**: Redis for frequent queries
 
@@ -378,14 +387,14 @@ NEXTAUTH_URL
 
 ## Future Enhancements
 
-1. **API Rate Limiting**: Prevent abuse
-2. **Image CDN**: Cloudinary or similar
-3. **Caching Layer**: Redis for API responses
-4. **SSG**: Static generation for blog posts
-5. **ISR**: Incremental Static Regeneration
-6. **PWA**: Progressive Web App features
-7. **WebSockets**: Real-time features
-8. **Database Migration**: PostgreSQL for production
+1. **Secure legacy public message endpoints**: protect or remove `/api/messages`
+2. **Persist contact submissions**: write accepted contact payloads to DB/queue
+3. **Image CDN**: Cloudinary or similar
+4. **Caching Layer**: Redis for API responses
+5. **SSG**: Static generation for blog posts
+6. **ISR**: Incremental Static Regeneration
+7. **PWA**: Progressive Web App features
+8. **Database Migration**: PostgreSQL for production scale
 
 ## Technology Rationale
 
