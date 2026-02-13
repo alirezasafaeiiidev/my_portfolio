@@ -1,40 +1,35 @@
-# Agent Instructions (دستورالعمل عامل‌ها)
+<!-- asdev:template_id=agents-runtime-guidance version=1.0.0 source=standards/process/agent-spec-v1.md -->
+# Codex Runtime Guidance
 
-> All AI agents working on this project MUST follow these instructions.
+This file is the runtime contract for Codex when working in this repository.
 
-## Primary Source of Truth
-**Always follow the constitution in:**
-`.windsurf/rules/00-project-constitution.md`
+## Mission
 
-## Default Principles
-1. **Local-First** - Prioritize offline-friendly behavior
-2. **Bilingual** - Persian/English with correct RTL/LTR
-3. **UI/UX + SEO** - Professional look, accessibility, performance
-4. **Strict Standards** - TypeScript strict, zero `any`
-5. **Testing** - Real tests with coverage
-6. **Documentation-First** - Every change documented
+- Keep changes incremental, reversible, and traceable.
+- Prefer evidence-based decisions with reproducible verification.
+- Avoid monorepo lock-in and preserve repository autonomy.
 
-## Before Any Change
-- Read the constitution
-- Check `docs/audit/REPORT_FA.md` for current status
-- Run `scripts/verify.sh` to establish baseline
-- Document your plan
+## Workflow
 
-## After Any Change
-- Update `docs/audit/REPORT_FA.md`
-- Update `CHANGELOG.md` if user-facing
-- Run `scripts/verify.sh`
-- Run `scripts/offline-external-scan.sh`
-- Commit with conventional commit format
+`Discover -> Plan -> Task -> Execute -> Verify -> Document`
 
-## Communication Language
-- Explanations to user: **Persian (Farsi)**
-- Code and commits: English or bilingual
+## Mandatory Verification
 
-## Evidence Required
-Every claim must include:
-- File path
-- Line range or snippet
-- Or command output
+For standards/template/process changes run the repository's setup, CI, and test commands.
+Record command outcomes in the PR description.
 
-If you cannot verify something, mark as "Unknown" with verification steps.
+## Human Approval Gates (Stop and Ask)
+
+Always pause for explicit approval before:
+
+- Auth/permissions/roles/security policy changes
+- Breaking API/schema/db changes, destructive migrations, or data deletion
+- Adding dependencies or major-version upgrades
+- Telemetry/external data transfer/secret handling changes
+- Legal text changes (Terms/Privacy) or sensitive claims
+- Critical UX flow changes (signup/checkout/pricing/payment)
+
+## Source Documents
+
+- `AGENT.md` (repository-specific execution guide)
+- `standards/process/agent-spec-v1.md` (policy source)
