@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/alirezasafaeiiidev/asdev-portfolio/compare/v1.1.1...v1.2.0) (2026-02-13)
+
+
+### Features
+
+* **security:** phase0 cache hardening and phase1 codeql baseline ([4902cbf](https://github.com/alirezasafaeiiidev/asdev-portfolio/commit/4902cbfc28fe6117cad597972c1064444658ba14))
+
 # [1.1.0](https://github.com/alirezasafaeiiidev/my_portfolio/compare/v1.0.0...v1.1.0) (2026-02-12)
 
 
