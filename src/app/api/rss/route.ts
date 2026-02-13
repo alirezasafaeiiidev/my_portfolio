@@ -138,7 +138,7 @@ export async function GET(request: Request) {
     status: 200,
     headers: {
       'Content-Type': 'application/xml; charset=utf-8',
-      'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=1800',
+      'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
     },
   })
 }

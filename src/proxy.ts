@@ -12,6 +12,7 @@ const SECURITY_HEADERS = {
   'X-Frame-Options': 'DENY',
   'X-DNS-Prefetch-Control': 'off',
   'X-Permitted-Cross-Domain-Policies': 'none',
+  'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
   'Content-Security-Policy':
     "default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; img-src 'self' data: blob:; font-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; connect-src 'self'",
   'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), payment=()',
