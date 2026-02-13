@@ -23,6 +23,7 @@ const navItems = [
   { key: 'home', name: 'nav.home', href: '#home' },
   { key: 'about', name: 'nav.about', href: '#about' },
   { key: 'portfolio', name: 'nav.portfolio', href: '#portfolio' },
+  { key: 'engineering', name: 'nav.engineering', href: '/engineering' },
   { key: 'skills', name: 'nav.skills', href: '#skills' },
   { key: 'experience', name: 'nav.experience', href: '#experience' },
   { key: 'blog', name: 'nav.blog', href: '#blog' },
@@ -46,6 +47,10 @@ export function Header() {
 
   const handleNavClick = (href: string) => {
     setMobileMenuOpen(false)
+    if (!href.startsWith('#')) {
+      window.location.href = href
+      return
+    }
     const element = document.querySelector(href)
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' })

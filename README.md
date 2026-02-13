@@ -415,8 +415,13 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Support
 
 For questions, issues, or feature requests:
-- Open an [issue](https://github.com/yourusername/portfolio/issues)
-- Contact: [contact@example.com](mailto:contact@example.com)
+- Open an issue in this repository
+- Contact: [contact@alirezasafaeidev.ir](mailto:contact@alirezasafaeidev.ir)
+
+## Brand Attribution
+
+- Engineering hub: [https://alirezasafaeidev.ir/engineering](https://alirezasafaeidev.ir/engineering)
+- Request form: [https://alirezasafaeidev.ir/engineering/request](https://alirezasafaeidev.ir/engineering/request)
 
 ---
 

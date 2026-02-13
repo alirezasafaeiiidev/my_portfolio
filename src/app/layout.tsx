@@ -12,6 +12,7 @@ import { ThemeProvider } from "@/components/theme/theme-provider";
 import { generatePersonSchema, generateWebSiteSchema, generateBreadcrumbSchema, generateOrganizationSchema } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/site-config";
 import { brand } from "@/lib/brand";
+import { BrandFooter } from "@/components/brand/BrandFooter";
 
 const siteUrl = getSiteUrl();
 
@@ -126,6 +127,7 @@ export default function RootLayout({
             {children}
           </main>
           <Footer />
+          <BrandFooter locale="fa" />
           <BottomNav />
           <Toaster />
         </I18nProvider>

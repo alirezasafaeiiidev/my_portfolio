@@ -16,6 +16,10 @@ export interface BrandProfile {
     linkedin: string
     x: string
   }
+  urls: {
+    engineeringHub: string
+    engineeringRequest: string
+  }
 }
 
 export const brand: BrandProfile = {
@@ -35,6 +39,10 @@ export const brand: BrandProfile = {
     github: 'https://github.com/alirezasafaeiiidev',
     linkedin: '',
     x: '',
+  },
+  urls: {
+    engineeringHub: 'https://alirezasafaeidev.ir/engineering',
+    engineeringRequest: 'https://alirezasafaeidev.ir/engineering/request',
   },
 }
 

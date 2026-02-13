@@ -72,3 +72,20 @@ model ContactMessage {
   message   String
   createdAt DateTime @default(now())
 }
+
+model EngineeringRequest {
+  id           String   @id @default(cuid())
+  name         String
+  email        String
+  company      String?
+  website      String?
+  projectType  String
+  budget       String?
+  timeline     String?
+  message      String
+  status       String   @default("NEW")
+  internalNote String?
+  reviewedAt   DateTime?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
