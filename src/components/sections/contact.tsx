@@ -8,45 +8,46 @@ import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { motion } from 'framer-motion'
 import { Mail, Phone, MapPin, Github, Linkedin, Twitter, Send, CheckCircle } from 'lucide-react'
+import { brand } from '@/lib/brand'
 
 const contactInfo = [
   {
     icon: Mail,
     label: 'Email',
-    value: 'your.email@example.com',
-    href: 'mailto:your.email@example.com',
+    value: brand.email,
+    href: `mailto:${brand.email}`,
   },
   {
     icon: Phone,
     label: 'Phone',
-    value: '+1 (555) 123-4567',
-    href: 'tel:+15551234567',
+    value: brand.phone,
+    href: brand.phone ? `tel:${brand.phone.replace(/\s+/g, '')}` : '',
   },
   {
     icon: MapPin,
     label: 'Location',
-    value: 'San Francisco, CA',
-    href: 'https://maps.google.com/?q=San+Francisco,+CA',
+    value: brand.locationEn,
+    href: `https://maps.google.com/?q=${encodeURIComponent(brand.locationEn)}`,
   },
-]
+].filter((item) => item.value.length > 0)
 
 const socialLinks = [
   {
     name: 'GitHub',
-    href: 'https://github.com/yourusername',
+    href: brand.social.github,
     icon: Github,
   },
   {
     name: 'LinkedIn',
-    href: 'https://linkedin.com/in/yourusername',
+    href: brand.social.linkedin,
     icon: Linkedin,
   },
   {
-    name: 'Twitter',
-    href: 'https://twitter.com/yourusername',
+    name: 'X',
+    href: brand.social.x,
     icon: Twitter,
   },
-]
+].filter((item) => item.href.length > 0)
 
 export function Contact() {
   const [formData, setFormData] = useState({

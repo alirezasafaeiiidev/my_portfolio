@@ -11,19 +11,20 @@ import { I18nProvider } from "@/lib/i18n-context";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { generatePersonSchema, generateWebSiteSchema, generateBreadcrumbSchema, generateOrganizationSchema } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/site-config";
+import { brand } from "@/lib/brand";
 
 const siteUrl = getSiteUrl();
 
 export const metadata: Metadata = {
   title: {
-    default: "پورتفولیو - توسعه‌دهنده فول‌استک | Portfolio - Full Stack Developer",
-    template: "%s | پورتفولیو",
+    default: `${brand.shortNameFa} | ${brand.roleFa} | ${brand.shortNameEn} | ${brand.roleEn}`,
+    template: `%s | ${brand.shortNameFa}`,
   },
   description: "Full Stack Developer with expertise in Next.js, TypeScript, React, and modern web development. Building scalable, performant web applications with best practices.",
   keywords: ["portfolio", "full stack developer", "Next.js", "TypeScript", "React", "web development", "frontend", "backend", "پورتفولیو", "توسعه‌دهنده فول‌استک", "توسعه وب"],
-  authors: [{ name: "Your Name", url: siteUrl }],
-  creator: "Your Name",
-  publisher: "Your Name",
+  authors: [{ name: brand.fullNameEn, url: siteUrl }],
+  creator: brand.fullNameEn,
+  publisher: brand.fullNameEn,
   formatDetection: {
     email: false,
     address: false,
@@ -42,23 +43,22 @@ export const metadata: Metadata = {
     locale: 'en_US',
     alternateLocale: ['fa_IR'],
     url: siteUrl,
-    siteName: 'Portfolio | پورتفولیو',
-    title: 'Portfolio - Full Stack Developer | پورتفولیو - توسعه‌دهنده فول‌استک',
+    siteName: `${brand.siteNameEn} | ${brand.siteNameFa}`,
+    title: `${brand.shortNameEn} - ${brand.roleEn} | ${brand.shortNameFa} - ${brand.roleFa}`,
     description: 'Full Stack Developer with expertise in Next.js, TypeScript, React, and modern web development. Building scalable, performant web applications.',
     images: [
       {
         url: '/api/og-image',
         height: 630,
-        alt: 'Portfolio - Full Stack Developer',
+        alt: `${brand.shortNameEn} - ${brand.roleEn}`,
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Portfolio - Full Stack Developer | پورتفولیو',
+    title: `${brand.shortNameEn} - ${brand.roleEn} | ${brand.shortNameFa}`,
     description: 'Full Stack Developer with expertise in Next.js, TypeScript, React, and modern web development.',
     images: ['/api/og-image'],
-    creator: '@yourusername',
   },
   robots: {
     index: true,

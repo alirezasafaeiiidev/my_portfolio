@@ -5,29 +5,30 @@ import { motion } from 'framer-motion'
 import { Github, Linkedin, Twitter, Mail, Heart } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useI18n } from '@/lib/i18n-context'
+import { brand } from '@/lib/brand'
 
 const socialLinks = [
   {
     name: 'GitHub',
-    href: '#',
+    href: brand.social.github,
     icon: Github,
   },
   {
     name: 'LinkedIn',
-    href: '#',
+    href: brand.social.linkedin,
     icon: Linkedin,
   },
   {
-    name: 'Twitter',
-    href: '#',
+    name: 'X',
+    href: brand.social.x,
     icon: Twitter,
   },
   {
     name: 'Email',
-    href: 'mailto:contact@example.com',
+    href: `mailto:${brand.email}`,
     icon: Mail,
   },
-]
+].filter((item) => item.href.length > 0)
 
 const quickLinks = [
   { key: 'quickHome', href: '#home' },
@@ -47,7 +48,7 @@ export function Footer() {
           {/* Brand Section */}
           <div className="space-y-4">
             <h3 className="text-xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-              Portfolio
+              {brand.shortNameEn}
             </h3>
             <p className="text-sm text-muted-foreground">
               {t('footer.about')}
@@ -133,7 +134,7 @@ export function Footer() {
               <Button
                 variant="default"
                 className="w-full card-hover shine-effect"
-                onClick={() => window.location.href = 'mailto:contact@example.com'}
+                onClick={() => window.location.href = `mailto:${brand.email}`}
               >
                 <Mail className="h-4 w-4 mr-2" />
                 {t('contact.sendMessage')}

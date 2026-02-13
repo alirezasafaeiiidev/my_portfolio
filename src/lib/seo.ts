@@ -1,5 +1,6 @@
 import { getSiteUrl } from './site-config'
 import type { Metadata } from 'next'
+import { brand, availableSocialLinks } from './brand'
 
 export interface SEOProps {
   title: string
@@ -24,7 +25,7 @@ export function generateMetadata({
   publishDate,
   modifiedDate,
 }: SEOProps): Metadata {
-  const siteName = 'Portfolio'
+  const siteName = brand.siteNameEn
   const siteUrl = url || getSiteUrl()
   const defaultImage = image || '/og-image.jpg'
   const sharedOpenGraph = {
@@ -76,14 +77,10 @@ export function generatePersonSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': 'Person',
-    name: 'Your Name',
-    jobTitle: 'Full Stack Developer',
+    name: brand.fullNameEn,
+    jobTitle: brand.roleEn,
     url: siteUrl,
-    sameAs: [
-      'https://github.com/yourusername',
-      'https://linkedin.com/in/yourusername',
-      'https://twitter.com/yourusername',
-    ],
+    sameAs: availableSocialLinks.map((item) => item.href),
     knowsAbout: [
       'Web Development',
       'JavaScript',
@@ -100,7 +97,7 @@ export function generateWebSiteSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: 'Portfolio',
+    name: brand.siteNameEn,
     url: siteUrl,
     description: 'Professional portfolio showcasing web development projects and technical expertise',
     potentialAction: {
@@ -181,7 +178,7 @@ export function generateProjectSchema({
     description,
     url: `${siteUrl}${url}`,
     image: image || `${siteUrl}/og-image.jpg`,
-    author: author || 'Your Name',
+    author: author || brand.fullNameEn,
     dateCreated: dateCreated || new Date().toISOString(),
     keywords: technologies?.join(', '),
     applicationCategory: 'Web Application',
@@ -246,20 +243,16 @@ export function generateOrganizationSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: 'Portfolio',
+    name: brand.siteNameEn,
     url: siteUrl,
     logo: `${siteUrl}/logo.png`,
     description: 'Professional portfolio showcasing web development projects',
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'customer service',
-      email: 'contact@example.com',
+      email: brand.email,
     },
-    sameAs: [
-      'https://github.com/yourusername',
-      'https://linkedin.com/in/yourusername',
-      'https://twitter.com/yourusername',
-    ],
+    sameAs: availableSocialLinks.map((item) => item.href),
   }
 }
 

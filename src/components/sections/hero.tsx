@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { ScrollReveal } from '@/components/animations'
 import { useI18n } from '@/lib/i18n-context'
 import { ArrowRight, Mail, Github, Linkedin, Twitter, Sparkles } from 'lucide-react'
+import { brand } from '@/lib/brand'
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -30,6 +31,11 @@ const itemVariants = {
 
 export function Hero() {
   const { t } = useI18n()
+  const socialLinks = [
+    { name: 'GitHub', href: brand.social.github, icon: Github },
+    { name: 'LinkedIn', href: brand.social.linkedin, icon: Linkedin },
+    { name: 'X', href: brand.social.x, icon: Twitter },
+  ].filter((item) => item.href.length > 0)
 
   const scrollToSection = (sectionId: string) => {
     const element = document.querySelector(sectionId)
@@ -165,9 +171,9 @@ export function Hero() {
           {/* Social Links */}
           <ScrollReveal direction="up" delay={400}>
             <motion.div variants={itemVariants} className="flex gap-4 justify-center items-center">
-              {[Github, Linkedin, Twitter].map((Icon, index) => (
+              {socialLinks.map((social, index) => (
                 <motion.div
-                  key={index}
+                  key={social.name}
                   whileHover={{ scale: 1.1, rotate: 5 }}
                   whileTap={{ scale: 0.95 }}
                   initial={{ opacity: 0, scale: 0.8 }}
@@ -178,8 +184,11 @@ export function Hero() {
                     variant="ghost"
                     size="icon"
                     className="rounded-full hover:bg-primary/10 h-12 w-12 card-hover"
+                    asChild
                   >
-                    <Icon className="h-5 w-5" />
+                    <a href={social.href} target="_blank" rel="noopener noreferrer" aria-label={social.name}>
+                      <social.icon className="h-5 w-5" />
+                    </a>
                   </Button>
                 </motion.div>
               ))}
