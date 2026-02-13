@@ -22,10 +22,10 @@ This portfolio is a production-ready, full-stack Next.js application built with 
 - **TanStack Query** for server state
 
 ### Authentication & Security
-- **NextAuth.js v4** available
+- **Custom admin authentication** (Bearer token + signed session cookie)
 - Input validation and sanitization
 - XSS protection
-- CSRF protection
+- API hardening headers and rate limiting
 
 ### Internationalization (i18n)
 - Built-in i18n support
@@ -257,7 +257,7 @@ refactor: Simplify contact form validation
 ### Prerequisites
 - Node.js 18+
 - Bun package manager
-- Database (SQLite for development, PostgreSQL for production)
+- Database (SQLite by default; PostgreSQL after explicit Prisma migration)
 
 ### Build & Deploy
 ```bash
@@ -271,7 +271,7 @@ bun run dev
 bun run build
 
 # Start production server
-bun start
+bun run start
 
 # Run linter
 bun run lint
@@ -280,8 +280,12 @@ bun run lint
 ### Environment Variables
 ```env
 DATABASE_URL="file:./dev.db"
-NEXTAUTH_URL="http://localhost:3000"
-NEXTAUTH_SECRET="your-secret-key"
+ADMIN_API_TOKEN="replace-with-strong-token-min-16"
+ADMIN_USERNAME="admin"
+ADMIN_PASSWORD="replace-with-strong-password-min-8"
+ADMIN_SESSION_SECRET="replace-with-strong-secret-min-32"
+API_RATE_LIMIT_WINDOW_MS="900000"
+API_RATE_LIMIT_MAX_REQUESTS="5"
 ```
 
 ## Contributing

@@ -1,294 +1,111 @@
 # API Documentation
 
-This document provides comprehensive information about all public and admin APIs available in the portfolio application.
+This document describes the current API behavior implemented in `src/app/api/**`.
 
 ## Table of Contents
 - [Authentication](#authentication)
-- [Public APIs](#public-apis)
-- [Admin APIs](#admin-apis)
-- [Error Handling](#error-handling)
+- [Public Endpoints](#public-endpoints)
+- [Admin Endpoints](#admin-endpoints)
 - [Rate Limiting](#rate-limiting)
-- [Security](#security)
+- [Security Notes](#security-notes)
+- [Environment Variables](#environment-variables)
 
 ## Authentication
 
-Admin APIs support two enterprise-safe authentication methods:
+Admin endpoints support two methods:
 
-1. **Bearer Token**
-   - Header: `Authorization: Bearer <ADMIN_API_TOKEN>`
-2. **Session Cookie (recommended for admin UI)**
-   - Login endpoint sets `asdev_admin_session` httpOnly cookie.
+1. Bearer token
+- Header: `Authorization: Bearer <ADMIN_API_TOKEN>`
 
-### Admin Auth Endpoints
+2. Session cookie
+- Login endpoint sets `asdev_admin_session` (`httpOnly`, `sameSite=strict`, `secure` in production)
 
-- `POST /api/admin/auth/login` with `{ username, password }`
-- `POST /api/admin/auth/logout`
-- `GET /api/admin/auth/session`
+If admin auth is not configured (`ADMIN_API_TOKEN` or session credentials), protected admin routes return `503`.
 
-## Public APIs
+## Public Endpoints
 
-### Contact Form API
+### GET `/api`
 
-#### POST `/api/contact`
+Health/status endpoint.
 
-Send a message through the contact form.
-
-**Rate Limit:** 5 requests per 15 minutes per email address
-
-**Request Headers:**
-```http
-Content-Type: application/json
-```
-
-**Request Body:**
-```typescript
+Response example:
+```json
 {
-  name: string        // Required: 2-100 characters
-  email: string       // Required: Valid email format, max 255 chars
-  subject?: string    // Optional: Max 200 characters
-  message: string     // Required: 10-2000 characters
+  "status": "ok",
+  "service": "portfolio-api",
+  "environment": "production",
+  "timestamp": "2026-02-13T00:00:00.000Z",
+  "uptimeSeconds": 1234
 }
 ```
 
-**Success Response (200):**
-```typescript
+### POST `/api/contact`
+
+Accepts contact form payload.
+
+Request body:
+```ts
 {
-  success: true,
-  message: "Message sent successfully"
+  name: string          // 2..100
+  email: string         // valid email, <=255
+  subject?: string      // <=200 (default: "")
+  message: string       // 10..5000
 }
 ```
 
-**Error Responses:**
-
-| Status | Code | Description |
-|---------|------|-------------|
-| 400 | Bad Request | `{"error": "Name, email, and message are required"}` |
-| 400 | Bad Request | `{"error": "Invalid email address"}` |
-| 400 | Bad Request | `{"error": "Too many requests. Please try again later."}` |
-| 429 | Too Many Requests | `{"error": "Rate limit exceeded"}` |
-| 500 | Internal Server Error | `{"error": "Failed to send message"}` |
-
-**Example Request:**
-```bash
-curl -X POST https://portfolio.example.com/api/contact \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "John Doe",
-    "email": "john@example.com",
-    "subject": "Project Inquiry",
-    "message": "I would like to discuss a project with you."
-  }'
-```
-
-## Admin APIs
-
-All admin APIs require authentication via bearer token or valid admin session cookie.
-If admin authentication is not configured in environment variables, admin APIs return `503`.
-
-### Projects Management
-
-#### GET `/api/admin/projects`
-
-Get all projects in the portfolio.
-
-**Request Headers:**
-```http
-Authorization: Bearer your-admin-api-token
-```
-
-**Success Response (200):**
-```typescript
+Success response:
+```json
 {
-  projects: Array<{
-    id: string
-    title: string
-    description: string
-    longDescription?: string
-    imageUrl?: string
-    githubUrl?: string
-    liveUrl?: string
-    tags: string[]
-    featured: boolean
-    order: number
-    createdAt: string
-    updatedAt: string
-  }>
+  "success": true,
+  "message": "Message sent successfully"
 }
 ```
 
-**Example Request:**
-```bash
-curl -X GET https://portfolio.example.com/api/admin/projects \
-  -H "Authorization: Bearer your-admin-api-token"
-```
+Error responses:
+- `400` validation/security rejection
+- `429` rate limit exceeded
+- `500` unexpected server error
 
-#### POST `/api/admin/projects`
+Important behavior:
+- Current implementation validates/sanitizes input and logs accepted submissions.
+- Current implementation does **not** persist contact messages to database.
 
-Create a new project in the portfolio.
+### GET `/api/contact`
 
-**Request Headers:**
-```http
-Content-Type: application/json
-Authorization: Bearer your-admin-api-token
-```
+Method guard endpoint.
 
-**Request Body:**
-```typescript
-{
-  title: string          // Required: Project title
-  description: string    // Required: Short description
-  longDescription?: string  // Optional: Detailed description
-  githubUrl?: string     // Optional: GitHub repository URL
-  liveUrl?: string       // Optional: Live demo URL
-  tags: string[]        // Required: Array of technology tags
-  featured?: boolean      // Optional: Show in featured section (default: false)
-  order?: number         // Optional: Display order (default: 0)
-}
-```
+Response:
+- `405` with message: `This endpoint only accepts POST requests`
 
-**Success Response (201):**
-```typescript
-{
-  project: Project
-}
-```
+### GET `/api/messages` (legacy)
 
-**Error Responses:**
+Returns all `ContactMessage` rows.
 
-| Status | Code | Description |
-|---------|------|-------------|
-| 400 | Bad Request | `{"error": "Title, description, and tags are required"}` |
-| 401 | Unauthorized | `{"error": "Unauthorized"}` |
-| 500 | Internal Server Error | `{"error": "Failed to create project"}` |
+### DELETE `/api/messages?id=<id>` (legacy)
 
-**Example Request:**
-```bash
-curl -X POST https://portfolio.example.com/api/admin/projects \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer your-admin-api-token" \
-  -d '{
-    "title": "My Awesome Project",
-    "description": "A project description",
-    "tags": ["React", "TypeScript", "Next.js"],
-    "featured": true,
-    "order": 1
-  }'
-```
+Deletes one `ContactMessage` row by id.
 
-### Contact Messages Management
+Warning:
+- These legacy endpoints are currently public (no admin auth check).
+- Keep disabled behind network controls or remove in production.
 
-#### GET `/api/admin/messages`
+### GET `/api/rss?lang=en|fa`
 
-Get all contact messages received through the form.
+Returns RSS XML.
 
-**Request Headers:**
-```http
-Authorization: Bearer your-admin-api-token
-```
+Notes:
+- Feed currently uses in-code mock posts (not DB-backed).
+- `lang` defaults to `en`.
 
-**Success Response (200):**
-```typescript
-{
-  messages: Array<{
-    id: string
-    name: string
-    email: string
-    subject?: string
-    message: string
-    createdAt: string
-  }>
-}
-```
+### GET `/api/og-image`
 
-**Example Request:**
-```bash
-curl -X GET https://portfolio.example.com/api/admin/messages \
-  -H "Authorization: Bearer your-admin-api-token"
-```
-
-#### DELETE `/api/admin/messages`
-
-Delete a specific contact message.
-
-**Query Parameters:**
-- `id` (required): Message ID to delete
-
-**Request Headers:**
-```http
-Authorization: Bearer your-admin-api-token
-```
-
-**Success Response (200):**
-```typescript
-{
-  success: true
-}
-```
-
-**Error Responses:**
-
-| Status | Code | Description |
-|---------|------|-------------|
-| 400 | Bad Request | `{"error": "Message ID is required"}` |
-| 401 | Unauthorized | `{"error": "Unauthorized"}` |
-| 500 | Internal Server Error | `{"error": "Failed to delete message"}` |
-
-**Example Request:**
-```bash
-curl -X DELETE "https://portfolio.example.com/api/admin/messages?id=msg-123" \
-  -H "Authorization: Bearer your-admin-api-token"
-```
-
-## Error Handling
-
-All API endpoints follow a consistent error response format:
-
-```typescript
-{
-  success: boolean,
-  error?: string,
-  message?: string,
-  data?: T
-}
-```
-
-### Common Error Codes
-
-| Code | Description |
-|------|-------------|
-| 200 | Success |
-| 201 | Created |
-| 400 | Bad Request - Invalid input |
-| 401 | Unauthorized - Invalid credentials |
-| 404 | Not Found |
-| 429 | Too Many Requests |
-| 500 | Internal Server Error |
-
-## Rate Limiting
-
-### Contact Form Rate Limiting
-
-- **Window:** 15 minutes
-- **Max Requests:** 5 per email
-- **Storage:** In-memory (use Redis in production)
-- **Storage:** Redis REST (if configured) with in-memory fallback
-
-**Rate Limit Headers:**
-```http
-X-RateLimit-Limit: 5
-X-RateLimit-Remaining: 3
-X-RateLimit-Reset: 2024-01-01T12:15:00Z
-X-RateLimit-Policy: fixed_window;w=900;r=5
-X-RateLimit-Store: redis|memory
-```
-
-## Metrics
+Returns Open Graph image generated by `next/og`.
 
 ### GET `/api/metrics`
 
-Prometheus-compatible runtime metrics endpoint for API SLO monitoring.
+Returns Prometheus-compatible metrics.
 
-**Sample metrics:**
+Sample metrics:
 ```text
 portfolio_api_requests_total
 portfolio_api_success_total
@@ -297,150 +114,140 @@ portfolio_api_responses_by_status_total{status="200"}
 portfolio_process_uptime_seconds
 ```
 
-## Security
+## Admin Endpoints
 
-### Input Validation
+### Auth
 
-All inputs are validated and sanitized:
+#### POST `/api/admin/auth/login`
 
-1. **Email Validation:** Regex-based validation for proper email format
-2. **String Length:** Enforced maximum and minimum lengths
-3. **Special Characters:** Dangerous characters removed
-4. **SQL Injection:** Parameterized queries prevent injection
-5. **XSS Prevention:** All inputs are sanitized
-
-### Security Headers
-
-All responses include security headers:
-
-```http
-X-Frame-Options: SAMEORIGIN
-X-Content-Type-Options: nosniff
-Referrer-Policy: no-referrer
-X-DNS-Prefetch-Control: off
-Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
-Cross-Origin-Opener-Policy: same-origin
-Cross-Origin-Resource-Policy: same-origin
+Request body:
+```json
+{ "username": "...", "password": "..." }
 ```
 
-### Environment Variables
+Response:
+- `200` `{ "success": true, "role": "admin" }` + session cookie
+- `401` invalid credentials
+- `503` when session auth env vars are missing
 
-Sensitive configuration uses environment variables:
+#### POST `/api/admin/auth/logout`
 
-```env
-DATABASE_URL="file:./db/custom.db"
-ADMIN_USERNAME="admin"
-ADMIN_PASSWORD="your-secure-password"
-ADMIN_SESSION_SECRET="at-least-32-characters-secret"
-ADMIN_SESSION_MAX_AGE_SECONDS="28800"
-ADMIN_API_TOKEN="fallback-bearer-token"
-REDIS_REST_URL="https://<redis-host>"
-REDIS_REST_TOKEN="<redis-token>"
-NEXT_PUBLIC_GA_ID="analytics-id"
-NEXT_PUBLIC_ENABLE_ANALYTICS="false"
-```
+Response:
+- `200` `{ "success": true }` and clears session cookie
 
-## TypeScript Types
+#### GET `/api/admin/auth/session`
 
-### Common Interfaces
+Response:
+- `200` `{ "authenticated": true, "role": "admin", "via": "session|bearer" }`
+- `401` unauthenticated
+- `503` auth not configured
 
-```typescript
-interface ApiResponse<T> {
-  success: boolean
-  data?: T
-  error?: string
-  message?: string
-}
+### Messages
 
-interface Project {
-  id: string
+#### GET `/api/admin/messages`
+
+Returns all contact messages (admin-only).
+
+#### DELETE `/api/admin/messages?id=<id>`
+
+Deletes one contact message (admin-only).
+
+### Projects
+
+#### GET `/api/admin/projects`
+
+Returns all projects ordered by `order ASC`.
+
+#### POST `/api/admin/projects`
+
+Request body:
+```ts
+{
   title: string
   description: string
   longDescription?: string
-  imageUrl?: string
   githubUrl?: string
   liveUrl?: string
-  tags: string[]
+  tags: string[] | string
   featured?: boolean
   order?: number
 }
-
-interface ContactMessage {
-  id: string
-  name: string
-  email: string
-  subject?: string
-  message: string
-  createdAt: string
-}
 ```
 
-## Testing the APIs
+Response:
+- `201` `{ project: ... }`
+- `400` validation failure
+- `401` unauthorized
+- `503` auth not configured
 
-### Using cURL
-```bash
-# Contact form
-curl -X POST http://localhost:3000/api/contact \
-  -H "Content-Type: application/json" \
-  -d '{"name":"Test","email":"test@example.com","message":"Hello"}'
+## Rate Limiting
 
-# Get projects (admin)
-curl -X GET http://localhost:3000/api/admin/projects \
-  -H "Authorization: Bearer your-admin-api-token"
+Rate limiting is applied by endpoint key prefix + client IP:
+- identifier format: `<prefix>:<client-ip>`
+- IP source order: `x-forwarded-for` first, then `x-real-ip`, else `unknown`
 
-# Create project (admin)
-curl -X POST http://localhost:3000/api/admin/projects \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer your-admin-api-token" \
-  -d '{"title":"Test Project","description":"Test","tags":["React"]}'
+Default values:
+- `API_RATE_LIMIT_WINDOW_MS=900000` (15 minutes)
+- `API_RATE_LIMIT_MAX_REQUESTS=5`
+
+Storage behavior:
+- Redis REST (when `REDIS_REST_URL` + `REDIS_REST_TOKEN` are set)
+- In-memory fallback otherwise
+
+Response headers:
+```http
+X-RateLimit-Limit: 5
+X-RateLimit-Remaining: 4
+X-RateLimit-Reset: 2026-02-13T12:15:00.000Z
+X-RateLimit-Policy: fixed_window;w=900;r=5
+X-RateLimit-Store: redis|memory
 ```
 
-### Using JavaScript/TypeScript
-```typescript
-// Contact form
-const response = await fetch('/api/contact', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({
-    name: 'John Doe',
-    email: 'john@example.com',
-    message: 'Hello!',
-  }),
-})
+## Security Notes
 
-const data = await response.json()
-console.log(data)
+Implemented:
+- Input validation with Zod in route handlers
+- Input sanitization (`trim`, remove `<` and `>`)
+- Suspicious content checks (`hasSqlInjection`, `isLikelySpam` heuristics)
+- Timing-safe credential comparison
+- Security headers on API responses:
+  - `X-Request-ID`
+  - `X-Content-Type-Options: nosniff`
+  - `Referrer-Policy: no-referrer`
+  - `Cache-Control: no-store`
+
+Global headers from `next.config.ts` include:
+- `X-DNS-Prefetch-Control: on`
+- `X-Frame-Options: SAMEORIGIN`
+- `X-Content-Type-Options: nosniff`
+- `Referrer-Policy: origin-when-cross-origin`
+
+Known gaps:
+- Legacy public `/api/messages` endpoints are unauthenticated.
+- No CSRF token mechanism is implemented for admin actions.
+
+## Environment Variables
+
+Required/optional vars used by API behavior:
+
+```env
+NODE_ENV=production
+DATABASE_URL=file:./db/custom.db
+
+# Admin auth
+ADMIN_API_TOKEN=replace-with-strong-token-min-16
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=replace-with-strong-password-min-8
+ADMIN_SESSION_SECRET=replace-with-strong-secret-min-32
+ADMIN_SESSION_MAX_AGE_SECONDS=28800
+
+# Rate limit
+API_RATE_LIMIT_WINDOW_MS=900000
+API_RATE_LIMIT_MAX_REQUESTS=5
+REDIS_REST_URL=https://<redis-host>
+REDIS_REST_TOKEN=<redis-token>
 ```
-
-## Best Practices for API Consumers
-
-1. **Handle Errors Gracefully**
-   - Always check the `success` field
-   - Display user-friendly error messages
-   - Implement retry logic for transient errors
-
-2. **Implement Rate Limiting Awareness**
-   - Respect `X-RateLimit-Remaining` header
-   - Show countdown when rate limited
-   - Queue requests when appropriate
-
-3. **Type Safety**
-   - Use TypeScript types provided
-   - Validate responses against expected types
-   - Handle unexpected data gracefully
-
-4. **Performance**
-   - Implement request caching where appropriate
-   - Use pagination for large datasets
-   - Lazy load data when possible
-
-## Support
-
-For API issues or questions:
-- Open an issue on GitHub
-- Contact development team
-- Check server logs for detailed error information
 
 ---
 
-Last updated: 2024-01-XX
+Last updated: 2026-02-13

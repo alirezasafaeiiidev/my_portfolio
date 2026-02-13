@@ -65,7 +65,7 @@ A production-ready, enterprise-grade portfolio website built with Next.js 16, Ty
 - **Image Optimization**: Next.js Image component with AVIF/WebP
 - **Code Splitting**: Automatic with dynamic imports
 - **Rate Limiting**: Redis REST distributed mode with in-memory fallback
-- **Security**: CSP headers, input sanitization, SQL injection prevention
+- **Security**: API hardening headers, input sanitization, SQL injection/spam pattern checks
 - **Monitoring**: Web Vitals tracking (LCP, FID, CLS)
 
 ## 📋 Prerequisites
@@ -224,8 +224,8 @@ my-portfolio/
 │
 ├── docs/                     # Additional documentation
 │   ├── api.md              # API documentation
-│   ├── architecture.md       # System architecture
-│   └── deployment.md        # Deployment guide
+│   ├── ARCHITECTURE.md       # System architecture
+│   └── PROJECT-STANDARDS.md  # Engineering standards
 │
 ├── .github/
 │   └── workflows/            # GitHub Actions CI/CD
@@ -250,11 +250,11 @@ my-portfolio/
 
 - ✅ Input Sanitization: All user inputs are sanitized
 - ✅ SQL Injection Prevention: Parameterized queries
-- ✅ XSS Protection: Content sanitization and CSP headers
-- ✅ Rate Limiting: 5 requests per 15 minutes window
+- ✅ XSS Risk Reduction: Input sanitization and server-side validation
+- ✅ Rate Limiting: Configurable per IP (`API_RATE_LIMIT_WINDOW_MS` / `API_RATE_LIMIT_MAX_REQUESTS`)
 - ✅ Email Validation: Regex-based validation
-- ✅ CSRF Protection: Built-in Next.js protection
-- ✅ Secure Headers: Content-Security-Policy, X-Frame-Options
+- ✅ Admin Authentication: Bearer token or signed session cookie
+- ✅ Secure Headers: `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`
 - ✅ Environment Variables: Sensitive data in .env files
 
 ## 📊 Performance Optimization
@@ -323,7 +323,7 @@ Send a message through the contact form.
 ```
 
 **Rate Limit:**
-- 5 requests per 15 minutes per email
+- 5 requests per 15 minutes per IP (default; configurable via env)
 
 ### Admin API
 
@@ -416,7 +416,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 For questions, issues, or feature requests:
 - Open an [issue](https://github.com/yourusername/portfolio/issues)
-- Contact: [contact@example.com](mailto:contact@example.com)
+- Contact: [contact@portfolio.example.com](mailto:contact@portfolio.example.com)
 
 ---
 
