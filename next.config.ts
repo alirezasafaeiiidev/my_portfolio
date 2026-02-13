@@ -60,6 +60,24 @@ const nextConfig: NextConfig = {
           },
           {
             key: 'Cache-Control',
+            value: 'public, max-age=0, s-maxage=300, stale-while-revalidate=600',
+          },
+        ],
+      },
+      {
+        source: '/api/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'no-store, no-cache, must-revalidate, max-age=0',
+          },
+        ],
+      },
+      {
+        source: '/admin/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
             value: 'no-store, no-cache, must-revalidate, max-age=0',
           },
         ],
