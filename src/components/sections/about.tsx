@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { motion } from 'framer-motion'
 import { useI18n } from '@/lib/i18n-context'
+import { brand } from '@/lib/brand'
 import {
   Calendar,
   Mail,
@@ -133,10 +134,10 @@ export function About() {
               </motion.div>
             </div>
             <h1 className="text-4xl md:text-5xl font-bold">
-              {t('nav.portfolio')}
+              {brand.shortNameFa}
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Passionate developer creating exceptional digital experiences with modern technologies
+              {brand.shortNameEn} | {brand.roleEn}
             </p>
           </motion.div>
         </ScrollReveal>
@@ -149,19 +150,23 @@ export function About() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                   <div className="space-y-4">
                     <h2 className="text-2xl font-bold mb-2">
-                      Hello, I'm a Full Stack Developer
+                      Hello, I&apos;m {brand.fullNameEn}
                     </h2>
                     <p className="text-muted-foreground leading-relaxed">
-                      I specialize in building modern web applications with a focus on performance, accessibility, and user experience. With expertise in Next.js, React, TypeScript, and various backend technologies, I create scalable and maintainable solutions that make a real impact.
+                      I build modern web products end-to-end with focus on performance, maintainability, and production reliability. My core stack includes Next.js, TypeScript, React, Node.js, and practical DevOps for fast and safe releases.
                     </p>
                     <div className="flex flex-wrap gap-2 pt-4">
-                      <Button size="lg" className="gap-2 card-hover shine-effect">
+                      <Button size="lg" className="gap-2 card-hover shine-effect" asChild>
+                        <a href={`mailto:${brand.email}`}>
                         <Mail className="h-4 w-4" />
                         {t('contact.sendMessage')}
+                        </a>
                       </Button>
-                      <Button size="lg" variant="outline" className="gap-2">
-                        <Download className="h-4 w-4" />
-                        Download CV
+                      <Button size="lg" variant="outline" className="gap-2" asChild>
+                        <a href={brand.social.github} target="_blank" rel="noopener noreferrer">
+                          <Download className="h-4 w-4" />
+                          View GitHub
+                        </a>
                       </Button>
                     </div>
                   </div>

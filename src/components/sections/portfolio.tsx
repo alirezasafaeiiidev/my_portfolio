@@ -15,6 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { portfolioProjects } from '@/lib/profile-content'
 
 interface Project {
   id: string
@@ -28,74 +29,7 @@ interface Project {
   featured?: boolean
 }
 
-const projects: Project[] = [
-  {
-    id: '1',
-    title: 'E-Commerce Platform',
-    description: 'A modern e-commerce platform with advanced features',
-    longDescription: 'Built a full-featured e-commerce platform with Next.js, TypeScript, and Prisma. Features include user authentication, product management, cart functionality, payment integration, and admin dashboard. Optimized for performance and SEO.',
-    imageUrl: '/images/project-1.jpg',
-    githubUrl: 'https://github.com/example/ecommerce-platform',
-    liveUrl: 'https://example-ecommerce.vercel.app',
-    tags: ['Next.js', 'TypeScript', 'Prisma', 'Stripe', 'Tailwind'],
-    featured: true,
-  },
-  {
-    id: '2',
-    title: 'Task Management App',
-    description: 'Collaborative task management with real-time updates',
-    longDescription: 'Developed a real-time task management application using React, Node.js, and Socket.io. Features include drag-and-drop task boards, team collaboration, notifications, and progress tracking.',
-    imageUrl: '/images/project-2.jpg',
-    githubUrl: 'https://github.com/example/task-manager',
-    liveUrl: 'https://example-tasks.vercel.app',
-    tags: ['React', 'Node.js', 'Socket.io', 'MongoDB'],
-    featured: true,
-  },
-  {
-    id: '3',
-    title: 'Weather Dashboard',
-    description: 'Beautiful weather dashboard with location-based forecasts',
-    longDescription: 'Created an elegant weather dashboard that provides accurate forecasts based on user location. Integrates with multiple weather APIs and displays data through beautiful visualizations.',
-    imageUrl: '/images/project-3.jpg',
-    githubUrl: 'https://github.com/example/weather-dashboard',
-    liveUrl: 'https://example-weather.vercel.app',
-    tags: ['React', 'TypeScript', 'API Integration', 'Charts'],
-    featured: false,
-  },
-  {
-    id: '4',
-    title: 'Social Media Dashboard',
-    description: 'Analytics dashboard for social media platforms',
-    longDescription: 'Built a comprehensive social media analytics dashboard that tracks engagement metrics across multiple platforms. Features include data visualization, custom reports, and automated insights.',
-    imageUrl: '/images/project-4.jpg',
-    githubUrl: 'https://github.com/example/social-analytics',
-    liveUrl: 'https://example-analytics.vercel.app',
-    tags: ['Vue.js', 'D3.js', 'Express', 'PostgreSQL'],
-    featured: true,
-  },
-  {
-    id: '5',
-    title: 'AI Chat Assistant',
-    description: 'Intelligent chatbot with natural language processing',
-    longDescription: 'Developed an AI-powered chat assistant using machine learning and natural language processing. The assistant can answer questions, provide recommendations, and learn from user interactions.',
-    imageUrl: '/images/project-5.jpg',
-    githubUrl: 'https://github.com/example/ai-assistant',
-    liveUrl: 'https://example-ai.vercel.app',
-    tags: ['Python', 'TensorFlow', 'FastAPI', 'React'],
-    featured: false,
-  },
-  {
-    id: '6',
-    title: 'Portfolio Template',
-    description: 'Modern portfolio template for developers',
-    longDescription: 'Created a responsive and accessible portfolio template specifically designed for developers. Features dark mode support, smooth animations, and customizable sections.',
-    imageUrl: '/images/project-6.jpg',
-    githubUrl: 'https://github.com/example/portfolio-template',
-    liveUrl: 'https://example-portfolio.vercel.app',
-    tags: ['Next.js', 'Tailwind CSS', 'shadcn/ui'],
-    featured: true,
-  },
-]
+const projects: Project[] = portfolioProjects
 
 export function Portfolio() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)

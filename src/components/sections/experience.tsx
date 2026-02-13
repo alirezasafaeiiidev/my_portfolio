@@ -4,6 +4,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Calendar, MapPin, Building2 } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { timelineItems } from '@/lib/profile-content'
 
 interface Experience {
   id: string
@@ -17,66 +18,8 @@ interface Experience {
   type: 'work' | 'education'
 }
 
-const experiences: Experience[] = [
-  {
-    id: '1',
-    title: 'Senior Full Stack Developer',
-    company: 'Tech Innovations Inc.',
-    location: 'San Francisco, CA',
-    startDate: '2022-03',
-    endDate: null,
-    current: true,
-    type: 'work',
-    description: 'Leading development of scalable web applications, mentoring junior developers, and implementing best practices for code quality and performance. Architected microservices-based solutions that improved system reliability by 40%.',
-  },
-  {
-    id: '2',
-    title: 'Full Stack Developer',
-    company: 'Digital Solutions LLC',
-    location: 'New York, NY',
-    startDate: '2020-06',
-    endDate: '2022-02',
-    current: false,
-    type: 'work',
-    description: 'Developed and maintained multiple client-facing applications using React, Node.js, and PostgreSQL. Implemented CI/CD pipelines and automated testing, reducing deployment time by 60%.',
-  },
-  {
-    id: '3',
-    title: 'Frontend Developer',
-    company: 'Creative Agency',
-    location: 'Remote',
-    startDate: '2019-01',
-    endDate: '2020-05',
-    current: false,
-    type: 'work',
-    description: 'Created responsive and interactive user interfaces for various clients. Collaborated with designers to implement pixel-perfect designs and ensured cross-browser compatibility.',
-  },
-  {
-    id: '4',
-    title: 'Junior Web Developer',
-    company: 'StartupXYZ',
-    location: 'Austin, TX',
-    startDate: '2018-06',
-    endDate: '2018-12',
-    current: false,
-    type: 'work',
-    description: 'Started my professional journey building web applications. Learned industry best practices and contributed to the development of company\'s main product.',
-  },
-]
-
-const education: Experience[] = [
-  {
-    id: '1',
-    title: 'Bachelor of Science in Computer Science',
-    company: 'University of Technology',
-    location: 'Boston, MA',
-    startDate: '2014-09',
-    endDate: '2018-05',
-    current: false,
-    type: 'education',
-    description: 'Graduated with honors. Focus on software engineering, algorithms, and web development. Active member of the coding club and hackathon participant.',
-  },
-]
+const experiences: Experience[] = timelineItems.filter((item) => item.type === 'work')
+const education: Experience[] = timelineItems.filter((item) => item.type === 'education')
 
 function formatDateRange(startDate: string, endDate: string | null | undefined, current: boolean): string {
   const start = new Date(startDate).toLocaleDateString('en-US', {
