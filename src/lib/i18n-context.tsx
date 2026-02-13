@@ -12,17 +12,20 @@ interface I18nContextType {
 const I18nContext = React.createContext<I18nContextType | undefined>(undefined)
 
 export function I18nProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguage] = useState<Language>(() => {
-    if (typeof window !== 'undefined') {
-      try {
-        const saved = localStorage.getItem('language') as Language
-        return (saved === 'en' || saved === 'fa') ? saved : 'fa'
-      } catch {
-        return 'fa'
+  // Keep the first client render identical to SSR output to avoid hydration mismatch.
+  const [language, setLanguage] = useState<Language>('fa')
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('language') as Language | null
+      if ((saved === 'en' || saved === 'fa') && saved !== language) {
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time client sync from persisted preference
+        setLanguage(saved)
       }
+    } catch {
+      // Ignore storage access failures and keep default language.
     }
-    return 'fa'
-  })
+  }, [language])
 
   // Set initial language and direction
   useEffect(() => {
