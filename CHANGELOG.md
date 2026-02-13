@@ -32,6 +32,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Added engineering service pages:
+  - `src/app/engineering/page.tsx`
+  - `src/app/engineering/request/page.tsx`
+- Added public lead intake API with validation, rate-limit, honeypot, DB persistence, and best-effort email:
+  - `src/app/api/engineering-request/route.ts`
+- Added admin engineering request workflow API:
+  - `src/app/api/admin/engineering-requests/route.ts`
+  - `src/app/api/admin/engineering-requests/[id]/route.ts`
+- Added brand components:
+  - `src/components/brand/BrandFooter.tsx`
+  - `src/components/brand/BrandLink.tsx`
+- Added email templating/delivery modules:
+  - `src/lib/email-templates.ts`
+  - `src/lib/mailer.ts`
+
+### Changed
+- Updated admin dashboard with Engineering Requests tab and review actions.
+- Updated schema with `EngineeringRequest` model (`prisma/schema.prisma`).
+- Updated site layout/sitemap/navigation and brand/environment configs for engineering hub flow.
+- Updated README with brand attribution and canonical engineering URLs.
+
 ### Documentation
 - Added executable final-deployment checklist for remaining work in `docs/audit/FINAL_DEPLOYMENT_TASKS_FA.md` with phase gates, acceptance criteria, and evidence slots.
 - Added prioritized execution tracker in `docs/audit/REMAINING_EXECUTION_TASKS_FA.md` and synced completion status for phases B/C/D.
