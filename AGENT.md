@@ -1,7 +1,7 @@
 # AGENT.md
 
 ## Project identity and mission
-This repository (`my_portfolio`) contains the source code for a personal portfolio web application built with Next.js, React, TypeScript, Tailwind CSS, and Bun. The goal is to provide a performant, accessible, and privacy‑respecting showcase of the author's skills and work samples.
+This repository (`asdev-portfolio`) contains the source code for a personal portfolio web application built with Next.js, React, TypeScript, Tailwind CSS, and Bun. The goal is to provide a performant, accessible, and privacy‑respecting showcase of the author's skills and work samples.
 
 ## Commands
 
