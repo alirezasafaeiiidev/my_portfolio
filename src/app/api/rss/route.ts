@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { getSiteUrl } from '@/lib/site-config'
+import { brand } from '@/lib/brand'
 
 // Mock blog posts data - در حالت واقعی این از database می‌آید
 const blogPosts = [
@@ -17,7 +18,7 @@ const blogPosts = [
       en: `<p>In this comprehensive guide, we'll explore the latest features of Next.js 16...</p>`,
       fa: `<p>در این راهنمای جامع، آخرین ویژگی‌های Next.js 16 را بررسی می‌کنیم...</p>`,
     },
-    author: 'Your Name',
+    author: brand.ownerName,
     publishedAt: new Date('2024-01-15'),
     updatedAt: new Date('2024-01-15'),
     tags: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Portfolio'],
@@ -38,7 +39,7 @@ const blogPosts = [
       en: `<p>TypeScript has become an essential tool for modern web development...</p>`,
       fa: `<p>TypeScript به ابزاری ضروری برای توسعه وب مدرن تبدیل شده است...</p>`,
     },
-    author: 'Your Name',
+    author: brand.ownerName,
     publishedAt: new Date('2024-01-10'),
     updatedAt: new Date('2024-01-10'),
     tags: ['TypeScript', 'JavaScript', 'Best Practices'],
@@ -59,7 +60,7 @@ const blogPosts = [
       en: `<p>Tailwind CSS revolutionized the way we style web applications...</p>`,
       fa: `<p>Tailwind CSS روش استایل‌دهی به برنامه‌های وب را متحول کرد...</p>`,
     },
-    author: 'Your Name',
+    author: brand.ownerName,
     publishedAt: new Date('2024-01-05'),
     updatedAt: new Date('2024-01-05'),
     tags: ['Tailwind CSS', 'CSS', 'Responsive Design'],

@@ -11,8 +11,11 @@ import { I18nProvider } from "@/lib/i18n-context";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { generatePersonSchema, generateWebSiteSchema, generateBreadcrumbSchema, generateOrganizationSchema } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/site-config";
+import { brand } from "@/lib/brand";
+import { headers } from "next/headers";
 
 const siteUrl = getSiteUrl();
+const ownerName = brand.ownerName;
 
 export const metadata: Metadata = {
   title: {
@@ -21,9 +24,9 @@ export const metadata: Metadata = {
   },
   description: "Full Stack Developer with expertise in Next.js, TypeScript, React, and modern web development. Building scalable, performant web applications with best practices.",
   keywords: ["portfolio", "full stack developer", "Next.js", "TypeScript", "React", "web development", "frontend", "backend", "پورتفولیو", "توسعه‌دهنده فول‌استک", "توسعه وب"],
-  authors: [{ name: "Your Name", url: siteUrl }],
-  creator: "Your Name",
-  publisher: "Your Name",
+  authors: [{ name: ownerName, url: siteUrl }],
+  creator: ownerName,
+  publisher: ownerName,
   formatDetection: {
     email: false,
     address: false,
@@ -58,7 +61,7 @@ export const metadata: Metadata = {
     title: 'Portfolio - Full Stack Developer | پورتفولیو',
     description: 'Full Stack Developer with expertise in Next.js, TypeScript, React, and modern web development.',
     images: ['/api/og-image'],
-    creator: '@yourusername',
+    creator: brand.twitterHandle,
   },
   robots: {
     index: true,
@@ -72,15 +75,17 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    google: 'your-google-verification-code',
+    google: brand.googleVerificationCode,
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const nonce = (await headers()).get('x-csp-nonce') || undefined;
+
   return (
     <html lang="fa" dir="rtl" suppressHydrationWarning>
       <head>
@@ -114,12 +119,12 @@ export default function RootLayout({
           </a>
 
           {/* Schema.org Structured Data */}
-          <JsonLd data={generatePersonSchema()} />
-          <JsonLd data={generateWebSiteSchema()} />
-          <JsonLd data={generateOrganizationSchema()} />
+          <JsonLd data={generatePersonSchema()} nonce={nonce} />
+          <JsonLd data={generateWebSiteSchema()} nonce={nonce} />
+          <JsonLd data={generateOrganizationSchema()} nonce={nonce} />
           <JsonLd data={generateBreadcrumbSchema([
             { name: 'Home', url: siteUrl },
-          ])} />
+          ])} nonce={nonce} />
 
           <Header />
           <main id="main-content" className="flex-1 pb-20 md:pb-0">
