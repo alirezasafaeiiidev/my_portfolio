@@ -28,7 +28,7 @@ export const portfolioProjects: PortfolioProject[] = [
     description: 'Governance and standards hub for multi-repository delivery.',
     longDescription:
       'Designed and implemented a central platform for standards, process governance, automation contracts, and reporting across multiple repositories without monorepo lock-in.',
-    githubUrl: 'https://github.com/alirezasafaeiiidev/asdev_platform',
+    githubUrl: 'https://github.com/alirezasafaeiiidev/asdev-standards-platform',
     tags: ['TypeScript', 'Node.js', 'Automation', 'CI/CD', 'Governance'],
     featured: true,
   },
@@ -38,7 +38,7 @@ export const portfolioProjects: PortfolioProject[] = [
     description: 'Production-grade Persian utility suite with SEO/PWA focus.',
     longDescription:
       'Built and maintained a high-performance Next.js tool suite with deployment runbooks, readiness gates, and operational checks for reliable VPS releases.',
-    githubUrl: 'https://github.com/alirezasafaeiiidev/persian_tools',
+    githubUrl: 'https://github.com/alirezasafaeiiidev/asdev-persiantoolbox',
     liveUrl: 'https://persiantoolbox.ir',
     tags: ['Next.js', 'TypeScript', 'PWA', 'SEO', 'VPS'],
     featured: true,
@@ -49,7 +49,7 @@ export const portfolioProjects: PortfolioProject[] = [
     description: 'Personal brand site with bilingual UX and admin APIs.',
     longDescription:
       'Developed a bilingual personal website with structured SEO, contact workflows, and admin endpoints to support content evolution and future CMS-style control.',
-    githubUrl: 'https://github.com/alirezasafaeiiidev/my_portfolio',
+    githubUrl: 'https://github.com/alirezasafaeiiidev/asdev-portfolio',
     liveUrl: 'https://alirezasafaeidev.ir',
     tags: ['Next.js', 'TypeScript', 'Tailwind', 'SEO', 'i18n'],
     featured: true,
