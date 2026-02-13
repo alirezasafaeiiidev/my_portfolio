@@ -13,7 +13,7 @@ const config = {
   timeout: 30_000,
   retries: 1,
   use: {
-    baseURL: process.env.PLAYWRIGHT_BASE_URL || 'http://127.0.0.1:3000',
+    baseURL: process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:3000',
     headless: true,
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
@@ -21,9 +21,9 @@ const config = {
     launchOptions,
   },
   webServer: {
-    command: 'bun run build && bun run start',
-    url: 'http://127.0.0.1:3000',
-    reuseExistingServer: true,
+    command: "bash -lc 'bun run build && bun run start'",
+    url: 'http://localhost:3000',
+    reuseExistingServer: false,
     timeout: 240_000,
   },
 }

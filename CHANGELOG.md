@@ -32,6 +32,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Security
+- Hardened runtime cache policy by setting `Cache-Control: no-store` on dynamic request surfaces in `next.config.ts` and `src/proxy.ts`.
+- Updated RSS API response headers to `Cache-Control: no-store`.
+- Added repository `SECURITY.md` with disclosure and triage policy.
+
 ### Documentation
 - Added executable final-deployment checklist for remaining work in `docs/audit/FINAL_DEPLOYMENT_TASKS_FA.md` with phase gates, acceptance criteria, and evidence slots.
 - Added prioritized execution tracker in `docs/audit/REMAINING_EXECUTION_TASKS_FA.md` and synced completion status for phases B/C/D.
