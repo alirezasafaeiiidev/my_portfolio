@@ -4,8 +4,9 @@ After=network.target
 
 [Service]
 Type=simple
-User=root
-Environment=PM2_HOME=/root/.pm2
+User=deploy
+Group=deploy
+Environment=PM2_HOME=/home/deploy/.pm2
 WorkingDirectory=/var/www/my-portfolio/current/staging
 ExecStart=/usr/bin/pm2-runtime start /var/www/my-portfolio/current/staging/ecosystem.config.cjs --only my-portfolio-staging
 Restart=always

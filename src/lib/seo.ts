@@ -78,7 +78,7 @@ export function generatePersonSchema() {
     '@context': 'https://schema.org',
     '@type': 'Person',
     name: brand.ownerName,
-    jobTitle: 'Full Stack Developer',
+    jobTitle: 'Production-Grade Web Systems Consultant',
     url: siteUrl,
     sameAs: [
       brand.githubUrl,
@@ -86,12 +86,12 @@ export function generatePersonSchema() {
       brand.twitterUrl,
     ],
     knowsAbout: [
-      'Web Development',
-      'JavaScript',
-      'TypeScript',
-      'React',
-      'Next.js',
-      'Node.js',
+      'Infrastructure Localization',
+      'Operational Resilience',
+      'CI/CD Hardening',
+      'Release Governance',
+      'Disaster Recovery',
+      'Production Stability',
     ],
   }
 }
@@ -103,7 +103,7 @@ export function generateWebSiteSchema() {
     '@type': 'WebSite',
     name: brand.brandName,
     url: siteUrl,
-    description: 'Professional portfolio showcasing web development projects and technical expertise',
+    description: brand.positioningEn,
     potentialAction: {
       '@type': 'SearchAction',
       target: {
@@ -250,7 +250,7 @@ export function generateOrganizationSchema() {
     name: brand.brandName,
     url: siteUrl,
     logo: `${siteUrl}/logo.png`,
-    description: 'Professional portfolio showcasing web development projects',
+    description: 'Consulting and architecture advisory for production-grade web systems',
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'customer service',

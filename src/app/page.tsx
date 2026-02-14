@@ -13,12 +13,12 @@ export default function Home() {
   return (
     <div className="w-full min-h-screen">
       <Hero />
+      <Services />
       <About />
       <Portfolio />
       <Skills />
       <Experience />
       <Testimonials />
-      <Services />
       <FAQ />
       <Blog />
       <Contact />

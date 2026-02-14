@@ -8,13 +8,14 @@ import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { motion } from 'framer-motion'
 import { Mail, MapPin, Github, Linkedin, Twitter, Send, CheckCircle } from 'lucide-react'
+import { brand } from '@/lib/brand'
 
 const contactInfo = [
   {
     icon: Mail,
     label: 'Email',
-    value: 'contact@portfolio.example.com',
-    href: 'mailto:contact@portfolio.example.com',
+    value: brand.contactEmail,
+    href: `mailto:${brand.contactEmail}`,
   },
   {
     icon: MapPin,
@@ -27,17 +28,17 @@ const contactInfo = [
 const socialLinks = [
   {
     name: 'GitHub',
-    href: 'https://github.com/alirezasafaeiiidev',
+    href: brand.githubUrl,
     icon: Github,
   },
   {
     name: 'LinkedIn',
-    href: 'https://linkedin.com',
+    href: brand.linkedinUrl,
     icon: Linkedin,
   },
   {
     name: 'X',
-    href: 'https://x.com',
+    href: brand.twitterUrl,
     icon: Twitter,
   },
 ]

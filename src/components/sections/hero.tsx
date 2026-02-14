@@ -127,7 +127,7 @@ export function Hero() {
             <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Button
                 size="lg"
-                onClick={() => scrollToSection('#portfolio')}
+                onClick={() => scrollToSection('#services')}
                 className="gap-2 card-hover shine-effect relative overflow-hidden group"
               >
                 <motion.div
@@ -153,7 +153,9 @@ export function Hero() {
               <Button
                 size="lg"
                 variant="outline"
-                onClick={() => scrollToSection('#contact')}
+                onClick={() => {
+                  window.location.href = '/services/infrastructure-localization#assessment'
+                }}
                 className="gap-2 card-hover"
               >
                 <Mail className="h-4 w-4" />

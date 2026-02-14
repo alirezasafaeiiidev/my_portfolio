@@ -83,6 +83,24 @@ const nextConfig: NextConfig = {
         ],
       },
       {
+        source: '/account/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'no-store, no-cache, must-revalidate, max-age=0',
+          },
+        ],
+      },
+      {
+        source: '/auth/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'no-store, no-cache, must-revalidate, max-age=0',
+          },
+        ],
+      },
+      {
         source: '/fonts/(.*)',
         headers: [
           {

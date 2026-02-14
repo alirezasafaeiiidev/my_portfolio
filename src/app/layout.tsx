@@ -16,17 +16,29 @@ import { headers } from "next/headers";
 
 const siteUrl = getSiteUrl();
 const ownerName = brand.ownerName;
+const primaryDescription = brand.positioningEn;
 
 export const metadata: Metadata = {
   title: {
-    default: "پورتفولیو - توسعه‌دهنده فول‌استک | Portfolio - Full Stack Developer",
-    template: "%s | پورتفولیو",
+    default: "Alireza Safaei | Production-Grade Web Systems Consultant",
+    template: "%s | Alireza Safaei",
   },
-  description: "Full Stack Developer with expertise in Next.js, TypeScript, React, and modern web development. Building scalable, performant web applications with best practices.",
-  keywords: ["portfolio", "full stack developer", "Next.js", "TypeScript", "React", "web development", "frontend", "backend", "پورتفولیو", "توسعه‌دهنده فول‌استک", "توسعه وب"],
+  description: primaryDescription,
+  keywords: [
+    "infrastructure localization",
+    "operational resilience",
+    "production stability",
+    "ci/cd hardening",
+    "release governance",
+    "disaster recovery planning",
+    "ارزیابی ریسک زیرساخت",
+    "معماری مقاوم در برابر تحریم",
+    "سخت سازی CI/CD",
+    "پایداری عملیاتی تولید",
+  ],
   authors: [{ name: ownerName, url: siteUrl }],
   creator: ownerName,
-  publisher: ownerName,
+  publisher: brand.brandName,
   formatDetection: {
     email: false,
     address: false,
@@ -35,31 +47,27 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   alternates: {
     canonical: '/',
-    languages: {
-      'en': `${siteUrl}/en`,
-      'fa': `${siteUrl}/fa`,
-    },
   },
   openGraph: {
     type: 'website',
-    locale: 'en_US',
-    alternateLocale: ['fa_IR'],
+    locale: 'fa_IR',
+    alternateLocale: ['en_US'],
     url: siteUrl,
-    siteName: 'Portfolio | پورتفولیو',
-    title: 'Portfolio - Full Stack Developer | پورتفولیو - توسعه‌دهنده فول‌استک',
-    description: 'Full Stack Developer with expertise in Next.js, TypeScript, React, and modern web development. Building scalable, performant web applications.',
+    siteName: `${brand.brandName} | ${ownerName}`,
+    title: 'Infrastructure Localization & Operational Resilience Program',
+    description: primaryDescription,
     images: [
       {
         url: '/api/og-image',
         height: 630,
-        alt: 'Portfolio - Full Stack Developer',
+        alt: `${ownerName} - Production-Grade Web Systems Consultant`,
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Portfolio - Full Stack Developer | پورتفولیو',
-    description: 'Full Stack Developer with expertise in Next.js, TypeScript, React, and modern web development.',
+    title: `${ownerName} | Production-Grade Web Systems Consultant`,
+    description: primaryDescription,
     images: ['/api/og-image'],
     creator: brand.twitterHandle,
   },
@@ -122,6 +130,31 @@ export default async function RootLayout({
           <JsonLd data={generatePersonSchema()} nonce={nonce} />
           <JsonLd data={generateWebSiteSchema()} nonce={nonce} />
           <JsonLd data={generateOrganizationSchema()} nonce={nonce} />
+          <JsonLd
+            data={{
+              '@context': 'https://schema.org',
+              '@type': 'Service',
+              name: 'Infrastructure Localization & Operational Resilience Program',
+              provider: {
+                '@type': 'Person',
+                name: ownerName,
+                url: siteUrl,
+              },
+              areaServed: 'IR',
+              serviceType: 'Infrastructure risk audit, architecture hardening, governance and DR planning',
+              offers: {
+                '@type': 'Offer',
+                priceCurrency: 'IRR',
+                priceSpecification: {
+                  '@type': 'PriceSpecification',
+                  minPrice: '60000000',
+                  maxPrice: '120000000',
+                  priceCurrency: 'IRR',
+                },
+              },
+            }}
+            nonce={nonce}
+          />
           <JsonLd data={generateBreadcrumbSchema([
             { name: 'Home', url: siteUrl },
           ])} nonce={nonce} />

@@ -22,6 +22,7 @@ import { Languages, X, Menu, Sparkles } from 'lucide-react'
 const navItems = [
   { key: 'home', name: 'nav.home', href: '#home' },
   { key: 'about', name: 'nav.about', href: '#about' },
+  { key: 'services', name: 'nav.services', href: '#services' },
   { key: 'portfolio', name: 'nav.portfolio', href: '#portfolio' },
   { key: 'skills', name: 'nav.skills', href: '#skills' },
   { key: 'experience', name: 'nav.experience', href: '#experience' },
