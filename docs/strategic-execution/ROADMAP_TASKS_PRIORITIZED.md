@@ -1,11 +1,10 @@
 # Prioritized Roadmap Tasks - asdev-portfolio
 
 - Generated: 2026-02-14
-- Execution mode: operational priority automation
+- Source: docs/strategic-execution/STAGE_STATUS.md
+- Rule: P0 (Stage A), P1 (Stage B/S), P2 (Stage L)
 
-| Priority | Stage | Task | Status | Evidence |
-|---|---|---|---|---|
-| P0 | Stage A | Go-Live package | done | docs/strategic-execution/runtime/GoLive_Evidence/2026-02-14_go_no_go_signoff.md |
-| P1 | Stage B | Brand + Proof package | done | docs/strategic-execution/runtime/Brand_Evidence/2026-02-14_persiantoolbox_proof_link.md |
-| P1 | Stage S | Sales + Contracts package | done | docs/strategic-execution/runtime/Sales_Evidence/2026-02-14_handover_pack_completed.md |
-| P2 | Stage L | Long-term baseline package | done | docs/strategic-execution/runtime/Sales_Evidence/2026-02-14_larger_contract_proof.md |
+| Priority | Stage | Task | Owner | DoD | Evidence | Acceptance |
+|---|---|---|---|---|---|---|
+
+## Top 5 Now
