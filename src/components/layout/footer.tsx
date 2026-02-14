@@ -5,40 +5,41 @@ import { motion } from 'framer-motion'
 import { Github, Linkedin, Twitter, Mail, Heart } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useI18n } from '@/lib/i18n-context'
-
-const socialLinks = [
-  {
-    name: 'GitHub',
-    href: '#',
-    icon: Github,
-  },
-  {
-    name: 'LinkedIn',
-    href: '#',
-    icon: Linkedin,
-  },
-  {
-    name: 'Twitter',
-    href: '#',
-    icon: Twitter,
-  },
-  {
-    name: 'Email',
-    href: 'mailto:contact@example.com',
-    icon: Mail,
-  },
-]
+import { brand } from '@/lib/brand'
 
 const quickLinks = [
   { key: 'quickHome', href: '#home' },
+  { key: 'quickServices', href: '#services' },
   { key: 'quickPortfolio', href: '#portfolio' },
-  { key: 'quickSkills', href: '#skills' },
+  { key: 'quickBrand', href: '/about-brand' },
   { key: 'quickContact', href: '#contact' },
 ]
 
 export function Footer() {
   const { t } = useI18n()
   const currentYear = new Date().getFullYear()
+  const socialLinks = [
+    {
+      name: 'GitHub',
+      href: brand.githubUrl,
+      icon: Github,
+    },
+    {
+      name: 'LinkedIn',
+      href: brand.linkedinUrl,
+      icon: Linkedin,
+    },
+    {
+      name: 'Twitter',
+      href: brand.twitterUrl,
+      icon: Twitter,
+    },
+    {
+      name: 'Email',
+      href: `mailto:${brand.contactEmail}`,
+      icon: Mail,
+    },
+  ].filter((social) => social.href)
 
   return (
     <footer className="border-t bg-muted/30 mt-auto">
@@ -47,10 +48,10 @@ export function Footer() {
           {/* Brand Section */}
           <div className="space-y-4">
             <h3 className="text-xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-              Portfolio
+              {brand.brandName}
             </h3>
             <p className="text-sm text-muted-foreground">
-              {t('footer.about')}
+              {brand.positioningEn}
             </p>
           </div>
 
@@ -133,7 +134,7 @@ export function Footer() {
               <Button
                 variant="default"
                 className="w-full card-hover shine-effect"
-                onClick={() => window.location.href = 'mailto:contact@example.com'}
+                onClick={() => window.location.href = `mailto:${brand.contactEmail}`}
               >
                 <Mail className="h-4 w-4 mr-2" />
                 {t('contact.sendMessage')}
@@ -145,9 +146,13 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="mt-8 pt-8 border-t flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-muted-foreground text-center md:text-left">
-            © {currentYear} {t('footer.copyright')}
+            © {currentYear} {brand.ownerName}. {t('footer.allRights')}
           </p>
-          <p className="text-sm text-muted-foreground flex items-center gap-1 text-center md:text-right">
+          <p className="text-sm text-muted-foreground flex items-center gap-1 text-center md:text-right flex-wrap justify-center md:justify-end">
+            Built by
+            <Link href="/about-brand" className="font-semibold hover:text-primary transition-colors">
+              {brand.ownerName} ({brand.brandName})
+            </Link>
             {t('footer.madeWith')}
             <Heart className="h-4 w-4 fill-primary text-primary" />
           </p>

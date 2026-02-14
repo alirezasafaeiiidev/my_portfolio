@@ -17,8 +17,16 @@ const BASE_SECURITY_HEADERS = {
   'Cross-Origin-Resource-Policy': 'same-origin',
 }
 
-function getCacheControl(pathname: string): string {
-  if (pathname.startsWith('/api/') || pathname.startsWith('/admin/')) {
+export function getCacheControl(pathname: string): string {
+  if (
+    pathname.startsWith('/api/') ||
+    pathname === '/admin' ||
+    pathname.startsWith('/admin/') ||
+    pathname === '/account' ||
+    pathname.startsWith('/account/') ||
+    pathname === '/auth' ||
+    pathname.startsWith('/auth/')
+  ) {
     return 'no-store, no-cache, must-revalidate, max-age=0'
   }
   return 'public, max-age=0, s-maxage=300, stale-while-revalidate=600'

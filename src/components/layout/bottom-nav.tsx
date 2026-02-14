@@ -1,14 +1,14 @@
 'use client'
 
 import { usePathname } from 'next/navigation'
-import { Home, Briefcase, Award, BookOpen, Mail } from 'lucide-react'
+import { Home, Briefcase, Award, Workflow, Mail } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const navItems = [
   { name: 'Home', href: '#home', icon: Home },
   { name: 'Portfolio', href: '#portfolio', icon: Briefcase },
   { name: 'Experience', href: '#experience', icon: Award },
-  { name: 'Blog', href: '#blog', icon: BookOpen },
+  { name: 'Services', href: '#services', icon: Workflow },
   { name: 'Contact', href: '#contact', icon: Mail },
 ]
 
