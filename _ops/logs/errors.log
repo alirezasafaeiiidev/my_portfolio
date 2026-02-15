@@ -222,3 +222,4 @@ Run 'docker run --help' for more information
 [2026-02-15T14:21:35+01:00] ERROR lint failure: missing react-hooks plugin resolution in eslint flat config
 [2026-02-15T14:22:40+01:00] ERROR quality-gates contaminated by _ops/external test/lint scope after cloning external repos
 [2026-02-15T14:34:48+01:00] ERROR validate-cohosting-config.sh failed due to unbound variable host in pattern string
+[2026-02-15T14:40:14+01:00] ERROR push to main rejected by branch protection (PR required + status checks expected)
