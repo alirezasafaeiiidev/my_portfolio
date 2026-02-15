@@ -4,6 +4,8 @@
 - `ops/deploy`: اسکریپت‌های deploy و rollback
 - `ops/systemd`: سرویس‌های systemd برای staging/production
 - `ops/nginx`: تنظیمات nginx
+  - `ops/nginx/my-portfolio.conf`: کانفیگ تکی portfolio
+  - `ops/nginx/asdev-cohosting.conf`: کانفیگ یکپارچه portfolio + persiantoolbox
 
 ## استقرار
 - اسکریپت اصلی: `ops/deploy/deploy.sh`
@@ -22,3 +24,5 @@
 ## مستندات مرتبط
 - `docs/VPS_DEPLOYMENT.md`
 - `docs/DEPLOYMENT_PRECHECKLIST.md`
+- `scripts/deploy/check-hosting-sync.sh`
+- `scripts/deploy/validate-cohosting-config.sh`

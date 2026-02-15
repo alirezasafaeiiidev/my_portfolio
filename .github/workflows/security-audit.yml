@@ -40,7 +40,19 @@ jobs:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
         with:
-          bun-version: 1.3.8
+          bun-version: 1.3.9
       - run: bun install
       - name: Run bun audit high/critical gate
         run: bun run audit:high
+
+  secret-scan:
+    name: Secret scan (repo)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.9
+      - run: bun install
+      - name: Run local secret scan gate
+        run: bun run scan:secrets
