@@ -23,3 +23,8 @@
 - [ ] Run `ops/deploy/rollback.sh --env production`.
 - [ ] Re-run health and smoke checks.
 - [ ] Capture rollback reason and corrective action in release notes.
+
+## بررسی‌های VPS
+- اجرای `bash scripts/vps-preflight.sh`
+- وجود فایل محیطی: `/var/www/my-portfolio/shared/env/production.env`
+- دسترسی سرویس systemd و nginx

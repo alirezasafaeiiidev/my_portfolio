@@ -38,3 +38,10 @@ Move from "application-ready" to "production-server-ready" with explicit securit
 - P1 completed.
 - Release and rollback both verified in staging.
 - Production smoke checks pass after cutover.
+
+## وضعیت تکمیلی (فاز 1 تا 5)
+- فاز 1: امنیت پایه و سیاست وابستگی‌ها تکمیل شد.
+- فاز 2: پوشش تست و CI برای test:coverage اضافه شد.
+- فاز 3: مستندات Observability تکمیل شد.
+- فاز 4: معماری مستند شد.
+- فاز 5: راهنمای VPS تکمیل و اسکریپت preflight اضافه شد.
