@@ -4,9 +4,8 @@ const ORIGINAL_ENV = { ...process.env }
 
 describe('lead-notifier', () => {
   beforeEach(() => {
-    process.env = { ...ORIGINAL_ENV }
-    process.env.NODE_ENV = 'test'
-    delete process.env.LEAD_NOTIFICATION_WEBHOOK_URL
+    process.env = { ...ORIGINAL_ENV, NODE_ENV: 'test' } as NodeJS.ProcessEnv
+    delete (process.env as Record<string, string | undefined>).LEAD_NOTIFICATION_WEBHOOK_URL
     vi.resetModules()
     vi.unstubAllGlobals()
   })
@@ -76,4 +75,3 @@ describe('lead-notifier', () => {
     expect(warnSpy.mock.calls[0]?.[0]).toContain('failed')
   })
 })
-
