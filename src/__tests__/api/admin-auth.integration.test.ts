@@ -64,6 +64,33 @@ describe('admin auth integration', () => {
     expect(payload.via).toBe('bearer')
   })
 
+  it('returns 503 for session status when admin auth is not configured', async () => {
+    const { GET } = await import('@/app/api/admin/auth/session/route')
+    const request = new NextRequest('http://localhost:3000/api/admin/auth/session')
+
+    const response = await GET(request)
+    const payload = await response.json()
+
+    expect(response.status).toBe(503)
+    expect(payload.authenticated).toBe(false)
+    expect(payload.reason).toBe('not_configured')
+  })
+
+  it('returns 401 for session status when credentials are invalid', async () => {
+    process.env.ADMIN_API_TOKEN = 'abcdefghijklmnopqrstuvwxyz'
+    const { GET } = await import('@/app/api/admin/auth/session/route')
+    const request = new NextRequest('http://localhost:3000/api/admin/auth/session', {
+      headers: { authorization: 'Bearer wrong' },
+    })
+
+    const response = await GET(request)
+    const payload = await response.json()
+
+    expect(response.status).toBe(401)
+    expect(payload.authenticated).toBe(false)
+    expect(payload.reason).toBe('invalid_credentials')
+  })
+
   it('rate limits repeated login attempts', async () => {
     process.env.ADMIN_USERNAME = 'admin'
     process.env.ADMIN_PASSWORD = 'supersecurepassword'

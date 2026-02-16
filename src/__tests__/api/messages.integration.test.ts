@@ -51,4 +51,44 @@ describe('public messages route auth hardening', () => {
     expect(response.status).toBe(200)
     expect(dbMock.contactMessage.findMany).toHaveBeenCalledTimes(1)
   })
+
+  it('returns 400 when deleting without id', async () => {
+    process.env.ADMIN_API_TOKEN = 'abcdefghijklmnopqrstuvwxyz'
+    const { DELETE } = await import('@/app/api/messages/route')
+    const request = new NextRequest('http://localhost:3000/api/messages', {
+      method: 'DELETE',
+      headers: { authorization: 'Bearer abcdefghijklmnopqrstuvwxyz' },
+    })
+
+    const response = await DELETE(request)
+    expect(response.status).toBe(400)
+  })
+
+  it('deletes message by id', async () => {
+    process.env.ADMIN_API_TOKEN = 'abcdefghijklmnopqrstuvwxyz'
+    dbMock.contactMessage.delete.mockResolvedValueOnce({ id: 'msg_1' })
+    const { DELETE } = await import('@/app/api/messages/route')
+    const request = new NextRequest('http://localhost:3000/api/messages?id=msg_1', {
+      method: 'DELETE',
+      headers: { authorization: 'Bearer abcdefghijklmnopqrstuvwxyz' },
+    })
+
+    const response = await DELETE(request)
+    const payload = await response.json()
+    expect(response.status).toBe(200)
+    expect(payload.success).toBe(true)
+    expect(dbMock.contactMessage.delete).toHaveBeenCalledTimes(1)
+  })
+
+  it('returns 500 when database read fails', async () => {
+    process.env.ADMIN_API_TOKEN = 'abcdefghijklmnopqrstuvwxyz'
+    dbMock.contactMessage.findMany.mockRejectedValueOnce(new Error('db'))
+    const { GET } = await import('@/app/api/messages/route')
+    const request = new NextRequest('http://localhost:3000/api/messages', {
+      headers: { authorization: 'Bearer abcdefghijklmnopqrstuvwxyz' },
+    })
+
+    const response = await GET(request)
+    expect(response.status).toBe(500)
+  })
 })
