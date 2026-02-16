@@ -18,13 +18,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'pnpm'
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 9.15.0
+          cache-dependency-path: pnpm-lock.yaml
       - name: pnpm install
         run: pnpm install --frozen-lockfile
 
@@ -33,13 +34,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'pnpm'
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 9.15.0
+          cache-dependency-path: pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile
       - name: pnpm run lint
         run: pnpm run lint
@@ -49,13 +51,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'pnpm'
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 9.15.0
+          cache-dependency-path: pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile
       - name: pnpm run type-check
         run: pnpm run type-check
@@ -65,13 +68,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'pnpm'
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 9.15.0
+          cache-dependency-path: pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile
       - name: pnpm run test
         run: pnpm run test
@@ -81,13 +85,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'pnpm'
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 9.15.0
+          cache-dependency-path: pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile
       - name: pnpm run test:coverage
         run: pnpm run test:coverage
@@ -97,13 +102,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'pnpm'
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 9.15.0
+          cache-dependency-path: pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile
       - name: pnpm run build
         run: pnpm run build
@@ -113,13 +119,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'pnpm'
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 9.15.0
+          cache-dependency-path: pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile
       - name: scripts/verify.sh
         run: bash scripts/verify.sh

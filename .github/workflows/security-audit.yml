@@ -38,13 +38,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'pnpm'
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 9.15.0
+          cache-dependency-path: pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile
       - name: Run pnpm audit high/critical gate
         run: pnpm run audit:high
@@ -54,13 +55,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'pnpm'
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 9.15.0
+          cache-dependency-path: pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile
       - name: Run local secret scan gate
         run: pnpm run scan:secrets
