@@ -13,6 +13,7 @@ This folder operationalizes ASDEV Strategic Execution Blueprint vlocal-fallback 
 - No task is Done without evidence.
 - Every out-of-scope item must go through change request process.
 - Weekly review is required and stored in runtime/Weekly_Reviews/.
+- Data entry guide for new runtime evidence: `runtime/DATA_ENTRY_GUIDE.md`
 
 ## Related operational docs
 - Deployment readiness audit: `docs/DEPLOYMENT_READINESS_AUDIT_2026-02-14.md`

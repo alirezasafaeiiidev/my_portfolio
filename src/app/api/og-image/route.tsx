@@ -7,8 +7,8 @@ export async function GET() {
     (
       <div
         style={{
-          fontSize: 128,
-          background: 'linear-gradient(to bottom right, #1e1b4b, #312e81)',
+          fontSize: 72,
+          background: 'linear-gradient(to bottom right, #0f172a, #1e3a8a)',
           color: 'white',
           width: '100%',
           height: '100%',
@@ -29,31 +29,32 @@ export async function GET() {
         >
           <div
             style={{
-              fontSize: '80px',
+              fontSize: '64px',
               fontWeight: 'bold',
-              background: 'linear-gradient(to right, #60a5fa, #a78bfa)',
+              background: 'linear-gradient(to right, #60a5fa, #34d399)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
             }}
           >
-            Portfolio
+            ASDEV
           </div>
           <div
             style={{
-              fontSize: '32px',
+              fontSize: '30px',
               opacity: 0.9,
+              textAlign: 'center',
             }}
           >
-            Full Stack Developer
+            Production-Grade Web Systems Consultant
           </div>
           <div
             style={{
-              fontSize: '20px',
+              fontSize: '22px',
               opacity: 0.7,
               marginTop: '16px',
             }}
           >
-            Next.js | TypeScript | React
+            Infrastructure Localization | CI/CD Hardening | Operational Resilience
           </div>
         </div>
       </div>

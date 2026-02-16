@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { mkdir, writeFile } from 'node:fs/promises'
+import path from 'node:path'
 import { z } from 'zod'
 import { checkRateLimit, createRequestId, withCommonApiHeaders } from '@/lib/api-security'
 import { db } from '@/lib/db'
+import { notifyLeadSubmission } from '@/lib/lead-notifier'
 import { logger } from '@/lib/logger'
 import { isLikelySpam } from '@/lib/security'
 import { isValidEmail, sanitizeInput } from '@/lib/validators'
@@ -19,6 +22,8 @@ const leadSchema = z.object({
   budgetRange: z.string().min(3).max(120),
   preferredContact: z.string().min(3).max(80),
   notes: z.string().max(2000).optional().default(''),
+  website: z.string().max(255).optional().default(''),
+  attachmentPath: z.string().max(400).optional().default(''),
 })
 
 type LeadPayload = z.infer<typeof leadSchema>
@@ -37,6 +42,8 @@ function normalizePayload(input: LeadPayload): LeadPayload {
     budgetRange: sanitizeInput(input.budgetRange, 120),
     preferredContact: sanitizeInput(input.preferredContact, 80),
     notes: sanitizeInput(input.notes, 2000),
+    website: sanitizeInput(input.website, 255),
+    attachmentPath: sanitizeInput(input.attachmentPath, 400),
   }
 }
 
@@ -48,26 +55,43 @@ function containsMaliciousContent(payload: LeadPayload): boolean {
     payload.currentStack,
     payload.criticalRisk,
     payload.notes,
+    payload.attachmentPath,
   ]
 
   return fields.some((value) => injectionLikePattern.test(value) || isLikelySpam(value))
 }
 
-function toStoredMessage(payload: LeadPayload): string {
-  return [
-    `contact_name: ${payload.contactName}`,
-    `organization_name: ${payload.organizationName}`,
-    `organization_type: ${payload.organizationType}`,
-    `email: ${payload.email}`,
-    `phone: ${payload.phone || 'n/a'}`,
-    `team_size: ${payload.teamSize}`,
-    `current_stack: ${payload.currentStack}`,
-    `critical_risk: ${payload.criticalRisk}`,
-    `timeline: ${payload.timeline}`,
-    `budget_range: ${payload.budgetRange}`,
-    `preferred_contact: ${payload.preferredContact}`,
-    `notes: ${payload.notes || 'n/a'}`,
-  ].join('\n')
+const MAX_ATTACHMENT_BYTES = 5 * 1024 * 1024
+const allowedAttachmentTypes = new Set([
+  'application/pdf',
+  'application/msword',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  'text/plain',
+  'image/png',
+  'image/jpeg',
+])
+
+function sanitizeFileName(name: string): string {
+  return name.replace(/[^a-zA-Z0-9._-]/g, '_').slice(0, 120)
+}
+
+async function saveAttachment(file: File, requestId: string): Promise<string> {
+  if (file.size === 0) return ''
+  if (file.size > MAX_ATTACHMENT_BYTES) {
+    throw new Error('Attachment exceeds max size')
+  }
+  if (!allowedAttachmentTypes.has(file.type)) {
+    throw new Error('Attachment type is not allowed')
+  }
+
+  const safeName = sanitizeFileName(file.name || 'attachment')
+  const fileName = `${Date.now()}-${requestId}-${safeName}`
+  const targetDir = path.join(process.cwd(), 'storage', 'leads')
+  await mkdir(targetDir, { recursive: true })
+  const targetPath = path.join(targetDir, fileName)
+  const bytes = Buffer.from(await file.arrayBuffer())
+  await writeFile(targetPath, bytes)
+  return `storage/leads/${fileName}`
 }
 
 export async function POST(request: NextRequest) {
@@ -82,8 +106,36 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const body: unknown = await request.json()
-    const parsed = leadSchema.safeParse(body)
+    const contentType = request.headers.get('content-type') || ''
+    let rawPayload: Record<string, unknown>
+
+    if (contentType.includes('multipart/form-data')) {
+      const form = await request.formData()
+      const fileInput = form.get('attachment')
+      const attachmentPath =
+        fileInput instanceof File ? await saveAttachment(fileInput, requestId) : ''
+
+      rawPayload = {
+        contactName: form.get('contactName'),
+        organizationName: form.get('organizationName'),
+        organizationType: form.get('organizationType'),
+        email: form.get('email'),
+        phone: form.get('phone'),
+        teamSize: form.get('teamSize'),
+        currentStack: form.get('currentStack'),
+        criticalRisk: form.get('criticalRisk'),
+        timeline: form.get('timeline'),
+        budgetRange: form.get('budgetRange'),
+        preferredContact: form.get('preferredContact'),
+        notes: form.get('notes'),
+        website: form.get('website'),
+        attachmentPath,
+      }
+    } else {
+      rawPayload = (await request.json()) as Record<string, unknown>
+    }
+
+    const parsed = leadSchema.safeParse(rawPayload)
     if (!parsed.success) {
       return withCommonApiHeaders(
         NextResponse.json(
@@ -120,13 +172,50 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    await db.contactMessage.create({
+    if (payload.website.trim().length > 0) {
+      logger.warn('Honeypot trap triggered on lead endpoint', {
+        requestId,
+        organizationName: payload.organizationName,
+      })
+
+      return withCommonApiHeaders(
+        NextResponse.json({ success: true, message: 'Lead registered successfully' }, { status: 201 }),
+        requestId,
+        limit.headers
+      )
+    }
+
+    await db.lead.create({
       data: {
-        name: payload.contactName,
+        status: 'new',
+        source: 'qualification_form',
+        contactName: payload.contactName,
+        organizationName: payload.organizationName,
+        organizationType: payload.organizationType,
         email: payload.email,
-        subject: `[Infra Program Lead] ${payload.organizationName}`,
-        message: toStoredMessage(payload),
+        phone: payload.phone || undefined,
+        teamSize: payload.teamSize,
+        currentStack: payload.currentStack,
+        criticalRisk: payload.criticalRisk,
+        timeline: payload.timeline,
+        budgetRange: payload.budgetRange,
+        preferredContact: payload.preferredContact,
+        notes: payload.notes || undefined,
+        attachmentPath: payload.attachmentPath || undefined,
+        utmSource: request.nextUrl.searchParams.get('utm_source') || undefined,
+        utmMedium: request.nextUrl.searchParams.get('utm_medium') || undefined,
+        utmCampaign: request.nextUrl.searchParams.get('utm_campaign') || undefined,
       },
+    })
+
+    await notifyLeadSubmission({
+      type: 'lead',
+      submittedAt: new Date().toISOString(),
+      requestId,
+      email: payload.email,
+      name: payload.contactName,
+      organizationName: payload.organizationName,
+      summary: payload.criticalRisk,
     })
 
     logger.info('Infrastructure lead captured', {
@@ -142,9 +231,18 @@ export async function POST(request: NextRequest) {
       limit.headers
     )
   } catch (error) {
+    const message = error instanceof Error ? error.message : 'unknown'
+    if (message.includes('Attachment')) {
+      return withCommonApiHeaders(
+        NextResponse.json({ success: false, message }, { status: 400 }),
+        requestId,
+        limit.headers
+      )
+    }
+
     logger.error('Lead capture failed', {
       requestId,
-      error: error instanceof Error ? error.message : 'unknown',
+      error: message,
     })
 
     return withCommonApiHeaders(

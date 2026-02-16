@@ -29,7 +29,7 @@ function write(level: LogLevel, message: string, context?: Record<string, unknow
     console.warn(JSON.stringify(payload))
     return
   }
-  console.warn(JSON.stringify(payload))
+  process.stdout.write(`${JSON.stringify(payload)}\n`)
 }
 
 export const logger = {

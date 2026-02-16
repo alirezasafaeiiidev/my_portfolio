@@ -3,6 +3,12 @@
 ## Objective
 Move from "application-ready" to "production-server-ready" with explicit security and operations controls.
 
+## Status Snapshot (2026-02-16)
+- Local quality gate: `pnpm run verify` PASSED (lint + type-check + tests + build + external scan).
+- Architecture roadmap (`_ops/roadmap/roadmap_master.md`): phases 1..5 marked `DONE` for repo-level deliverables.
+- Production/VPS rollout gates: still pending (requires real server state and domain/TLS validation).
+- Co-hosting dependency: on shared VPS, latest `asdev-persiantoolbox` release must be deployed first, then portfolio rollout starts.
+
 ## P0 (Blockers)
 - [ ] Enforce HTTPS and HSTS in production edge config.
   - Owner: DevOps
@@ -15,12 +21,12 @@ Move from "application-ready" to "production-server-ready" with explicit securit
   - Evidence: secure env file in server path + successful restart
 
 ## P1 (Stability)
-- [ ] Add readiness check for critical dependencies (DB/config) in API.
+- [x] Add readiness check for critical dependencies (DB/config) in API.
   - Owner: Backend
-  - Evidence: readiness endpoint + test coverage
-- [ ] Add server deployment preflight checklist.
+  - Evidence: `src/app/api/ready/route.ts`, `src/__tests__/api/ready.integration.test.ts`
+- [x] Add server deployment preflight checklist.
   - Owner: DevOps
-  - Evidence: completed checklist before each release
+  - Evidence: `docs/DEPLOYMENT_PRECHECKLIST.md`
 - [ ] Document rollback drill procedure (with one verified drill result).
   - Owner: DevOps
   - Evidence: dated rollback test note
@@ -38,3 +44,10 @@ Move from "application-ready" to "production-server-ready" with explicit securit
 - P1 completed.
 - Release and rollback both verified in staging.
 - Production smoke checks pass after cutover.
+
+## وضعیت تکمیلی (فاز 1 تا 5)
+- فاز 1: امنیت پایه و سیاست وابستگی‌ها تکمیل شد.
+- فاز 2: پوشش تست و CI برای test:coverage اضافه شد.
+- فاز 3: مستندات Observability تکمیل شد.
+- فاز 4: معماری مستند شد.
+- فاز 5: راهنمای VPS تکمیل و اسکریپت preflight اضافه شد.

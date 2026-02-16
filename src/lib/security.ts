@@ -106,17 +106,10 @@ export function isLikelySpam(input: string): boolean {
 export function generateSecureToken(length: number = 32): string {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*'
   let result = ''
-
-  if (typeof window !== 'undefined' && window.crypto) {
-    const array = new Uint32Array(length)
-    window.crypto.getRandomValues(array)
-    for (let i = 0; i < length; i++) {
-      result += chars[array[i] % chars.length]
-    }
-  } else {
-    for (let i = 0; i < length; i++) {
-      result += chars.charAt(Math.floor(Math.random() * chars.length))
-    }
+  const array = new Uint32Array(length)
+  crypto.getRandomValues(array)
+  for (let i = 0; i < length; i++) {
+    result += chars[array[i] % chars.length]
   }
 
   return result

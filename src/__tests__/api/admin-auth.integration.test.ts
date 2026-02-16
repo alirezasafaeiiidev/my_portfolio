@@ -63,4 +63,30 @@ describe('admin auth integration', () => {
     expect(payload.authenticated).toBe(true)
     expect(payload.via).toBe('bearer')
   })
+
+  it('rate limits repeated login attempts', async () => {
+    process.env.ADMIN_USERNAME = 'admin'
+    process.env.ADMIN_PASSWORD = 'supersecurepassword'
+    process.env.ADMIN_SESSION_SECRET = 'very-secure-session-secret-with-32-plus'
+    process.env.API_RATE_LIMIT_MAX_REQUESTS = '1'
+    process.env.API_RATE_LIMIT_WINDOW_MS = '60000'
+
+    const { POST } = await import('@/app/api/admin/auth/login/route')
+    const firstAttempt = new NextRequest('http://localhost:3000/api/admin/auth/login', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ username: 'admin', password: 'wrong-password' }),
+    })
+    const secondAttempt = new NextRequest('http://localhost:3000/api/admin/auth/login', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ username: 'admin', password: 'wrong-password' }),
+    })
+
+    const firstResponse = await POST(firstAttempt)
+    const secondResponse = await POST(secondAttempt)
+
+    expect(firstResponse.status).toBe(401)
+    expect(secondResponse.status).toBe(429)
+  })
 })

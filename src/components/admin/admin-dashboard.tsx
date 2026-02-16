@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { MessageSquare, Briefcase, BarChart3, Users, Trash2, LogOut } from 'lucide-react'
+import { MessageSquare, Briefcase, BarChart3, Users, Trash2, LogOut, ClipboardList } from 'lucide-react'
 import { toast } from '@/hooks/use-toast'
 
 interface Message {
@@ -18,11 +18,42 @@ interface Message {
   createdAt: string
 }
 
+interface Lead {
+  id: string
+  status: 'new' | 'qualified' | 'disqualified' | 'archived'
+  contactName: string
+  organizationName: string
+  email: string
+  createdAt: string
+}
+
 export function AdminDashboard() {
   const router = useRouter()
-  const [activeTab, setActiveTab] = useState<'messages' | 'projects' | 'stats'>('messages')
+  const [activeTab, setActiveTab] = useState<'leads' | 'messages' | 'projects' | 'stats'>('leads')
+  const [leads, setLeads] = useState<Lead[]>([])
   const [messages, setMessages] = useState<Message[]>([])
   const [loading, setLoading] = useState(false)
+
+  const fetchLeads = useCallback(async () => {
+    setLoading(true)
+    try {
+      const response = await fetch('/api/admin/leads')
+      if (response.status === 401 || response.status === 503) {
+        router.replace('/admin/login')
+        return
+      }
+      const data = await response.json()
+      setLeads(data.leads || [])
+    } catch {
+      toast({
+        title: 'Error',
+        description: 'Failed to fetch leads',
+        variant: 'destructive',
+      })
+    } finally {
+      setLoading(false)
+    }
+  }, [router])
 
   // Fetch messages
   const fetchMessages = useCallback(async () => {
@@ -52,6 +83,26 @@ export function AdminDashboard() {
     router.refresh()
   }
 
+  const updateLeadStatus = async (id: string, status: Lead['status']) => {
+    try {
+      const response = await fetch('/api/admin/leads', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, status }),
+      })
+      if (!response.ok) throw new Error('update failed')
+      const data = await response.json()
+      setLeads((prev) => prev.map((lead) => (lead.id === id ? data.lead : lead)))
+      toast({ title: 'Updated', description: 'Lead status updated' })
+    } catch {
+      toast({
+        title: 'Error',
+        description: 'Failed to update lead status',
+        variant: 'destructive',
+      })
+    }
+  }
+
   const deleteMessage = async (id: string) => {
     try {
       await fetch(`/api/admin/messages?id=${id}`, { method: 'DELETE' })
@@ -71,8 +122,9 @@ export function AdminDashboard() {
 
   // Load messages on mount
   useEffect(() => {
+    fetchLeads()
     fetchMessages()
-  }, [fetchMessages])
+  }, [fetchLeads, fetchMessages])
 
   return (
     <section className="py-20">
@@ -100,6 +152,15 @@ export function AdminDashboard() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{messages.length}</div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Total Leads</CardTitle>
+              <ClipboardList className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{leads.length}</div>
             </CardContent>
           </Card>
           <Card>
@@ -134,6 +195,13 @@ export function AdminDashboard() {
         {/* Tab Navigation */}
         <div className="flex gap-2 mb-6">
           <Button
+            variant={activeTab === 'leads' ? 'default' : 'outline'}
+            onClick={() => setActiveTab('leads')}
+          >
+            <ClipboardList className="h-4 w-4 mr-2" />
+            Leads
+          </Button>
+          <Button
             variant={activeTab === 'messages' ? 'default' : 'outline'}
             onClick={() => setActiveTab('messages')}
           >
@@ -155,6 +223,78 @@ export function AdminDashboard() {
             Analytics
           </Button>
         </div>
+
+        {/* Leads Tab */}
+        {activeTab === 'leads' && (
+          <Card>
+            <CardHeader>
+              <CardTitle>Leads</CardTitle>
+              <CardDescription>
+                Qualification submissions captured from high-intent funnels
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              {loading ? (
+                <div className="text-center py-8 text-muted-foreground">
+                  Loading leads...
+                </div>
+              ) : leads.length === 0 ? (
+                <div className="text-center py-8 text-muted-foreground">
+                  No leads yet
+                </div>
+              ) : (
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Organization</TableHead>
+                      <TableHead>Contact</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Date</TableHead>
+                      <TableHead className="text-right">Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {leads.map((lead) => (
+                      <TableRow key={lead.id}>
+                        <TableCell className="font-medium">{lead.organizationName}</TableCell>
+                        <TableCell>
+                          <div className="space-y-1">
+                            <div>{lead.contactName}</div>
+                            <div className="text-xs text-muted-foreground">{lead.email}</div>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <Badge variant={lead.status === 'qualified' ? 'default' : 'secondary'}>
+                            {lead.status}
+                          </Badge>
+                        </TableCell>
+                        <TableCell>{new Date(lead.createdAt).toLocaleDateString()}</TableCell>
+                        <TableCell className="text-right">
+                          <div className="flex justify-end gap-2">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => updateLeadStatus(lead.id, 'qualified')}
+                            >
+                              Qualify
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => updateLeadStatus(lead.id, 'archived')}
+                            >
+                              Archive
+                            </Button>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              )}
+            </CardContent>
+          </Card>
+        )}
 
         {/* Messages Tab */}
         {activeTab === 'messages' && (

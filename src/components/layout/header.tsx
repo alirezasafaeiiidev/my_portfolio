@@ -2,10 +2,11 @@
 
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { usePathname, useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { ThemeToggle } from '@/components/theme/theme-toggle'
 import { useI18n } from '@/lib/i18n-context'
+import { brand } from '@/lib/brand'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,18 +22,15 @@ import { Languages, X, Menu, Sparkles } from 'lucide-react'
 
 const navItems = [
   { key: 'home', name: 'nav.home', href: '#home' },
-  { key: 'about', name: 'nav.about', href: '#about' },
   { key: 'services', name: 'nav.services', href: '#services' },
-  { key: 'portfolio', name: 'nav.portfolio', href: '#portfolio' },
-  { key: 'skills', name: 'nav.skills', href: '#skills' },
-  { key: 'experience', name: 'nav.experience', href: '#experience' },
-  { key: 'blog', name: 'nav.blog', href: '#blog' },
-  { key: 'testimonials', name: 'nav.testimonials', href: '#testimonials' },
+  { key: 'caseStudies', name: 'nav.caseStudies', href: '#case-studies' },
   { key: 'contact', name: 'nav.contact', href: '#contact' },
 ]
 
 export function Header() {
   const { t, language, setLanguage } = useI18n()
+  const pathname = usePathname()
+  const router = useRouter()
 
   const [isScrolled, setIsScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -50,11 +48,23 @@ export function Header() {
     const element = document.querySelector(href)
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' })
+      return
+    }
+
+    if (href.startsWith('#')) {
+      const target = `/${href}`
+      if (pathname !== '/') {
+        router.push(target)
+      } else {
+        window.location.hash = href.slice(1)
+      }
     }
   }
 
   const changeLanguage = (lang: 'en' | 'fa') => {
     setLanguage(lang)
+    // Refresh server components (SSR sections) to match cookie-based language.
+    router.refresh()
   }
 
   const getNavText = (name: string): string => {
@@ -71,61 +81,41 @@ export function Header() {
     >
       <nav className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          <motion.div
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+          <Link
+            href="#home"
+            onClick={(e) => {
+              e.preventDefault()
+              handleNavClick('#home')
+            }}
+            className="text-2xl font-bold gradient-text hover:opacity-80 transition-opacity flex items-center gap-2"
           >
-            <Link
-              href="#home"
-              onClick={(e) => {
-                e.preventDefault()
-                handleNavClick('#home')
-              }}
-              className="text-2xl font-bold gradient-text hover:opacity-80 transition-opacity flex items-center gap-2"
-            >
-              <motion.span
-                animate={{ rotate: [0, 5, -5, 0] }}
-                transition={{ duration: 4, repeat: Infinity }}
-              >
-                <Sparkles className="h-6 w-6" />
-              </motion.span>
-              {getNavText('nav.portfolio')}
-            </Link>
-          </motion.div>
+            <Sparkles className="h-6 w-6" />
+            {brand.brandName}
+          </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
-            {navItems.map((item, index) => (
-              <motion.button
+            {navItems.map((item) => (
+              <button
                 key={item.key}
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: index * 0.08 }}
                 onClick={() => handleNavClick(item.href)}
                 className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors relative group"
               >
                 {getNavText(item.name)}
-                <motion.span
-                  className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"
-                  layoutId="nav-underline"
-                  initial={false}
-                  animate={false}
-                  whileInView="true"
-                  viewport={{ once: true }}
-                />
-              </motion.button>
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
+              </button>
             ))}
             
             {/* Language & Theme Toggles */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.4, delay: 0.5 }}
-              className="flex items-center gap-2"
-            >
+            <div className="flex items-center gap-2">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="h-10 w-10 card-hover">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-10 w-10 card-hover"
+                    aria-label={t('ui.changeLanguage')}
+                  >
                     <Languages className="h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>
@@ -139,17 +129,21 @@ export function Header() {
                 </DropdownMenuContent>
               </DropdownMenu>
               <ThemeToggle />
-            </motion.div>
+            </div>
           </div>
 
           {/* Mobile Navigation */}
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger asChild className="md:hidden">
-              <Button variant="ghost" size="icon">
+              <Button
+                variant="ghost"
+                size="icon"
+                aria-label={mobileMenuOpen ? t('ui.closeMenu') : t('ui.openMenu')}
+              >
                 {mobileMenuOpen ? <X /> : <Menu />}
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-72">
+            <SheetContent side={language === 'fa' ? 'left' : 'right'} className="w-72">
               <nav className="flex flex-col gap-4 mt-8">
                 {navItems.map((item) => (
                   <button
@@ -163,7 +157,7 @@ export function Header() {
               </nav>
               <div className="mt-8 pt-8 border-t space-y-4">
                 <div className="flex items-center justify-between px-4">
-                  <span className="text-sm text-muted-foreground">Language</span>
+                  <span className="text-sm text-muted-foreground">{t('ui.language')}</span>
                   <div className="flex items-center gap-2">
                     <Button
                       variant="ghost"
@@ -175,7 +169,7 @@ export function Header() {
                   </div>
                 </div>
                 <div className="flex items-center justify-between px-4">
-                  <span className="text-sm text-muted-foreground">Theme</span>
+                  <span className="text-sm text-muted-foreground">{t('ui.theme')}</span>
                   <ThemeToggle />
                 </div>
               </div>

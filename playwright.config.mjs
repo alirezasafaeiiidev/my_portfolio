@@ -21,7 +21,7 @@ const config = {
     launchOptions,
   },
   webServer: {
-    command: "bash -lc 'bun run build && bun run start'",
+    command: "bash -lc 'pnpm run build && pnpm run start'",
     url: 'http://localhost:3000',
     reuseExistingServer: false,
     timeout: 240_000,

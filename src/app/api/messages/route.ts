@@ -1,11 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { checkRateLimit, createRequestId, withCommonApiHeaders } from '@/lib/api-security'
+import { checkRateLimit, createRequestId, enforceAdminAccess, withCommonApiHeaders } from '@/lib/api-security'
 import { db } from '@/lib/db'
 import { logger } from '@/lib/logger'
 
 // GET /api/messages - Fetch all messages
 export async function GET(_request: NextRequest) {
   const requestId = createRequestId(_request)
+  const unauthorized = await enforceAdminAccess(_request, requestId)
+  if (unauthorized) {
+    return unauthorized
+  }
   const limit = await checkRateLimit(_request, 'messages:get')
   if (!limit.allowed) {
     return withCommonApiHeaders(
@@ -42,6 +46,10 @@ export async function GET(_request: NextRequest) {
 // DELETE /api/messages - Delete a message
 export async function DELETE(request: NextRequest) {
   const requestId = createRequestId(request)
+  const unauthorized = await enforceAdminAccess(request, requestId)
+  if (unauthorized) {
+    return unauthorized
+  }
   const limit = await checkRateLimit(request, 'messages:delete')
   if (!limit.allowed) {
     return withCommonApiHeaders(

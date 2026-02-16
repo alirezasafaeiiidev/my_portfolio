@@ -33,14 +33,34 @@ jobs:
         run: |
           echo "Dependency review is unsupported for this repository configuration. Skipping as non-blocking."
 
-  bun-audit:
-    name: Bun audit (high/critical gate)
+  pnpm-audit:
+    name: pnpm audit (high/critical gate)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v4
         with:
-          bun-version: 1.3.8
-      - run: bun install
-      - name: Run bun audit high/critical gate
-        run: bun run audit:high
+          node-version: 20
+          cache: 'pnpm'
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
+      - run: pnpm install --frozen-lockfile
+      - name: Run pnpm audit high/critical gate
+        run: pnpm run audit:high
+
+  secret-scan:
+    name: Secret scan (repo)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
+      - run: pnpm install --frozen-lockfile
+      - name: Run local secret scan gate
+        run: pnpm run scan:secrets
