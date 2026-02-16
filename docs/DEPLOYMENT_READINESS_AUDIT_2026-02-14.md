@@ -42,7 +42,7 @@
    - It does not validate critical dependencies (for example DB availability), so deploy checks can pass while downstream functionality is degraded.
 
 3. Medium: Server preflight and runbook are implicit in scripts, not documented as operator checklist.
-   - `ops/deploy/deploy.sh` expects installed `rsync`, `pm2`, `bun`, prepared env files, and writable server directories.
+   - `ops/deploy/deploy.sh` expects installed `rsync`, `pm2`, `node`, `pnpm`, prepared env files, and writable server directories.
    - Missing explicit preflight/runbook doc increases rollout risk in new environments.
 
 4. Low: Deploy output includes non-failing runtime warnings in E2E job context.
@@ -58,3 +58,8 @@
 2. Add a readiness endpoint or enrich existing health check with dependency checks.
 3. Use a server preflight checklist before each release.
 4. Verify production env secrets are rotated from placeholder defaults in `.env.example`.
+
+## Addendum (2026-02-16, local workspace)
+- `pnpm -s verify` -> pass
+- Current test count observed in `pnpm -s test`: `136` tests (all passed)
+- External scan scope was aligned to ignore `_ops/external` non-runtime mirrors, so quality-gate status now reflects this repository runtime surface.

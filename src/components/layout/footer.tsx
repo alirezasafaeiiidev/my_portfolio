@@ -1,8 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { motion } from 'framer-motion'
-import { Github, Linkedin, Twitter, Mail, Heart } from 'lucide-react'
+import { Github, Linkedin, Twitter, Mail, Heart, Instagram, Send, MessageCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useI18n } from '@/lib/i18n-context'
 import { brand } from '@/lib/brand'
@@ -10,13 +9,13 @@ import { brand } from '@/lib/brand'
 const quickLinks = [
   { key: 'quickHome', href: '#home' },
   { key: 'quickServices', href: '#services' },
-  { key: 'quickPortfolio', href: '#portfolio' },
+  { key: 'quickCaseStudies', href: '#case-studies' },
   { key: 'quickBrand', href: '/about-brand' },
   { key: 'quickContact', href: '#contact' },
 ]
 
 export function Footer() {
-  const { t } = useI18n()
+  const { t, language } = useI18n()
   const currentYear = new Date().getFullYear()
   const socialLinks = [
     {
@@ -28,6 +27,21 @@ export function Footer() {
       name: 'LinkedIn',
       href: brand.linkedinUrl,
       icon: Linkedin,
+    },
+    {
+      name: 'Telegram',
+      href: brand.telegramUrl,
+      icon: Send,
+    },
+    {
+      name: 'Instagram',
+      href: brand.instagramUrl,
+      icon: Instagram,
+    },
+    {
+      name: 'WhatsApp',
+      href: brand.whatsappUrl,
+      icon: MessageCircle,
     },
     {
       name: 'Twitter',
@@ -47,55 +61,40 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand Section */}
           <div className="space-y-4">
-            <h3 className="text-xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+            <h2 className="text-xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
               {brand.brandName}
-            </h3>
+            </h2>
             <p className="text-sm text-muted-foreground">
-              {brand.positioningEn}
+              {language === 'fa' ? brand.positioningFa : brand.positioningEn}
             </p>
           </div>
 
           {/* Quick Links */}
           <div className="space-y-4">
-            <h4 className="font-semibold">{t('footer.quickLinks')}</h4>
+            <h3 className="font-semibold">{t('footer.quickLinks')}</h3>
             <ul className="space-y-2">
-              {quickLinks.map((link, index) => (
-                <motion.li
-                  key={link.key}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.3, delay: index * 0.1 }}
-                >
+              {quickLinks.map((link) => (
+                <li key={link.key}>
                   <Link
                     href={link.href}
                     className="text-sm text-muted-foreground hover:text-primary transition-colors inline-flex items-center gap-1 group"
                   >
                     {t(`footer.${link.key}`)}
-                    <motion.span
-                      className="opacity-0 group-hover:opacity-100 transition-opacity"
-                      whileHover={{ x: 3 }}
-                    >
+                    <span className="opacity-0 group-hover:opacity-100 transition-opacity">
                       →
-                    </motion.span>
+                    </span>
                   </Link>
-                </motion.li>
+                </li>
               ))}
             </ul>
           </div>
 
           {/* Social Links */}
           <div className="space-y-4">
-            <h4 className="font-semibold">{t('footer.social')}</h4>
+            <h3 className="font-semibold">{t('footer.social')}</h3>
             <div className="flex gap-2">
-              {socialLinks.map((social, index) => (
-                <motion.div
-                  key={social.name}
-                  whileHover={{ scale: 1.15, rotate: 5 }}
-                  whileTap={{ scale: 0.9 }}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, delay: index * 0.1 }}
-                >
+              {socialLinks.map((social) => (
+                <div key={social.name}>
                   <Button
                     variant="ghost"
                     size="icon"
@@ -108,38 +107,30 @@ export function Footer() {
                       rel={social.href.startsWith('mailto') ? undefined : 'noopener noreferrer'}
                       aria-label={social.name}
                     >
-                      <motion.div
-                        whileHover={{ rotate: 360 }}
-                        transition={{ duration: 0.6, ease: 'easeInOut' }}
-                      >
-                        <social.icon className="h-5 w-5" />
-                      </motion.div>
+                      <social.icon className="h-5 w-5" />
                     </Link>
                   </Button>
-                </motion.div>
+                </div>
               ))}
             </div>
           </div>
 
           {/* Contact Info */}
           <div className="space-y-4">
-            <h4 className="font-semibold">{t('footer.getInTouch')}</h4>
+            <h3 className="font-semibold">{t('footer.getInTouch')}</h3>
             <p className="text-sm text-muted-foreground">
               {t('footer.haveProject')}
             </p>
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
+            <div>
               <Button
                 variant="default"
-                className="w-full card-hover shine-effect"
+                className="w-full card-hover shine-effect gap-2"
                 onClick={() => window.location.href = `mailto:${brand.contactEmail}`}
               >
-                <Mail className="h-4 w-4 mr-2" />
+                <Mail className="h-4 w-4" />
                 {t('contact.sendMessage')}
               </Button>
-            </motion.div>
+            </div>
           </div>
         </div>
 
@@ -149,7 +140,7 @@ export function Footer() {
             © {currentYear} {brand.ownerName}. {t('footer.allRights')}
           </p>
           <p className="text-sm text-muted-foreground flex items-center gap-1 text-center md:text-right flex-wrap justify-center md:justify-end">
-            Built by
+            {t('ui.builtBy')}
             <Link href="/about-brand" className="font-semibold hover:text-primary transition-colors">
               {brand.ownerName} ({brand.brandName})
             </Link>

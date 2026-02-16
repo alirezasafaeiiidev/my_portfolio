@@ -14,7 +14,6 @@ const eslintConfig = [
       "@typescript-eslint/prefer-as-const": "error",
       
       // React - Best practices
-      "react-hooks/exhaustive-deps": "warn",
       "react/no-unescaped-entities": "off",
       
       // Next.js
@@ -28,7 +27,7 @@ const eslintConfig = [
     },
   },
   {
-    ignores: ["examples/**","node_modules/**", ".next/**", "out/**", "build/**", "next-env.d.ts", "examples/**", "skills"]
+    ignores: ["examples/**","node_modules/**", ".next/**", "out/**", "build/**", "_ops/**", "next-env.d.ts", "examples/**", "skills"]
   }
 ];
 

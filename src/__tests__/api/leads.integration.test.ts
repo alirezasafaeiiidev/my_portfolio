@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { NextRequest } from 'next/server'
 
 const dbMock = vi.hoisted(() => ({
-  contactMessage: {
+  lead: {
     create: vi.fn(),
   },
 }))
@@ -43,7 +43,7 @@ describe('lead API integration', () => {
 
     const response = await POST(request)
     expect(response.status).toBe(201)
-    expect(dbMock.contactMessage.create).toHaveBeenCalledTimes(1)
+    expect(dbMock.lead.create).toHaveBeenCalledTimes(1)
   })
 
   it('rejects invalid payload', async () => {
@@ -58,6 +58,33 @@ describe('lead API integration', () => {
 
     const response = await POST(request)
     expect(response.status).toBe(400)
-    expect(dbMock.contactMessage.create).not.toHaveBeenCalled()
+    expect(dbMock.lead.create).not.toHaveBeenCalled()
+  })
+
+  it('ignores honeypot submissions without storing data', async () => {
+    const { POST } = await import('@/app/api/leads/route')
+    const request = new NextRequest('http://localhost:3000/api/leads', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        contactName: 'Ali Safaei',
+        organizationName: 'Industrial Co',
+        organizationType: 'government_contractor',
+        email: 'lead@example.com',
+        phone: '09120000000',
+        teamSize: '12',
+        currentStack: 'Next.js + PostgreSQL',
+        criticalRisk: 'No disaster recovery test and no release governance.',
+        timeline: '30 days',
+        budgetRange: '60-120m-irr',
+        preferredContact: 'email',
+        notes: 'Need risk assessment this month.',
+        website: 'https://spam.example.com',
+      }),
+    })
+
+    const response = await POST(request)
+    expect(response.status).toBe(201)
+    expect(dbMock.lead.create).not.toHaveBeenCalled()
   })
 })

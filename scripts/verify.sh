@@ -40,7 +40,9 @@ run_check() {
 # Check 1: Lint
 echo ""
 echo "🔧 STEP 1: Running linter..."
-if ! run_check "ESLint" "bun run lint"; then
+# Ensure optional test artifact paths exist to avoid ESLint filesystem edge-cases.
+mkdir -p test-results playwright-report
+if ! run_check "ESLint" "pnpm run lint"; then
     echo -e "${RED}Linting failed!${NC}"
     exit 1
 fi
@@ -49,7 +51,7 @@ fi
 echo ""
 echo "📘 STEP 2: Running type check..."
 if grep -q "tsc" package.json 2>/dev/null; then
-    if ! run_check "TypeScript" "bun run type-check 2>/dev/null || bun tsc --noEmit"; then
+    if ! run_check "TypeScript" "pnpm run type-check 2>/dev/null || pnpm exec tsc --noEmit"; then
         echo -e "${YELLOW}Type check not available or failed${NC}"
     fi
 else
@@ -59,7 +61,7 @@ fi
 # Check 3: Tests with Coverage
 echo ""
 echo "🧪 STEP 3: Running tests..."
-if ! run_check "Tests" "bun run test"; then
+if ! run_check "Tests" "pnpm run test"; then
     echo -e "${RED}Tests failed!${NC}"
     exit 1
 fi
@@ -67,7 +69,7 @@ fi
 # Check 4: Build
 echo ""
 echo "🏗️  STEP 4: Running build..."
-if ! run_check "Build" "bun run build"; then
+if ! run_check "Build" "pnpm run build"; then
     echo -e "${RED}Build failed!${NC}"
     exit 1
 fi

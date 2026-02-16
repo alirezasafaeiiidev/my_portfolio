@@ -1,12 +1,7 @@
 import { Hero } from '@/components/sections/hero'
-import { About } from '@/components/sections/about'
-import { Portfolio } from '@/components/sections/portfolio'
-import { Skills } from '@/components/sections/skills'
-import { Experience } from '@/components/sections/experience'
-import { Testimonials } from '@/components/sections/testimonials'
 import { Services } from '@/components/sections/services'
-import { FAQ } from '@/components/sections/faq'
-import { Blog } from '@/components/sections/blog'
+import { FeaturedCaseStudies } from '@/components/sections/featured-case-studies'
+import { AboutSummary } from '@/components/sections/about-summary'
 import { Contact } from '@/components/sections/contact'
 
 export default function Home() {
@@ -14,13 +9,8 @@ export default function Home() {
     <div className="w-full min-h-screen">
       <Hero />
       <Services />
-      <About />
-      <Portfolio />
-      <Skills />
-      <Experience />
-      <Testimonials />
-      <FAQ />
-      <Blog />
+      <FeaturedCaseStudies />
+      <AboutSummary />
       <Contact />
     </div>
   )
