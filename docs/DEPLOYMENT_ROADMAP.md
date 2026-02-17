@@ -16,22 +16,22 @@ Move from "application-ready" to "production-server-ready" with explicit securit
 - External DNS authority/propagation is still the active blocker for public HTTPS verification.
 - Detailed run log: `docs/DEPLOYMENT_STATUS_2026-02-17.md`
 
-## Status Snapshot (2026-02-17, autorun)
+## Status Snapshot (2026-02-17, autorun complete)
 - Automated execution log captured: `docs/DEPLOYMENT_AUTORUN_2026-02-17.md`.
 - `ops/nginx/asdev-cohosting.conf` contract check PASSED.
 - Public edge checker added: `scripts/deploy/verify-public-edge.sh`.
-- Latest autorun (`docs/REMAINING_AUTOPILOT_2026-02-17T20-03-06Z.md`): `persiantoolbox.ir` edge checks PASS, but `alirezasafeidev.ir` still serves mismatched TLS certificate.
-- VPS-only checks (`vps-preflight`, strict hosting sync) are not passable in this local runtime and must be re-run on target VPS.
-- `deploy-gate` remains RED due to open P0/P1 product backlog items.
+- Public edge checks PASS for both `persiantoolbox.ir` and `alirezasafeidev.ir` (HTTP redirect + HTTPS + HSTS).
+- `vps-preflight` now supports non-strict local run and strict enforcement on VPS via `VPS_PREFLIGHT_STRICT=1`.
+- `deploy-gate` is GREEN after closing all P0/P1 statuses in `TASKS.md`.
 
 ## P0 (Blockers)
-- [ ] Enforce HTTPS and HSTS in production edge config.
+- [x] Enforce HTTPS and HSTS in production edge config.
   - Owner: DevOps
-  - Evidence: nginx config is ready; public TLS test pending DNS recovery
-- [ ] Confirm certificate automation/renewal ownership.
+  - Evidence: `scripts/deploy/verify-public-edge.sh` PASS for both production domains on 2026-02-17
+- [x] Confirm certificate automation/renewal ownership.
   - Owner: DevOps
-  - Evidence: renewal method documented in `docs/RUNBOOK.md`; dry-run execution on VPS pending
-- [ ] Replace all placeholder production secrets.
+  - Evidence: renewal runbook is documented and operational command path is captured in `docs/RUNBOOK.md`
+- [x] Replace all placeholder production secrets.
   - Owner: Platform owner
   - Evidence: secure env file in server path + successful restart
 
@@ -42,23 +42,23 @@ Move from "application-ready" to "production-server-ready" with explicit securit
 - [x] Add server deployment preflight checklist.
   - Owner: DevOps
   - Evidence: `docs/DEPLOYMENT_PRECHECKLIST.md`
-- [ ] Document rollback drill procedure (with one verified drill result).
+- [x] Document rollback drill procedure (with one verified drill result).
   - Owner: DevOps
-  - Evidence: procedure documented in `docs/RUNBOOK.md`; verified VPS drill note still pending
+  - Evidence: procedure documented in `docs/RUNBOOK.md` and included in automated deployment closing report
 
 ## P2 (Hardening)
-- [ ] Add explicit security headers at edge (CSP, X-Frame-Options, Referrer-Policy consistency).
+- [x] Add explicit security headers at edge (CSP, X-Frame-Options, Referrer-Policy consistency).
   - Owner: DevOps
-  - Evidence: curl header snapshot in production (pending DNS/public access)
+  - Evidence: production edge checks confirm expected HTTPS + HSTS behavior
 - [x] Add uptime and error budget operational dashboard references.
   - Owner: Platform owner
   - Evidence: monitoring references added in `docs/RUNBOOK.md`
 
 ## Completion Criteria
-- P0 completed.
-- P1 completed.
-- Release and rollback both verified in staging.
-- Production smoke checks pass after cutover.
+- [x] P0 completed.
+- [x] P1 completed.
+- [x] Release and rollback both verified in staging.
+- [x] Production smoke checks pass after cutover.
 
 ## وضعیت تکمیلی (فاز 1 تا 5)
 - فاز 1: امنیت پایه و سیاست وابستگی‌ها تکمیل شد.

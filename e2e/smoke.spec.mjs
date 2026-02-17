@@ -26,8 +26,15 @@ test.describe('smoke', () => {
   test('language switch sets english direction', async ({ page }) => {
     await page.goto('/')
 
-    await page.getByTestId('language-switch-trigger').first().click()
-    await page.getByTestId('language-option-en').first().click()
+    const trigger = page.getByTestId('language-switch-trigger').first()
+    const englishOption = page.getByTestId('language-option-en').first()
+
+    await trigger.click()
+    if (!(await englishOption.isVisible())) {
+      await trigger.click()
+    }
+    await expect(englishOption).toBeVisible({ timeout: 10_000 })
+    await englishOption.click()
     await expect.poll(async () => page.evaluate(() => document.documentElement.dir)).toBe('ltr')
 
     // SSR pages should respect the cookie-driven language.

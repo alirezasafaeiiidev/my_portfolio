@@ -36,6 +36,13 @@
   - بررسی هدر HSTS و وضعیت HTTPS با `curl -I https://<domain>`
   - یا اجرای یکجا: `bash scripts/deploy/verify-public-edge.sh <domain> <expected-ip>`
 
+## VPS Preflight
+- اجرای محلی (غیر سخت‌گیر): `bash scripts/vps-preflight.sh`
+  - اگر `pm2` یا `nginx` در محیط فعلی نصب نباشد، اسکریپت با warning عبور می‌کند.
+- اجرای سخت‌گیر روی VPS (الزامی قبل از deploy):
+  - `VPS_PREFLIGHT_STRICT=1 bash scripts/vps-preflight.sh`
+  - در این حالت نبود هر وابستگی لازم باعث شکست می‌شود.
+
 ## Rollback Drill
 - مسیر اجرا: `bash ops/deploy/rollback.sh --env production`
 - معیار قبولی:
@@ -56,3 +63,4 @@
 
 ## مشکل رایج
 - نبود `middleware.ts` باعث غیرفعال بودن CSP و nonce است؛ پس از افزودن، هدرها باید با `next.config.ts` سازگار باشند.
+- اگر `deploy-gate` قرمز شد، ابتدا وضعیت P0/P1 در `TASKS.md` را بررسی کنید.
