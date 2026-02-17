@@ -7,6 +7,7 @@ const launchOptions = fs.existsSync(systemChromePath)
       args: ['--no-sandbox', '--disable-dev-shm-usage'],
     }
   : undefined
+const disableWebServer = process.env.PW_NO_WEBSERVER === '1'
 
 const config = {
   testDir: './e2e',
@@ -20,12 +21,14 @@ const config = {
     video: 'off',
     launchOptions,
   },
-  webServer: {
-    command: "bash -lc 'pnpm run build && pnpm run start'",
-    url: 'http://localhost:3000',
-    reuseExistingServer: false,
-    timeout: 240_000,
-  },
+  webServer: disableWebServer
+    ? undefined
+    : {
+        command: "bash -lc 'pnpm run build && pnpm run start'",
+        url: 'http://localhost:3000',
+        reuseExistingServer: false,
+        timeout: 240_000,
+      },
 }
 
 export default config

@@ -132,3 +132,20 @@ jobs:
         run: bash scripts/verify.sh
       - name: scripts/offline-external-scan.sh
         run: bash scripts/offline-external-scan.sh
+
+  deploy-gate:
+    name: Deploy gate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+          cache-dependency-path: pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+      - name: Run deploy gate (P0/P1 block)
+        run: pnpm run deploy:gate

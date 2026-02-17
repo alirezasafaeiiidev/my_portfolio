@@ -17,7 +17,7 @@ test.describe('smoke', () => {
 
   test('home page renders key sections', async ({ page }) => {
     await page.goto('/')
-    await expect(page.locator('main')).toBeVisible()
+    await expect(page.locator('#main-content')).toBeVisible()
     await expect(page.locator('section#services')).toBeVisible()
     await expect(page.locator('a[href="/services/infrastructure-localization"]')).toBeVisible()
     await expect(page.locator('section#contact')).toBeVisible()
@@ -26,8 +26,8 @@ test.describe('smoke', () => {
   test('language switch sets english direction', async ({ page }) => {
     await page.goto('/')
 
-    await page.locator('button:has(svg.lucide-languages)').first().click()
-    await page.getByRole('menuitem', { name: /English|انگلیسی/ }).click()
+    await page.getByTestId('language-switch-trigger').first().click()
+    await page.getByTestId('language-option-en').first().click()
     await expect.poll(async () => page.evaluate(() => document.documentElement.dir)).toBe('ltr')
 
     // SSR pages should respect the cookie-driven language.

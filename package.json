@@ -23,6 +23,8 @@
     "test:e2e:smoke": "npx playwright test e2e/smoke.spec.mjs --config=playwright.config.mjs",
     "test:full": "pnpm run verify && pnpm run test:e2e:smoke && pnpm run lighthouse:ci && pnpm run audit:high && pnpm run scan:secrets",
     "lighthouse:ci": "LHCI_BUILD_CONTEXT__CURRENT_HASH=${LHCI_BUILD_CONTEXT__CURRENT_HASH:-$(git rev-parse HEAD 2>/dev/null || echo local)} pnpm exec lhci autorun --config=./lighthouserc.json",
+    "deploy:gate": "node scripts/deploy-gate.mjs",
+    "autopilot:remaining": "bash scripts/autopilot-remaining.sh",
     "db:push": "prisma db push",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",

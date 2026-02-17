@@ -17,7 +17,7 @@ function getCases(lang: 'fa' | 'en') {
   if (lang === 'en') {
     return [
       {
-        title: 'alirezasafaeidev.ir Portfolio System',
+        title: 'alirezasafeidev.ir Portfolio System',
         sector: 'Consulting / Acquisition',
         outcome: 'Visitor → Lead funnel with DB-backed qualification, strict QA gates, and VPS-ready deployment',
         href: '/case-studies/alirezasafaeidev-portfolio',
@@ -51,7 +51,7 @@ function getCases(lang: 'fa' | 'en') {
 
   return [
     {
-      title: 'سیستم پورتفولیو alirezasafaeidev.ir',
+      title: 'سیستم پورتفولیو alirezasafeidev.ir',
       sector: 'جذب پروژه',
       outcome: 'قیف Visitor → Lead با ذخیره در DB، گیت‌های کیفیت سخت‌گیرانه، و آمادگی VPS',
       href: '/case-studies/alirezasafaeidev-portfolio',

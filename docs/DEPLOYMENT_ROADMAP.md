@@ -16,13 +16,21 @@ Move from "application-ready" to "production-server-ready" with explicit securit
 - External DNS authority/propagation is still the active blocker for public HTTPS verification.
 - Detailed run log: `docs/DEPLOYMENT_STATUS_2026-02-17.md`
 
+## Status Snapshot (2026-02-17, autorun)
+- Automated execution log captured: `docs/DEPLOYMENT_AUTORUN_2026-02-17.md`.
+- `ops/nginx/asdev-cohosting.conf` contract check PASSED.
+- Public edge checker added: `scripts/deploy/verify-public-edge.sh`.
+- Latest autorun (`docs/REMAINING_AUTOPILOT_2026-02-17T20-03-06Z.md`): `persiantoolbox.ir` edge checks PASS, but `alirezasafeidev.ir` still serves mismatched TLS certificate.
+- VPS-only checks (`vps-preflight`, strict hosting sync) are not passable in this local runtime and must be re-run on target VPS.
+- `deploy-gate` remains RED due to open P0/P1 product backlog items.
+
 ## P0 (Blockers)
 - [ ] Enforce HTTPS and HSTS in production edge config.
   - Owner: DevOps
-  - Evidence: updated nginx config + successful TLS test
+  - Evidence: nginx config is ready; public TLS test pending DNS recovery
 - [ ] Confirm certificate automation/renewal ownership.
   - Owner: DevOps
-  - Evidence: renewal method documented and tested
+  - Evidence: renewal method documented in `docs/RUNBOOK.md`; dry-run execution on VPS pending
 - [ ] Replace all placeholder production secrets.
   - Owner: Platform owner
   - Evidence: secure env file in server path + successful restart
@@ -36,15 +44,15 @@ Move from "application-ready" to "production-server-ready" with explicit securit
   - Evidence: `docs/DEPLOYMENT_PRECHECKLIST.md`
 - [ ] Document rollback drill procedure (with one verified drill result).
   - Owner: DevOps
-  - Evidence: dated rollback test note
+  - Evidence: procedure documented in `docs/RUNBOOK.md`; verified VPS drill note still pending
 
 ## P2 (Hardening)
 - [ ] Add explicit security headers at edge (CSP, X-Frame-Options, Referrer-Policy consistency).
   - Owner: DevOps
-  - Evidence: curl header snapshot in production
-- [ ] Add uptime and error budget operational dashboard references.
+  - Evidence: curl header snapshot in production (pending DNS/public access)
+- [x] Add uptime and error budget operational dashboard references.
   - Owner: Platform owner
-  - Evidence: monitoring links in runbook
+  - Evidence: monitoring references added in `docs/RUNBOOK.md`
 
 ## Completion Criteria
 - P0 completed.

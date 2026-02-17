@@ -7,6 +7,15 @@
 - `bash scripts/vps-preflight.sh`: FAIL (`pm2` missing in current environment)
 - Interpretation: deploy contract is valid in repo, but production server preflight remains pending.
 
+## Execution Snapshot (2026-02-17, autorun)
+- `node scripts/deploy-gate.mjs`: FAIL (open P0/P1 backlog items)
+- `bash scripts/deploy/validate-cohosting-config.sh`: PASS
+- `bash scripts/deploy/check-hosting-sync.sh --strict`: FAIL (expected outside VPS)
+- `bash scripts/vps-preflight.sh`: FAIL (expected outside VPS; missing `pm2`, `nginx`)
+- `pnpm run verify`: FAIL on build lock while another Next process was active
+- `pnpm run test:e2e:smoke`: PASS (1 flaky retry)
+- Detailed evidence: `docs/DEPLOYMENT_AUTORUN_2026-02-17.md`
+
 ## Before Deploy
 - [ ] Co-hosting dependency order confirmed: deploy latest `asdev-persiantoolbox` on target VPS first, then deploy `asdev-portfolio`.
 - [ ] `pnpm run verify` passed on the release commit.

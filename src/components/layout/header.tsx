@@ -115,15 +115,22 @@ export function Header() {
                     size="icon"
                     className="h-10 w-10 card-hover"
                     aria-label={t('ui.changeLanguage')}
+                    data-testid="language-switch-trigger"
                   >
                     <Languages className="h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuItem onClick={() => changeLanguage('en')}>
+                  <DropdownMenuItem
+                    onClick={() => changeLanguage('en')}
+                    data-testid="language-option-en"
+                  >
                     {t('nav.english')}
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => changeLanguage('fa')}>
+                  <DropdownMenuItem
+                    onClick={() => changeLanguage('fa')}
+                    data-testid="language-option-fa"
+                  >
                     {t('nav.persian')}
                   </DropdownMenuItem>
                 </DropdownMenuContent>

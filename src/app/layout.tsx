@@ -6,6 +6,7 @@ import { Footer } from "@/components/layout/footer";
 import { JsonLd } from "@/components/seo/json-ld";
 import { I18nProvider } from "@/lib/i18n-context";
 import { ThemeProvider } from "@/components/theme/theme-provider";
+import { ServiceWorkerProvider } from "@/components/service-worker/client-provider";
 import { generatePersonSchema, generateWebSiteSchema, generateBreadcrumbSchema, generateOrganizationSchema } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/site-config";
 import { brand } from "@/lib/brand";
@@ -160,6 +161,7 @@ export default async function RootLayout({
           </main>
           <Footer />
           <Toaster />
+          <ServiceWorkerProvider />
         </I18nProvider>
       </ThemeProvider>
       </body>

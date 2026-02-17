@@ -27,7 +27,7 @@ const eslintConfig = [
     },
   },
   {
-    ignores: ["examples/**","node_modules/**", ".next/**", "out/**", "build/**", "_ops/**", "next-env.d.ts", "examples/**", "skills"]
+    ignores: ["examples/**","node_modules/**", ".next/**", "out/**", "build/**", "_ops/**", "next-env.d.ts", "examples/**", "skills", "coverage/**"]
   }
 ];
 

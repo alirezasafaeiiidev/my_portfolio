@@ -16,15 +16,26 @@ export function LanguageSwitcher() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon">
+        <Button
+          variant="ghost"
+          size="icon"
+          aria-label="Switch language"
+          data-testid="language-switch-trigger"
+        >
           <Languages className="h-5 w-5" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setLanguage('en')}>
+        <DropdownMenuItem
+          onClick={() => setLanguage('en')}
+          data-testid="language-option-en"
+        >
           English
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setLanguage('fa')}>
+        <DropdownMenuItem
+          onClick={() => setLanguage('fa')}
+          data-testid="language-option-fa"
+        >
           فارسی
         </DropdownMenuItem>
       </DropdownMenuContent>
