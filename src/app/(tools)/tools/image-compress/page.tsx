@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { headers } from 'next/headers'
 import { ToolSeoContent } from '@/components/seo/tool-seo-content'
+import { BatchQueueDemo } from '@/components/tools/batch-queue-demo'
 import { generateToolMetadata, getToolBySlug } from '@/lib/tool-seo'
 import { toolsByCategory } from '@/lib/tools-registry'
 
@@ -26,6 +27,8 @@ export default async function ImageCompressPage() {
             ورودی‌ها، تنظیم کیفیت و پیش‌نمایش در نسخه نهایی اضافه می‌شوند.
           </p>
         </div>
+
+        <BatchQueueDemo />
 
         {tool?.faqs && (
           <div className="space-y-3 rounded-lg border border-border bg-background p-4">

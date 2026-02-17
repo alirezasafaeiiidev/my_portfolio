@@ -20,3 +20,4 @@ Last autorun evidence: `docs/REMAINING_AUTOPILOT_2026-02-17T20-03-06Z.md`
 - [x] Public edge check for `persiantoolbox.ir`
 - [x] Public edge check for `alirezasafeidev.ir`
 - [x] Deploy gate (`pnpm run deploy:gate`)
+- [x] P2 product closures (`P2-01`, `P2-02`, `P2-03`, `P2-04`, `P2-05`)

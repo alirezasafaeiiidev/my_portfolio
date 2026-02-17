@@ -33,6 +33,13 @@ const staticPages: PaletteEntry[] = [
     search: 'tools ابزارها جعبه ابزار',
   },
   {
+    id: 'page-dashboard',
+    label: 'Dashboard ابزارها',
+    href: '/dashboard',
+    category: 'pages',
+    search: 'dashboard history export import داشبورد تاریخچه',
+  },
+  {
     id: 'page-services',
     label: 'Services',
     href: '/services',

@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { headers } from 'next/headers'
 import { ToolSeoContent } from '@/components/seo/tool-seo-content'
+import { ToolRunRecorder } from '@/components/tools/tool-run-recorder'
 import { generateToolMetadata, getToolBySlug } from '@/lib/tool-seo'
 import { toolsByCategory } from '@/lib/tools-registry'
 
@@ -26,6 +27,7 @@ export default async function PdfMergePage() {
             فایل‌ها به‌صورت محلی و داخل مرورگر پردازش خواهند شد. نسخه نهایی آپلود به سرور ندارد.
           </p>
         </div>
+        <ToolRunRecorder toolId="pdf-merge" toolTitle="ادغام PDF" />
 
         {tool?.faqs && (
           <div className="space-y-3 rounded-lg border border-border bg-background p-4">

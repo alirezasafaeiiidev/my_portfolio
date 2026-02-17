@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { headers } from 'next/headers'
 import { ToolSeoContent } from '@/components/seo/tool-seo-content'
+import { ToolRunRecorder } from '@/components/tools/tool-run-recorder'
 import { generateToolMetadata, getToolBySlug } from '@/lib/tool-seo'
 import { toolsByCategory } from '@/lib/tools-registry'
 
@@ -26,6 +27,7 @@ export default async function ImageResizePage() {
             انتخاب ابعاد بر اساس پیکسل یا درصد و قفل نسبت تصویر در مرحله بعد افزوده خواهد شد.
           </p>
         </div>
+        <ToolRunRecorder toolId="image-resize" toolTitle="تغییر اندازه تصویر" />
 
         {related.length > 0 && (
           <div className="space-y-3">

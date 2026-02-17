@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { MessageSquare, Briefcase, BarChart3, Users, Trash2, LogOut, ClipboardList } from 'lucide-react'
 import { toast } from '@/hooks/use-toast'
+import { formatLocalizedDateTime, formatLocalizedNumber } from '@/lib/persian-utils'
 
 interface Message {
   id: string
@@ -151,7 +152,7 @@ export function AdminDashboard() {
               <MessageSquare className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{messages.length}</div>
+              <div className="text-2xl font-bold">{formatLocalizedNumber(messages.length, 'fa-IR')}</div>
             </CardContent>
           </Card>
           <Card>
@@ -160,7 +161,7 @@ export function AdminDashboard() {
               <ClipboardList className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{leads.length}</div>
+              <div className="text-2xl font-bold">{formatLocalizedNumber(leads.length, 'fa-IR')}</div>
             </CardContent>
           </Card>
           <Card>
@@ -169,7 +170,7 @@ export function AdminDashboard() {
               <Briefcase className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">6</div>
+              <div className="text-2xl font-bold">{formatLocalizedNumber(6, 'fa-IR')}</div>
             </CardContent>
           </Card>
           <Card>
@@ -178,7 +179,7 @@ export function AdminDashboard() {
               <BarChart3 className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">2.4K</div>
+              <div className="text-2xl font-bold">{formatLocalizedNumber(2400, 'fa-IR')}</div>
             </CardContent>
           </Card>
           <Card>
@@ -187,7 +188,7 @@ export function AdminDashboard() {
               <Users className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">12</div>
+              <div className="text-2xl font-bold">{formatLocalizedNumber(12, 'fa-IR')}</div>
             </CardContent>
           </Card>
         </div>
@@ -268,7 +269,7 @@ export function AdminDashboard() {
                             {lead.status}
                           </Badge>
                         </TableCell>
-                        <TableCell>{new Date(lead.createdAt).toLocaleDateString()}</TableCell>
+                        <TableCell>{formatLocalizedDateTime(lead.createdAt, 'fa-IR')}</TableCell>
                         <TableCell className="text-right">
                           <div className="flex justify-end gap-2">
                             <Button
@@ -334,7 +335,7 @@ export function AdminDashboard() {
                           {message.subject || <span className="text-muted-foreground">-</span>}
                         </TableCell>
                         <TableCell>
-                          {new Date(message.createdAt).toLocaleDateString()}
+                          {formatLocalizedDateTime(message.createdAt, 'fa-IR')}
                         </TableCell>
                         <TableCell className="text-right">
                           <Button
@@ -390,14 +391,14 @@ export function AdminDashboard() {
                     <div className="font-semibold">Page Views</div>
                     <div className="text-sm text-muted-foreground">Last 30 days</div>
                   </div>
-                  <Badge variant="secondary" className="text-lg">2,458</Badge>
+                  <Badge variant="secondary" className="text-lg">{formatLocalizedNumber(2458, 'fa-IR')}</Badge>
                 </div>
                 <div className="flex justify-between items-center p-4 bg-muted/50 rounded-lg">
                   <div>
                     <div className="font-semibold">Unique Visitors</div>
                     <div className="text-sm text-muted-foreground">Last 30 days</div>
                   </div>
-                  <Badge variant="secondary" className="text-lg">1,847</Badge>
+                  <Badge variant="secondary" className="text-lg">{formatLocalizedNumber(1847, 'fa-IR')}</Badge>
                 </div>
                 <div className="flex justify-between items-center p-4 bg-muted/50 rounded-lg">
                   <div>

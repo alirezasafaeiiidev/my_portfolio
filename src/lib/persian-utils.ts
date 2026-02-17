@@ -215,3 +215,30 @@ export function formatFileSize(bytes: number): string {
 
   return `${toPersianDigits(size.toFixed(2))} ${units[unitIndex]}`
 }
+
+export function formatLocalizedNumber(value: number | string, locale: 'fa-IR' | 'en-US' = 'fa-IR'): string {
+  const normalized = typeof value === 'string' ? Number(toEnglishDigits(value.replace(/,/g, ''))) : value
+  if (!Number.isFinite(normalized)) {
+    return String(value)
+  }
+
+  return new Intl.NumberFormat(locale, { maximumFractionDigits: 2 }).format(normalized)
+}
+
+export function formatLocalizedDateTime(
+  value: Date | string,
+  locale: 'fa-IR' | 'en-US' = 'fa-IR',
+): string {
+  const date = value instanceof Date ? value : new Date(value)
+  if (isNaN(date.getTime())) {
+    return String(value)
+  }
+
+  return new Intl.DateTimeFormat(locale, {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+  }).format(date)
+}

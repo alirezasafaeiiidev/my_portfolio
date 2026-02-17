@@ -12,6 +12,8 @@ import {
   toJalaliDate,
   formatDuration,
   formatFileSize,
+  formatLocalizedNumber,
+  formatLocalizedDateTime,
 } from '@/lib/persian-utils'
 
 describe('toPersianDigits', () => {
@@ -226,5 +228,17 @@ describe('round-trip conversions', () => {
     const persian = toPersianDigits(original)
     const back = toEnglishDigits(persian)
     expect(back).toBe(original)
+  })
+})
+
+describe('localized formatting helpers', () => {
+  it('formats localized numbers for fa and en locales', () => {
+    expect(formatLocalizedNumber(1234567, 'fa-IR')).toContain('۱')
+    expect(formatLocalizedNumber(1234567, 'en-US')).toContain('1')
+  })
+
+  it('formats localized datetime for fa locale', () => {
+    const formatted = formatLocalizedDateTime('2026-02-17T20:43:57.983Z', 'fa-IR')
+    expect(formatted).toMatch(/[۰-۹]/)
   })
 })

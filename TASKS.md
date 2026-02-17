@@ -37,8 +37,8 @@ The tasks below convert the audit gaps into executable work items, prioritized f
 - `tasks/P1-10.md` — Admin UX for toolbox settings/monetization (behind admin auth) — ✅
 
 ### P2 (Nice-to-have)
-- `tasks/P2-01.md` — Export/import history & settings (local-first) — ❌
-- `tasks/P2-02.md` — Batch processing queue (multi-file jobs, resumable UX) — ❌
+- `tasks/P2-01.md` — Export/import history & settings (local-first) — ✅
+- `tasks/P2-02.md` — Batch processing queue (multi-file jobs, resumable UX) — ✅
 - `tasks/P2-03.md` — Command palette + keyboard shortcuts (RTL-aware) — ✅
 - `tasks/P2-04.md` — PWA update UX polish (prompt, changelog, cache controls) — ✅
-- `tasks/P2-05.md` — Persian date accuracy + numeral formatting unification — ❌
+- `tasks/P2-05.md` — Persian date accuracy + numeral formatting unification — ✅

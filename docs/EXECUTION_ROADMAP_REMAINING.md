@@ -31,6 +31,6 @@
 3. [x] ثبت بسته نهایی شواهد عملیاتی در docs و بستن برد `docs/REMAINING_TASKS_ACTIVE.md`.
 
 ## Remaining (Product Enhancements)
-1. `P2-01` Export/import history & settings.
-2. `P2-02` Batch processing queue.
-3. `P2-05` Persian date/numeral unification (number/currency/date output in all UI surfaces).
+1. [x] `P2-01` Export/import history & settings.
+2. [x] `P2-02` Batch processing queue.
+3. [x] `P2-05` Persian date/numeral unification (core UI surfaces).

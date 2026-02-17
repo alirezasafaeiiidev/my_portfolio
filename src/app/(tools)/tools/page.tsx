@@ -16,6 +16,9 @@ export default function ToolsHubPage() {
         <p className="text-muted-foreground">
           همه چیز روی مرورگر شما انجام می‌شود؛ بدون نیاز به آپلود روی سرور خارجی.
         </p>
+        <Link href="/dashboard" className="inline-block text-sm font-semibold text-primary">
+          داشبورد محلی (History / Export / Import)
+        </Link>
       </header>
 
       <section className="space-y-4">
