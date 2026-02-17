@@ -3,6 +3,7 @@ set -euo pipefail
 
 STRICT=false
 ROOT_DIR="/var/www"
+DU_TIMEOUT_SECONDS="${DU_TIMEOUT_SECONDS:-20}"
 
 usage() {
   cat <<USAGE
@@ -58,7 +59,14 @@ for entry in "${APPS[@]}"; do
 
   if [[ -d "$base_dir" ]]; then
     echo "[audit] storage ${slug}"
-    du -sh "$base_dir"/releases "$base_dir"/shared/logs "$base_dir"/shared/env 2>/dev/null || true
+    if command -v timeout >/dev/null 2>&1; then
+      timeout "${DU_TIMEOUT_SECONDS}" du -sh \
+        "$base_dir"/releases \
+        "$base_dir"/shared/logs \
+        "$base_dir"/shared/env 2>/dev/null || echo "[audit] WARN storage size snapshot timed out for ${slug}"
+    else
+      du -sh "$base_dir"/releases "$base_dir"/shared/logs "$base_dir"/shared/env 2>/dev/null || true
+    fi
     cache_count=$(find "$base_dir/releases" -type d -name cache -path '*/.next/cache' 2>/dev/null | wc -l | tr -d ' ')
     echo "  .next cache dirs: ${cache_count}"
   else
