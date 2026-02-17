@@ -1,0 +1,13 @@
+ts=20260217T222109Z
+https_proxy=http://127.0.0.1:10808/
+http_proxy=http://127.0.0.1:10808/
+HTTPS_PROXY=http://127.0.0.1:10808/
+HTTP_PROXY=http://127.0.0.1:10808/
+NO_PROXY=localhost,127.0.0.0/8,::1
+curl=/usr/bin/curl
+docker=NOT_FOUND
+trivy=NOT_FOUND
+osv-scanner=NOT_FOUND
+go=NOT_FOUND
+npm=/usr/bin/npm
+pnpm=/home/dev/.local/share/pnpm/pnpm

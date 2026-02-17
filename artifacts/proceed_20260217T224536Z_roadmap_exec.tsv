@@ -1,0 +1,6 @@
+step	command	log	exit_code
+1	sudo apt-get update && sudo apt-get install -y docker.io	artifacts/proceed_20260217T224536Z_roadmap_exec_01.log	1
+2	docker --version && docker info	artifacts/proceed_20260217T224536Z_roadmap_exec_02.log	127
+3	docker build -t asdev-portfolio:audit-next .	artifacts/proceed_20260217T224536Z_roadmap_exec_03.log	127
+4	NO_PROXY='*' HTTPS_PROXY='' HTTP_PROXY='' https_proxy='' http_proxy='' artifacts/bin/trivy fs --scanners vuln,secret,misconfig --timeout 10m .	artifacts/proceed_20260217T224536Z_roadmap_exec_04.log	1
+5	NO_PROXY='*' HTTPS_PROXY='' HTTP_PROXY='' https_proxy='' http_proxy='' artifacts/bin/osv-scanner scan -r .	artifacts/proceed_20260217T224536Z_roadmap_exec_05.log	1

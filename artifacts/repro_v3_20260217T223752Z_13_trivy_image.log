@@ -1,0 +1,6 @@
+name=trivy_image
+command=echo 'docker image scan skipped; no docker engine'
+started_at=2026-02-17T22:41:24Z
+docker image scan skipped; no docker engine
+exit_code=0
+finished_at=2026-02-17T22:41:24Z

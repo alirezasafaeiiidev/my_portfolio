@@ -1,0 +1,10 @@
+tool availability check
+checked_at: 2026-02-17T21:57:52Z
+osv-scanner: NOT_INSTALLED
+gitleaks: NOT_INSTALLED
+trufflehog: NOT_INSTALLED
+trivy: NOT_INSTALLED
+checkov: NOT_INSTALLED
+tfsec: NOT_INSTALLED
+syft: NOT_INSTALLED
+cosign: NOT_INSTALLED

@@ -1,0 +1,22 @@
+command=NO_PROXY='*' HTTPS_PROXY='' HTTP_PROXY='' artifacts/bin/osv-scanner scan -r .
+started_at=2026-02-17T22:31:58Z
+Scanning dir .
+Starting filesystem walk for root: /
+Scanned /home/dev/Project_Me/asdev-portfolio/pnpm-lock.yaml file and found 1324 packages
+Scanned /home/dev/Project_Me/asdev-portfolio/bun.lock file and found 1109 packages
+End status: 387 dirs visited, 2051 inodes visited, 2 Extract calls, 67.249064ms elapsed, 67.249169ms wall time
+Total 5 packages affected by 5 known vulnerabilities (0 Critical, 0 High, 3 Medium, 2 Low, 0 Unknown) from 1 ecosystem.
+5 vulnerabilities can be fixed.
+
+
++-------------------------------------+------+-----------+---------+---------+---------------+----------------+
+| OSV URL                             | CVSS | ECOSYSTEM | PACKAGE | VERSION | FIXED VERSION | SOURCE         |
++-------------------------------------+------+-----------+---------+---------+---------------+----------------+
+| https://osv.dev/GHSA-2g4f-4pwh-qvx6 | 5.5  | npm       | ajv     | 6.12.6  | 8.18.0        | bun.lock       |
+| https://osv.dev/GHSA-2g4f-4pwh-qvx6 | 5.5  | npm       | ajv     | 6.12.6  | 8.18.0        | pnpm-lock.yaml |
+| https://osv.dev/GHSA-x7hr-w5r2-h6wg | 4.9  | npm       | prismjs | 1.27.0  | 1.30.0        | pnpm-lock.yaml |
+| https://osv.dev/GHSA-52f5-9888-hmc6 | 2.5  | npm       | tmp     | 0.0.33  | 0.2.4         | pnpm-lock.yaml |
+| https://osv.dev/GHSA-52f5-9888-hmc6 | 2.5  | npm       | tmp     | 0.1.0   | 0.2.4         | pnpm-lock.yaml |
++-------------------------------------+------+-----------+---------+---------+---------------+----------------+
+exit_code=1
+finished_at=2026-02-17T22:32:03Z

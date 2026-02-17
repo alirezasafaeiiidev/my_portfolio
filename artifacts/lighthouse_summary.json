@@ -1,0 +1,154 @@
+{
+  "generatedAt": "2026-02-17T22:00:24.409Z",
+  "runs": [
+    {
+      "file": "lhr-1771365329319.json",
+      "url": "http://127.0.0.1:3000/",
+      "fetchTime": "2026-02-17T21:55:19.056Z",
+      "performance": 0.87,
+      "accessibility": 1,
+      "bestPractices": 0.93,
+      "seo": 1,
+      "fcp": 1286.0007500000002,
+      "lcp": 3617.601200000001,
+      "cls": 0
+    },
+    {
+      "file": "lhr-1771365342502.json",
+      "url": "http://127.0.0.1:3000/",
+      "fetchTime": "2026-02-17T21:55:32.561Z",
+      "performance": 0.88,
+      "accessibility": 1,
+      "bestPractices": 0.93,
+      "seo": 1,
+      "fcp": 1325.7662,
+      "lcp": 3359.2986,
+      "cls": 0
+    },
+    {
+      "file": "lhr-1771365355179.json",
+      "url": "http://127.0.0.1:3000/",
+      "fetchTime": "2026-02-17T21:55:45.241Z",
+      "performance": 0.87,
+      "accessibility": 1,
+      "bestPractices": 0.93,
+      "seo": 1,
+      "fcp": 1302.6109999999999,
+      "lcp": 3429.6441999999997,
+      "cls": 0
+    },
+    {
+      "file": "lhr-1771365367258.json",
+      "url": "http://127.0.0.1:3000/services",
+      "fetchTime": "2026-02-17T21:55:57.903Z",
+      "performance": 0.89,
+      "accessibility": 1,
+      "bestPractices": 0.93,
+      "seo": 1,
+      "fcp": 1284.411125,
+      "lcp": 3615.057800000002,
+      "cls": 0
+    },
+    {
+      "file": "lhr-1771365379342.json",
+      "url": "http://127.0.0.1:3000/services",
+      "fetchTime": "2026-02-17T21:56:09.984Z",
+      "performance": 0.9,
+      "accessibility": 1,
+      "bestPractices": 0.93,
+      "seo": 1,
+      "fcp": 1286.141,
+      "lcp": 3617.8256,
+      "cls": 0
+    },
+    {
+      "file": "lhr-1771365391505.json",
+      "url": "http://127.0.0.1:3000/services",
+      "fetchTime": "2026-02-17T21:56:22.080Z",
+      "performance": 0.88,
+      "accessibility": 1,
+      "bestPractices": 0.93,
+      "seo": 1,
+      "fcp": 1291.3658999999998,
+      "lcp": 3610.731799999998,
+      "cls": 0
+    },
+    {
+      "file": "lhr-1771365403844.json",
+      "url": "http://127.0.0.1:3000/case-studies",
+      "fetchTime": "2026-02-17T21:56:34.232Z",
+      "performance": 0.86,
+      "accessibility": 1,
+      "bestPractices": 0.93,
+      "seo": 1,
+      "fcp": 1304.3388999999997,
+      "lcp": 3766.6777999999968,
+      "cls": 0
+    },
+    {
+      "file": "lhr-1771365416226.json",
+      "url": "http://127.0.0.1:3000/case-studies",
+      "fetchTime": "2026-02-17T21:56:46.586Z",
+      "performance": 0.88,
+      "accessibility": 1,
+      "bestPractices": 0.93,
+      "seo": 1,
+      "fcp": 1288.053625,
+      "lcp": 3770.8858,
+      "cls": 0
+    },
+    {
+      "file": "lhr-1771365428521.json",
+      "url": "http://127.0.0.1:3000/case-studies",
+      "fetchTime": "2026-02-17T21:56:58.971Z",
+      "performance": 0.88,
+      "accessibility": 1,
+      "bestPractices": 0.93,
+      "seo": 1,
+      "fcp": 1286.039125,
+      "lcp": 3767.6625999999987,
+      "cls": 0
+    }
+  ],
+  "summary": [
+    {
+      "url": "http://127.0.0.1:3000/",
+      "runs": 3,
+      "median": {
+        "performance": 0.87,
+        "accessibility": 1,
+        "bestPractices": 0.93,
+        "seo": 1,
+        "fcp_ms": 1302.6109999999999,
+        "lcp_ms": 3429.6441999999997,
+        "cls": 0
+      }
+    },
+    {
+      "url": "http://127.0.0.1:3000/services",
+      "runs": 3,
+      "median": {
+        "performance": 0.89,
+        "accessibility": 1,
+        "bestPractices": 0.93,
+        "seo": 1,
+        "fcp_ms": 1286.141,
+        "lcp_ms": 3615.057800000002,
+        "cls": 0
+      }
+    },
+    {
+      "url": "http://127.0.0.1:3000/case-studies",
+      "runs": 3,
+      "median": {
+        "performance": 0.88,
+        "accessibility": 1,
+        "bestPractices": 0.93,
+        "seo": 1,
+        "fcp_ms": 1288.053625,
+        "lcp_ms": 3767.6625999999987,
+        "cls": 0
+      }
+    }
+  ]
+}

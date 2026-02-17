@@ -1,0 +1,6 @@
+name=docker_build
+command=echo 'docker not available; NOT VERIFIED'
+started_at=2026-02-17T22:27:45Z
+docker not available; NOT VERIFIED
+exit_code=0
+finished_at=2026-02-17T22:27:45Z

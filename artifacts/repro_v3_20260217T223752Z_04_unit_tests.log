@@ -1,0 +1,56 @@
+name=unit_tests
+command=pnpm run test
+started_at=2026-02-17T22:38:04Z
+ WARN  Unsupported engine: wanted: {"node":">=20 <23"} (current: {"node":"v24.13.0","pnpm":"9.15.0"})
+
+> nextjs_tailwind_shadcn_ts@0.2.0 test /home/dev/Project_Me/asdev-portfolio
+> vitest run
+
+
+ RUN  v4.0.18 /home/dev/Project_Me/asdev-portfolio
+
+ ✓ src/__tests__/seo/sitemap.test.ts (1 test) 145ms
+ ✓ src/__tests__/lib/admin-auth.test.ts (3 tests) 173ms
+ ✓ src/__tests__/api/metrics.integration.test.ts (1 test) 131ms
+stderr | src/__tests__/lib/rate-limit.test.ts > rate-limit > falls back to memory when redis returns non-2xx
+{"ts":"2026-02-17T22:38:05.997Z","level":"warn","message":"Redis rate limit request failed","context":{"status":500,"identifier":"redis-non-2xx"}}
+
+ ✓ src/__tests__/lib/lead-notifier.test.ts (3 tests) 108ms
+stderr | src/__tests__/lib/rate-limit.test.ts > rate-limit > falls back to memory when redis throws
+{"ts":"2026-02-17T22:38:06.013Z","level":"warn","message":"Redis rate limit fallback to memory","context":{"identifier":"redis-throws","error":"network"}}
+
+ ✓ src/__tests__/api/ready.integration.test.ts (2 tests) 148ms
+ ✓ src/__tests__/lib/rate-limit.test.ts (6 tests) 164ms
+{"ts":"2026-02-17T22:38:06.036Z","level":"info","message":"Infrastructure lead captured","context":{"requestId":"89d818ee-6e24-4f0c-9c7d-4acb9475c440","organizationName":"Industrial Co","organizationType":"government_contractor","budgetRange":"60-120m-irr"}}
+ ✓ src/__tests__/api/admin-auth.integration.test.ts (6 tests) 185ms
+stderr | src/__tests__/api/leads.integration.test.ts > lead API integration > ignores honeypot submissions without storing data
+{"ts":"2026-02-17T22:38:06.075Z","level":"warn","message":"Honeypot trap triggered on lead endpoint","context":{"requestId":"3fd1177e-8f2a-49dc-b786-62d192cc1674","organizationName":"Industrial Co"}}
+
+ ✓ src/__tests__/api/leads.integration.test.ts (3 tests) 201ms
+stderr | src/__tests__/api/messages.integration.test.ts > public messages route auth hardening > returns 500 when database read fails
+{"ts":"2026-02-17T22:38:06.082Z","level":"error","message":"Error fetching messages","context":{"requestId":"b5721d87-23a7-4a81-b1a9-6941cdd3a83d","error":"db"}}
+
+ ✓ src/__tests__/api/messages.integration.test.ts (5 tests) 230ms
+ ✓ src/__tests__/api/admin-routes.integration.test.ts (7 tests) 281ms
+ ✓ src/__tests__/lib/batch-queue.test.ts (3 tests) 290ms
+ ✓ src/__tests__/lib/site-config.test.ts (3 tests) 116ms
+ ✓ src/__tests__/lib/security.test.ts (36 tests) 21ms
+ ✓ src/__tests__/lib/toolbox-data.test.ts (3 tests) 7ms
+ ✓ src/__tests__/lib/workers.test.ts (4 tests) 18ms
+ ✓ src/__tests__/lib/validators.test.ts (26 tests) 8ms
+ ✓ src/__tests__/lib/env.test.ts (2 tests) 7ms
+ ✓ src/__tests__/lib/logger.test.ts (2 tests) 16ms
+ ✓ src/__tests__/lib/persian-utils.test.ts (40 tests) 36ms
+ ✓ src/__tests__/lib/i18n-translations.test.ts (2 tests) 5ms
+ ✓ src/__tests__/lib/api-security.test.ts (5 tests) 8ms
+ ✓ src/__tests__/lib/middleware.test.tsx (2 tests) 11ms
+ ✓ src/__tests__/components/web-vitals.test.ts (3 tests) 3ms
+ ✓ src/__tests__/lib/proxy-cache.test.ts (2 tests) 3ms
+
+ Test Files  24 passed (24)
+      Tests  170 passed (170)
+   Start at  23:38:04
+   Duration  3.09s (transform 1.40s, setup 7.83s, import 1.78s, tests 2.32s, environment 11.80s)
+
+exit_code=0
+finished_at=2026-02-17T22:38:07Z

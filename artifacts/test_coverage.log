@@ -1,0 +1,111 @@
+===== test_coverage =====
+command: pnpm run test:coverage
+started_at: 2026-02-17T22:00:07Z
+ WARN  Unsupported engine: wanted: {"node":">=20 <23"} (current: {"node":"v24.13.0","pnpm":"9.15.0"})
+
+> nextjs_tailwind_shadcn_ts@0.2.0 test:coverage /home/dev/Project_Me/asdev-portfolio
+> vitest run --coverage
+
+
+ RUN  v4.0.18 /home/dev/Project_Me/asdev-portfolio
+      Coverage enabled with v8
+
+stderr | src/__tests__/lib/rate-limit.test.ts > rate-limit > falls back to memory when redis returns non-2xx
+{"ts":"2026-02-17T22:00:09.798Z","level":"warn","message":"Redis rate limit request failed","context":{"status":500,"identifier":"redis-non-2xx"}}
+
+ ✓ src/__tests__/api/metrics.integration.test.ts (1 test) 153ms
+ ✓ src/__tests__/lib/site-config.test.ts (3 tests) 167ms
+stderr | src/__tests__/lib/rate-limit.test.ts > rate-limit > falls back to memory when redis throws
+{"ts":"2026-02-17T22:00:09.822Z","level":"warn","message":"Redis rate limit fallback to memory","context":{"identifier":"redis-throws","error":"network"}}
+
+ ✓ src/__tests__/lib/admin-auth.test.ts (3 tests) 174ms
+ ✓ src/__tests__/lib/lead-notifier.test.ts (3 tests) 133ms
+stderr | src/__tests__/api/messages.integration.test.ts > public messages route auth hardening > returns 500 when database read fails
+{"ts":"2026-02-17T22:00:09.837Z","level":"error","message":"Error fetching messages","context":{"requestId":"976934e8-b30f-4561-8aeb-66e243ae5100","error":"db"}}
+
+ ✓ src/__tests__/lib/rate-limit.test.ts (6 tests) 163ms
+ ✓ src/__tests__/api/messages.integration.test.ts (5 tests) 223ms
+{"ts":"2026-02-17T22:00:09.880Z","level":"info","message":"Infrastructure lead captured","context":{"requestId":"19c6dd22-3ecc-40cd-a7b9-289a4e631ba0","organizationName":"Industrial Co","organizationType":"government_contractor","budgetRange":"60-120m-irr"}}
+ ✓ src/__tests__/api/ready.integration.test.ts (2 tests) 147ms
+ ✓ src/__tests__/api/admin-auth.integration.test.ts (6 tests) 231ms
+stderr | src/__tests__/api/leads.integration.test.ts > lead API integration > ignores honeypot submissions without storing data
+{"ts":"2026-02-17T22:00:09.926Z","level":"warn","message":"Honeypot trap triggered on lead endpoint","context":{"requestId":"187fa68e-59d9-47c9-9bff-df5aca16261a","organizationName":"Industrial Co"}}
+
+ ✓ src/__tests__/lib/batch-queue.test.ts (3 tests) 293ms
+ ✓ src/__tests__/api/leads.integration.test.ts (3 tests) 241ms
+ ✓ src/__tests__/api/admin-routes.integration.test.ts (7 tests) 298ms
+ ✓ src/__tests__/lib/security.test.ts (36 tests) 25ms
+ ✓ src/__tests__/lib/workers.test.ts (4 tests) 54ms
+ ✓ src/__tests__/lib/validators.test.ts (26 tests) 18ms
+ ✓ src/__tests__/lib/logger.test.ts (2 tests) 11ms
+ ✓ src/__tests__/lib/persian-utils.test.ts (40 tests) 111ms
+ ✓ src/__tests__/lib/toolbox-data.test.ts (3 tests) 9ms
+ ✓ src/__tests__/seo/sitemap.test.ts (1 test) 137ms
+ ✓ src/__tests__/lib/env.test.ts (2 tests) 6ms
+ ✓ src/__tests__/lib/i18n-translations.test.ts (2 tests) 6ms
+ ✓ src/__tests__/lib/api-security.test.ts (5 tests) 8ms
+ ✓ src/__tests__/lib/middleware.test.tsx (2 tests) 18ms
+ ✓ src/__tests__/components/web-vitals.test.ts (3 tests) 4ms
+ ✓ src/__tests__/lib/proxy-cache.test.ts (2 tests) 3ms
+
+ Test Files  24 passed (24)
+      Tests  170 passed (170)
+   Start at  23:00:08
+   Duration  3.62s (transform 1.20s, setup 8.83s, import 1.64s, tests 2.64s, environment 12.19s)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |   78.49 |    67.17 |   83.33 |   80.13 |                   
+ asdev-portfolio   |     100 |      100 |     100 |     100 |                   
+  middleware.ts    |     100 |      100 |     100 |     100 |                   
+ ...tfolio/src/app |     100 |      100 |     100 |     100 |                   
+  sitemap.ts       |     100 |      100 |     100 |     100 |                   
+ ...min/auth/login |      90 |     87.5 |     100 |      90 |                   
+  route.ts         |      90 |     87.5 |     100 |      90 | 43,68             
+ ...n/auth/session |     100 |      100 |     100 |     100 |                   
+  route.ts         |     100 |      100 |     100 |     100 |                   
+ ...admin/messages |      75 |       50 |     100 |      75 |                   
+  route.ts         |      75 |       50 |     100 |      75 | ...33,49,53,81-85 
+ ...admin/projects |   51.51 |    45.83 |   66.66 |   51.51 |                   
+  route.ts         |   51.51 |    45.83 |   66.66 |   51.51 | ...,62,66,113-117 
+ .../app/api/leads |   51.72 |       50 |   71.42 |   51.78 |                   
+  route.ts         |   51.72 |       50 |   71.42 |   51.78 | ...64-168,234-248 
+ ...p/api/messages |   82.14 |    57.14 |     100 |   82.14 |                   
+  route.ts         |   82.14 |    57.14 |     100 |   82.14 | 15,51,55,83-87    
+ ...pp/api/metrics |     100 |      100 |     100 |     100 |                   
+  route.ts         |     100 |      100 |     100 |     100 |                   
+ .../app/api/ready |     100 |      100 |     100 |     100 |                   
+  route.ts         |     100 |      100 |     100 |     100 |                   
+ ...components/seo |     100 |      100 |     100 |     100 |                   
+  json-ld.tsx      |     100 |      100 |     100 |     100 |                   
+ ...tfolio/src/lib |   88.21 |       84 |   90.47 |   88.28 |                   
+  admin-auth.ts    |   70.76 |    74.41 |     100 |   71.87 | ...30,134,150-152 
+  api-security.ts  |   96.66 |    93.75 |     100 |   96.66 | 66                
+  env.ts           |     100 |      100 |     100 |     100 |                   
+  lead-notifier.ts |     100 |       75 |     100 |     100 | 34-45             
+  logger.ts        |      95 |      100 |   88.88 |   94.44 | 36                
+  metrics.ts       |   92.85 |      100 |      75 |   92.85 | 30,54             
+  persian-utils.ts |   91.02 |    78.43 |   93.75 |   90.27 | ...77-179,222,234 
+  rate-limit.ts    |   89.79 |     75.6 |    87.5 |   89.79 | 41,197-200        
+  security.ts      |    90.9 |      100 |   91.66 |   90.19 | 56-64,148         
+  site-config.ts   |    90.9 |     87.5 |     100 |    90.9 | 15                
+  ...s-registry.ts |   66.66 |      100 |   33.33 |      75 | 93                
+  validators.ts    |   92.85 |      100 |      90 |   92.85 | 83-84             
+ ...o/src/lib/i18n |     100 |      100 |     100 |     100 |                   
+  translations.ts  |     100 |      100 |     100 |     100 |                   
+ ...ib/local-store |   63.33 |    61.36 |   72.22 |   69.81 |                   
+  toolbox-data.ts  |   63.33 |    61.36 |   72.22 |   69.81 | ...37-141,157-181 
+ .../src/lib/queue |   82.19 |    57.14 |   68.75 |    87.3 |                   
+  batch-queue.ts   |   82.19 |    57.14 |   68.75 |    87.3 | ...0,65,89-90,128 
+ ...rc/lib/workers |   62.88 |       35 |   64.28 |   68.18 |                   
+  download.ts      |     100 |      100 |     100 |     100 |                   
+  limits.ts        |      28 |    11.53 |      25 |   31.81 | 31,36-53          
+  worker-client.ts |   71.87 |    52.94 |   77.77 |   77.58 | ...2,90-91,98-101 
+-------------------|---------|----------|---------|---------|-------------------
+ERROR: Coverage for statements (78.49%) does not meet global threshold (80%)
+ERROR: Coverage for branches (67.17%) does not meet global threshold (75%)
+ ELIFECYCLE  Command failed with exit code 1.
+exit_code: 1
+finished_at: 2026-02-17T22:00:12Z

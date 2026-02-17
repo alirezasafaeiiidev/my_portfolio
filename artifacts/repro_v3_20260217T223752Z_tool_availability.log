@@ -1,0 +1,8 @@
+timestamp=20260217T223752Z
+docker=NOT_AVAILABLE
+podman=NOT_AVAILABLE
+buildah=NOT_AVAILABLE
+artifacts/bin/osv-scanner=AVAILABLE
+artifacts/bin/trivy=AVAILABLE
+curl=AVAILABLE:/usr/bin/curl
+pnpm=AVAILABLE:/home/dev/.local/share/pnpm/pnpm

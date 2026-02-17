@@ -1,0 +1,64 @@
+name=lighthouse
+command=pnpm run lighthouse:ci
+started_at=2026-02-17T22:38:56Z
+ WARN  Unsupported engine: wanted: {"node":">=20 <23"} (current: {"node":"v24.13.0","pnpm":"9.15.0"})
+
+> nextjs_tailwind_shadcn_ts@0.2.0 lighthouse:ci /home/dev/Project_Me/asdev-portfolio
+> LHCI_BUILD_CONTEXT__CURRENT_HASH=${LHCI_BUILD_CONTEXT__CURRENT_HASH:-$(git rev-parse HEAD 2>/dev/null || echo local)} pnpm exec lhci autorun --config=./lighthouserc.json
+
+✅  .lighthouseci/ directory writable
+✅  Configuration file found
+✅  Chrome installation found
+⚠️   GitHub token not set
+Healthcheck passed!
+
+Started a web server with "pnpm run build && pnpm run start"...
+Running Lighthouse 3 time(s) on http://127.0.0.1:3000/
+Run #1...done.
+Run #2...done.
+Run #3...done.
+Running Lighthouse 3 time(s) on http://127.0.0.1:3000/services
+Run #1...done.
+Run #2...done.
+Run #3...done.
+Running Lighthouse 3 time(s) on http://127.0.0.1:3000/case-studies
+Run #1...done.
+Run #2...done.
+Run #3...done.
+Done running Lighthouse!
+
+Checking assertions against 3 URL(s), 9 total run(s)
+
+All results processed!
+
+Uploading median LHR of http://127.0.0.1:3000/...failed!
+FetchError: request to https://us-central1-lighthouse-infrastructure.cloudfunctions.net/saveHtmlReport failed, reason: read ECONNRESET
+    at ClientRequest.<anonymous> (/home/dev/Project_Me/asdev-portfolio/node_modules/.pnpm/node-fetch@2.7.0/node_modules/node-fetch/lib/index.js:1501:11)
+    at ClientRequest.emit (node:events:508:28)
+    at emitErrorEvent (node:_http_client:108:11)
+    at TLSSocket.socketErrorListener (node:_http_client:575:5)
+    at TLSSocket.emit (node:events:508:28)
+    at emitErrorNT (node:internal/streams/destroy:170:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:129:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:89:21)
+Uploading median LHR of http://127.0.0.1:3000/services...failed!
+FetchError: request to https://us-central1-lighthouse-infrastructure.cloudfunctions.net/saveHtmlReport failed, reason: read ECONNRESET
+    at ClientRequest.<anonymous> (/home/dev/Project_Me/asdev-portfolio/node_modules/.pnpm/node-fetch@2.7.0/node_modules/node-fetch/lib/index.js:1501:11)
+    at ClientRequest.emit (node:events:508:28)
+    at emitErrorEvent (node:_http_client:108:11)
+    at TLSSocket.socketErrorListener (node:_http_client:575:5)
+    at TLSSocket.emit (node:events:508:28)
+    at emitErrorNT (node:internal/streams/destroy:170:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:129:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:89:21)
+Uploading median LHR of http://127.0.0.1:3000/case-studies...failed!
+FetchError: invalid json response body at https://us-central1-lighthouse-infrastructure.cloudfunctions.net/saveHtmlReport reason: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+    at /home/dev/Project_Me/asdev-portfolio/node_modules/.pnpm/node-fetch@2.7.0/node_modules/node-fetch/lib/index.js:273:32
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async runTemporaryPublicStorageTarget (/home/dev/Project_Me/asdev-portfolio/node_modules/.pnpm/@lhci+cli@0.15.1/node_modules/@lhci/cli/src/upload/upload.js:484:30)
+    at async run (/home/dev/Project_Me/asdev-portfolio/node_modules/.pnpm/@lhci+cli@0.15.1/node_modules/@lhci/cli/src/cli.js:106:7)
+No GitHub token set, skipping GitHub status check.
+
+Done running autorun.
+exit_code=0
+finished_at=2026-02-17T22:41:11Z

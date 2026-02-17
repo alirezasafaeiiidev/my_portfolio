@@ -1,0 +1,20 @@
+name=web_surface_sitemap
+command=curl -I --noproxy '*' --max-time 20 https://alirezasafeidev.ir/sitemap.xml
+started_at=2026-02-17T22:27:45Z
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+HTTP/2 200 
+server: nginx/1.18.0 (Ubuntu)
+date: Tue, 17 Feb 2026 22:27:46 GMT
+content-type: application/xml
+x-dns-prefetch-control: on
+x-frame-options: SAMEORIGIN
+x-content-type-options: nosniff
+referrer-policy: origin-when-cross-origin
+cache-control: public, max-age=0, s-maxage=300, stale-while-revalidate=600
+vary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch
+x-nextjs-cache: HIT
+
+exit_code=0
+finished_at=2026-02-17T22:27:46Z

@@ -1,0 +1,6 @@
+timestamp=20260217T222420Z
+docker=NOT_AVAILABLE
+trivy=NOT_AVAILABLE
+osv-scanner=NOT_AVAILABLE
+curl=AVAILABLE:/usr/bin/curl
+pnpm=AVAILABLE:/home/dev/.local/share/pnpm/pnpm

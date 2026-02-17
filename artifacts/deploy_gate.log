@@ -1,0 +1,11 @@
+===== deploy_gate =====
+command: pnpm run deploy:gate
+started_at: 2026-02-17T22:00:12Z
+ WARN  Unsupported engine: wanted: {"node":">=20 <23"} (current: {"node":"v24.13.0","pnpm":"9.15.0"})
+
+> nextjs_tailwind_shadcn_ts@0.2.0 deploy:gate /home/dev/Project_Me/asdev-portfolio
+> node scripts/deploy-gate.mjs
+
+✅ Deploy gate passed: all P0/P1 tasks are complete.
+exit_code: 0
+finished_at: 2026-02-17T22:00:12Z

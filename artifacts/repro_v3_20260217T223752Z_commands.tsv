@@ -1,0 +1,19 @@
+step	name	command	log	exit_code
+1	install	pnpm install --frozen-lockfile	artifacts/repro_v3_20260217T223752Z_01_install.log	0
+2	lint	pnpm run lint	artifacts/repro_v3_20260217T223752Z_02_lint.log	0
+3	typecheck	pnpm run type-check	artifacts/repro_v3_20260217T223752Z_03_typecheck.log	0
+4	unit_tests	pnpm run test	artifacts/repro_v3_20260217T223752Z_04_unit_tests.log	0
+5	e2e_smoke	pnpm run test:e2e:smoke	artifacts/repro_v3_20260217T223752Z_05_e2e_smoke.log	0
+6	e2e_full	pnpm run test:e2e	artifacts/repro_v3_20260217T223752Z_06_e2e_full.log	0
+7	lighthouse	pnpm run lighthouse:ci	artifacts/repro_v3_20260217T223752Z_07_lighthouse.log	0
+8	dependency_audit	pnpm audit --json	artifacts/repro_v3_20260217T223752Z_08_dependency_audit.log	1
+9	dependency_audit_high	pnpm run audit:high	artifacts/repro_v3_20260217T223752Z_09_dependency_audit_high.log	0
+10	osv_scan_local	NO_PROXY='*' HTTPS_PROXY='' HTTP_PROXY='' https_proxy='' http_proxy='' artifacts/bin/osv-scanner scan -r .	artifacts/repro_v3_20260217T223752Z_10_osv_scan_local.log	1
+11	secrets_scan	pnpm run scan:secrets	artifacts/repro_v3_20260217T223752Z_11_secrets_scan.log	0
+12	docker_build	echo 'docker not available; NOT VERIFIED'	artifacts/repro_v3_20260217T223752Z_12_docker_build.log	0
+13	trivy_image	echo 'docker image scan skipped; no docker engine'	artifacts/repro_v3_20260217T223752Z_13_trivy_image.log	0
+14	trivy_fs_secret_misconfig	NO_PROXY='*' HTTPS_PROXY='' HTTP_PROXY='' https_proxy='' http_proxy='' artifacts/bin/trivy fs --scanners secret,misconfig --skip-db-update --timeout 10m .	artifacts/repro_v3_20260217T223752Z_14_trivy_fs_secret_misconfig.log	0
+15	trivy_fs_vuln_attempt	NO_PROXY='*' HTTPS_PROXY='' HTTP_PROXY='' https_proxy='' http_proxy='' artifacts/bin/trivy fs --scanners vuln,secret,misconfig --timeout 10m .	artifacts/repro_v3_20260217T223752Z_15_trivy_fs_vuln_attempt.log	1
+16	web_surface_root	curl -I --noproxy '*' --max-time 20 https://alirezasafeidev.ir/	artifacts/repro_v3_20260217T223752Z_16_web_surface_root.log	0
+17	web_surface_robots	curl -I --noproxy '*' --max-time 20 https://alirezasafeidev.ir/robots.txt	artifacts/repro_v3_20260217T223752Z_17_web_surface_robots.log	0
+18	web_surface_sitemap	curl -I --noproxy '*' --max-time 20 https://alirezasafeidev.ir/sitemap.xml	artifacts/repro_v3_20260217T223752Z_18_web_surface_sitemap.log	0

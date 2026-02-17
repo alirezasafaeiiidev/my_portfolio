@@ -1,0 +1,17 @@
+step	name	command	log	exit_code
+1	install	pnpm install --frozen-lockfile	artifacts/repro_20260217T221313Z_01_install.log	0
+2	lint	pnpm run lint	artifacts/repro_20260217T221313Z_02_lint.log	0
+3	typecheck	pnpm run type-check	artifacts/repro_20260217T221313Z_03_typecheck.log	0
+4	unit_tests	pnpm run test	artifacts/repro_20260217T221313Z_04_unit_tests.log	0
+5	e2e_smoke	pnpm run test:e2e:smoke	artifacts/repro_20260217T221313Z_05_e2e_smoke.log	0
+6	e2e_full	pnpm run test:e2e	artifacts/repro_20260217T221313Z_06_e2e_full.log	0
+7	lighthouse	pnpm run lighthouse:ci	artifacts/repro_20260217T221313Z_07_lighthouse.log	0
+8	dependency_audit	pnpm audit --json	artifacts/repro_20260217T221313Z_08_dependency_audit.log	1
+9	dependency_audit_high	pnpm run audit:high	artifacts/repro_20260217T221313Z_09_dependency_audit_high.log	0
+10	osv_scan	echo 'osv-scanner not available; NOT VERIFIED'	artifacts/repro_20260217T221313Z_10_osv_scan.log	0
+11	secrets_scan	pnpm run scan:secrets	artifacts/repro_20260217T221313Z_11_secrets_scan.log	0
+12	docker_build	echo 'docker not available; NOT VERIFIED'	artifacts/repro_20260217T221313Z_12_docker_build.log	0
+13	trivy_image	echo 'trivy not available; NOT VERIFIED'	artifacts/repro_20260217T221313Z_13_trivy_image.log	0
+14	web_surface_root	curl -I --max-time 20 https://alirezasafeidev.ir/	artifacts/repro_20260217T221313Z_14_web_surface_root.log	28
+15	web_surface_robots	curl -I --max-time 20 https://alirezasafeidev.ir/robots.txt	artifacts/repro_20260217T221313Z_15_web_surface_robots.log	28
+16	web_surface_sitemap	curl -I --max-time 20 https://alirezasafeidev.ir/sitemap.xml	artifacts/repro_20260217T221313Z_16_web_surface_sitemap.log	28

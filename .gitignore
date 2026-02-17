@@ -59,3 +59,6 @@ backups/
 --port
 0.0.0.0
 3000
+
+# local tool binaries (not for git)
+artifacts/bin/

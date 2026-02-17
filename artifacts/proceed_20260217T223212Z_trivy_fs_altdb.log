@@ -1,0 +1,12 @@
+command=artifacts/bin/trivy fs --db-repository ghcr.io/aquasecurity/trivy-db --scanners vuln,secret,misconfig .
+started_at=2026-02-17T22:32:12Z
+2026-02-17T23:32:12+01:00	INFO	Adding schema version to the DB repository for backward compatibility	repository="ghcr.io/aquasecurity/trivy-db:2"
+2026-02-17T23:32:12+01:00	INFO	[vulndb] Need to update DB
+2026-02-17T23:32:12+01:00	INFO	[vulndb] Downloading vulnerability DB...
+2026-02-17T23:32:12+01:00	INFO	[vulndb] Downloading artifact...	repo="ghcr.io/aquasecurity/trivy-db:2"
+2026-02-17T23:32:47+01:00	FATAL	Fatal error	init error: DB error: failed to download vulnerability DB: OCI artifact error: failed to download vulnerability DB: failed to download artifact from ghcr.io/aquasecurity/trivy-db:2: OCI repository error: 1 error occurred:
+	* Get "https://ghcr.io/v2/": net/http: TLS handshake timeout
+
+
+exit_code=1
+finished_at=2026-02-17T22:32:47Z

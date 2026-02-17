@@ -1,0 +1,22 @@
+name=install
+command=pnpm install --frozen-lockfile
+started_at=2026-02-17T22:24:20Z
+ WARN  Unsupported engine: wanted: {"node":">=20 <23"} (current: {"node":"v24.13.0","pnpm":"9.15.0"})
+Lockfile is up to date, resolution step is skipped
+Already up to date
+
+
+> nextjs_tailwind_shadcn_ts@0.2.0 postinstall /home/dev/Project_Me/asdev-portfolio
+> prisma generate
+
+Prisma schema loaded from prisma/schema.prisma
+
+✔ Generated Prisma Client (v6.19.2) to ./node_modules/.pnpm/@prisma+client@6.19.2_prisma@6.19.2_typescript@5.9.3__typescript@5.9.3/node_modules/@prisma/client in 54ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+Tip: Want to turn off tips and other hints? https://pris.ly/tip-4-nohints
+
+Done in 2.3s
+exit_code=0
+finished_at=2026-02-17T22:24:22Z

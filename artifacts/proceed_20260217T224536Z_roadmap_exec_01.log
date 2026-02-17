@@ -1,0 +1,7 @@
+command=sudo apt-get update && sudo apt-get install -y docker.io
+started_at=2026-02-17T22:45:36Z
+sudo: Authentication failed, try again.
+sudo: Authentication failed, try again.
+sudo-rs: Maximum 3 incorrect authentication attempts
+exit_code=1
+finished_at=2026-02-17T22:45:36Z

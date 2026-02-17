@@ -1,5 +1,19 @@
 # Roadmap to 10/10 Portfolio Readiness (fa-IR)
 
+## Sync Update — 2026-02-17 (Enterprise Audit)
+- Audit baseline synced in `AUDIT_REPORT.md` with reproducibility evidence under `artifacts/`.
+- Docker policy updated to **Docker-less** (container image build/scan = N/A by decision).
+- Active security gates now:
+  - `pnpm audit --json`
+  - `pnpm run audit:high`
+  - `pnpm run scan:secrets`
+  - `artifacts/bin/osv-scanner scan -r .`
+  - `artifacts/bin/trivy fs --scanners secret,misconfig --skip-db-update .`
+- Open blockers:
+  - Docker engine unavailable on runner.
+  - Trivy vulnerability DB path blocked (egress/registry restrictions).
+- Latest execution roadmap artifact: `artifacts/proceed_20260217T224606Z_roadmap_v4.md`
+
 ## Phase 0 — Baseline, Navigation, CTAs (current)
 - Ship reliable RTL/fa-IR shell: hero, services entry points, case-study list, footer trust signals.
 - Wire security/perf guardrails: CSP middleware, deploy gate, Lighthouse budget, PWA offline fallback.

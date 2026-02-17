@@ -1,0 +1,94 @@
+default
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:02 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:03 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:04 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:05 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:06 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:07 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:08 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:09 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:10 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:11 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:12 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:13 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:14 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:15 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:16 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:17 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:18 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:19 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:20 --:--:--     0
+curl: (28) Operation timed out after 20002 milliseconds with 0 bytes received
+HTTP/1.1 200 Connection established
+
+rc=28
+noproxy_star
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:02 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:02 --:--:--     0
+HTTP/2 200 
+server: nginx/1.18.0 (Ubuntu)
+date: Tue, 17 Feb 2026 22:21:31 GMT
+content-type: text/html; charset=utf-8
+x-dns-prefetch-control: off
+x-frame-options: DENY
+x-content-type-options: nosniff
+referrer-policy: origin-when-cross-origin
+cache-control: public, max-age=0, s-maxage=300, stale-while-revalidate=600
+content-security-policy: default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; img-src 'self' data: blob:; font-src 'self' data:; style-src 'self' 'nonce-7729afdbd28d48b9bd803d21e76e6f4f'; script-src 'self' 'nonce-7729afdbd28d48b9bd803d21e76e6f4f'; connect-src 'self'
+cross-origin-opener-policy: same-origin
+cross-origin-resource-policy: same-origin
+permissions-policy: camera=(), microphone=(), geolocation=(), payment=()
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+x-correlation-id: 2426bf8f-0ebc-43b6-b903-f75329191cbf
+x-csp-nonce: 7729afdbd28d48b9bd803d21e76e6f4f
+x-permitted-cross-domain-policies: none
+x-request-id: 2426bf8f-0ebc-43b6-b903-f75329191cbf
+vary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Accept-Encoding
+link: </fonts/IRANSansX-Regular-arabic.woff2>; rel=preload; as="font"; crossorigin="anonymous"; type="font/woff2"
+
+rc=0
+resolve_ipv4
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+HTTP/2 200 
+server: nginx/1.18.0 (Ubuntu)
+date: Tue, 17 Feb 2026 22:21:32 GMT
+content-type: text/html; charset=utf-8
+x-dns-prefetch-control: off
+x-frame-options: DENY
+x-content-type-options: nosniff
+referrer-policy: origin-when-cross-origin
+cache-control: public, max-age=0, s-maxage=300, stale-while-revalidate=600
+content-security-policy: default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; img-src 'self' data: blob:; font-src 'self' data:; style-src 'self' 'nonce-a37ef20248bf452c89b6a6eedd11c624'; script-src 'self' 'nonce-a37ef20248bf452c89b6a6eedd11c624'; connect-src 'self'
+cross-origin-opener-policy: same-origin
+cross-origin-resource-policy: same-origin
+permissions-policy: camera=(), microphone=(), geolocation=(), payment=()
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+x-correlation-id: 2ee18d27-8867-415d-b15c-0dbc55d69840
+x-csp-nonce: a37ef20248bf452c89b6a6eedd11c624
+x-permitted-cross-domain-policies: none
+x-request-id: 2ee18d27-8867-415d-b15c-0dbc55d69840
+vary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Accept-Encoding
+link: </fonts/IRANSansX-Regular-arabic.woff2>; rel=preload; as="font"; crossorigin="anonymous"; type="font/woff2"
+
+rc=0
+robots
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:02 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:02 --:--:--     0
+HTTP/2 200 
+server: nginx/1.18.0 (Ubuntu)
+date: Tue, 17 Feb 2026 22:21:34 GMT
+content-type: text/plain
+x-dns-prefetch-control: on
+x-frame-options: SAMEORIGIN
+x-content-type-options: nosniff
+referrer-policy: origin-when-cross-origin
+cache-control: public, max-age=0, s-maxage=300, stale-while-revalidate=600
+vary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch
+x-nextjs-cache: HIT
+
+rc=0
+sitemap
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:02 --:--:--     0  0     0    0     0    0     0      0      0 --:--:--  0:00:02 --:--:--     0
+HTTP/2 200 
+server: nginx/1.18.0 (Ubuntu)
+date: Tue, 17 Feb 2026 22:21:36 GMT
+content-type: application/xml
+x-dns-prefetch-control: on
+x-frame-options: SAMEORIGIN
+x-content-type-options: nosniff
+referrer-policy: origin-when-cross-origin
+cache-control: public, max-age=0, s-maxage=300, stale-while-revalidate=600
+vary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch
+x-nextjs-cache: HIT
+
+rc=0

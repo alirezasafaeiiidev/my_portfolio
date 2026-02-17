@@ -1,7 +1,8 @@
 # وضعیت آماده‌سازی پورتفولیو (fa-IR)
 
 - تاریخ به‌روزرسانی: 2026-02-17
-- امتیاز کلی آماده‌سازی: 78/100 (≈7.8/10)
+- امتیاز کلی آماده‌سازی (محصول): 78/100 (≈7.8/10)
+- امتیاز آماده‌سازی ممیزی Enterprise (Execution): 61/100 (منبع: `AUDIT_REPORT.md`)
 
 ## امتیاز دسته‌ها
 - امنیت: 70
@@ -19,6 +20,23 @@
 - ایجاد رجیستری و مسیرهای ابزار (`/tools`, `/pdf-tools`, `/image-tools`).
 - تکمیل SEO ابزارها: متادیتا، JSON-LD، و ورود مسیرها به sitemap.
 - پیاده‌سازی اسکلت اجرای Worker با محدودیت منابع، صف تک‌کار و دانلود امن برای ابزارهای فایل.
+
+## Sync ممیزی Enterprise (اجرای خودکار)
+- گزارش اصلی ممیزی: `AUDIT_REPORT.md`
+- آخرین اجرای Strict Reproducibility: `artifacts/repro_v3_20260217T223752Z_commands.tsv`
+- آخرین Roadmap اجرایی: `artifacts/proceed_20260217T224606Z_roadmap_v4.md`
+- تصمیم سیاستی ثبت‌شده: Docker-less
+  - مستند: `artifacts/proceed_20260217T224808Z_dockerless_policy.md`
+  - اثر: `docker build` و `trivy image` خارج از دامنه جاری (N/A)
+- گیت‌های امنیتی فعال فعلی:
+  1) `pnpm audit --json`
+  2) `pnpm run audit:high`
+  3) `pnpm run scan:secrets`
+  4) `artifacts/bin/osv-scanner scan -r .`
+  5) `artifacts/bin/trivy fs --scanners secret,misconfig --skip-db-update .`
+- بلوکرهای باز:
+  - Docker runtime روی runner موجود نیست.
+  - DB آسیب‌پذیری Trivy در این مسیر شبکه با خطای 403/TLS timeout مواجه است.
 
 ## گپ‌های اصلی باز
 1) اجرای واقعی ابزارها (PDF merge، image compress/resize) در دست انجام (P0-08/09).

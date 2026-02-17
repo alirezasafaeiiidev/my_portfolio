@@ -21,8 +21,14 @@
 - Baseline security policy: `docs/security/SECURITY_BASELINE.md`
 - Dependency policy: `docs/DEPENDENCY_POLICY.md`
 
+## Audit & Compliance
+
+- Enterprise audit report (source of truth): `AUDIT_REPORT.md`
+- Latest strict reproducibility run: `artifacts/repro_v3_20260217T223752Z_commands.tsv`
+- Latest execution roadmap: `artifacts/proceed_20260217T224606Z_roadmap_v4.md`
+- Docker-less policy decision: `artifacts/proceed_20260217T224808Z_dockerless_policy.md`
+
 ## Product backlog
 
 - Task backlog index: `TASKS.md`
 - Task specs: `tasks/`
-

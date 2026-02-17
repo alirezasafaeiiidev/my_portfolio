@@ -1,0 +1,56 @@
+===== unit_tests =====
+command: pnpm run test
+started_at: 2026-02-17T21:54:27Z
+ WARN  Unsupported engine: wanted: {"node":">=20 <23"} (current: {"node":"v24.13.0","pnpm":"9.15.0"})
+
+> nextjs_tailwind_shadcn_ts@0.2.0 test /home/dev/Project_Me/asdev-portfolio
+> vitest run
+
+
+ RUN  v4.0.18 /home/dev/Project_Me/asdev-portfolio
+
+stderr | src/__tests__/lib/rate-limit.test.ts > rate-limit > falls back to memory when redis returns non-2xx
+{"ts":"2026-02-17T21:54:29.704Z","level":"warn","message":"Redis rate limit request failed","context":{"status":500,"identifier":"redis-non-2xx"}}
+
+stderr | src/__tests__/lib/rate-limit.test.ts > rate-limit > falls back to memory when redis throws
+{"ts":"2026-02-17T21:54:29.722Z","level":"warn","message":"Redis rate limit fallback to memory","context":{"identifier":"redis-throws","error":"network"}}
+
+ ✓ src/__tests__/lib/lead-notifier.test.ts (3 tests) 132ms
+ ✓ src/__tests__/lib/rate-limit.test.ts (6 tests) 213ms
+ ✓ src/__tests__/api/metrics.integration.test.ts (1 test) 140ms
+ ✓ src/__tests__/seo/sitemap.test.ts (1 test) 141ms
+ ✓ src/__tests__/api/ready.integration.test.ts (2 tests) 146ms
+{"ts":"2026-02-17T21:54:29.790Z","level":"info","message":"Infrastructure lead captured","context":{"requestId":"f8ac841d-7390-4453-b4a3-014186bf9114","organizationName":"Industrial Co","organizationType":"government_contractor","budgetRange":"60-120m-irr"}}
+ ✓ src/__tests__/lib/admin-auth.test.ts (3 tests) 126ms
+stderr | src/__tests__/api/messages.integration.test.ts > public messages route auth hardening > returns 500 when database read fails
+{"ts":"2026-02-17T21:54:29.806Z","level":"error","message":"Error fetching messages","context":{"requestId":"6aa7ad82-8da1-46bc-8156-cac6a19ee9ea","error":"db"}}
+
+ ✓ src/__tests__/api/messages.integration.test.ts (5 tests) 155ms
+stderr | src/__tests__/api/leads.integration.test.ts > lead API integration > ignores honeypot submissions without storing data
+{"ts":"2026-02-17T21:54:29.825Z","level":"warn","message":"Honeypot trap triggered on lead endpoint","context":{"requestId":"674f54fe-959d-49bd-a4ea-3810ccda1b94","organizationName":"Industrial Co"}}
+
+ ✓ src/__tests__/api/admin-auth.integration.test.ts (6 tests) 192ms
+ ✓ src/__tests__/api/leads.integration.test.ts (3 tests) 185ms
+ ✓ src/__tests__/api/admin-routes.integration.test.ts (7 tests) 277ms
+ ✓ src/__tests__/lib/batch-queue.test.ts (3 tests) 287ms
+ ✓ src/__tests__/lib/persian-utils.test.ts (40 tests) 49ms
+ ✓ src/__tests__/lib/logger.test.ts (2 tests) 13ms
+ ✓ src/__tests__/lib/toolbox-data.test.ts (3 tests) 7ms
+ ✓ src/__tests__/lib/validators.test.ts (26 tests) 13ms
+ ✓ src/__tests__/lib/security.test.ts (36 tests) 17ms
+ ✓ src/__tests__/lib/workers.test.ts (4 tests) 20ms
+ ✓ src/__tests__/lib/i18n-translations.test.ts (2 tests) 4ms
+ ✓ src/__tests__/lib/api-security.test.ts (5 tests) 10ms
+ ✓ src/__tests__/lib/site-config.test.ts (3 tests) 93ms
+ ✓ src/__tests__/lib/middleware.test.tsx (2 tests) 16ms
+ ✓ src/__tests__/lib/env.test.ts (2 tests) 6ms
+ ✓ src/__tests__/components/web-vitals.test.ts (3 tests) 4ms
+ ✓ src/__tests__/lib/proxy-cache.test.ts (2 tests) 3ms
+
+ Test Files  24 passed (24)
+      Tests  170 passed (170)
+   Start at  22:54:28
+   Duration  3.01s (transform 1.23s, setup 7.48s, import 1.78s, tests 2.25s, environment 11.69s)
+
+exit_code: 0
+finished_at: 2026-02-17T21:54:31Z

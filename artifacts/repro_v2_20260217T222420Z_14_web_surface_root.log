@@ -1,0 +1,29 @@
+name=web_surface_root
+command=curl -I --noproxy '*' --max-time 20 https://alirezasafeidev.ir/
+started_at=2026-02-17T22:27:45Z
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+HTTP/2 200 
+server: nginx/1.18.0 (Ubuntu)
+date: Tue, 17 Feb 2026 22:27:45 GMT
+content-type: text/html; charset=utf-8
+x-dns-prefetch-control: off
+x-frame-options: DENY
+x-content-type-options: nosniff
+referrer-policy: origin-when-cross-origin
+cache-control: public, max-age=0, s-maxage=300, stale-while-revalidate=600
+content-security-policy: default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; img-src 'self' data: blob:; font-src 'self' data:; style-src 'self' 'nonce-024a47c82d1d46dbbb625d2632530fd2'; script-src 'self' 'nonce-024a47c82d1d46dbbb625d2632530fd2'; connect-src 'self'
+cross-origin-opener-policy: same-origin
+cross-origin-resource-policy: same-origin
+permissions-policy: camera=(), microphone=(), geolocation=(), payment=()
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+x-correlation-id: 7f0b3644-1346-4a50-8441-3d11df8aebde
+x-csp-nonce: 024a47c82d1d46dbbb625d2632530fd2
+x-permitted-cross-domain-policies: none
+x-request-id: 7f0b3644-1346-4a50-8441-3d11df8aebde
+vary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Accept-Encoding
+link: </fonts/IRANSansX-Regular-arabic.woff2>; rel=preload; as="font"; crossorigin="anonymous"; type="font/woff2"
+
+exit_code=0
+finished_at=2026-02-17T22:27:45Z
