@@ -6,7 +6,7 @@ function getCaseStudies(lang: 'fa' | 'en') {
   if (lang === 'en') {
     return [
       {
-        title: 'alirezasafaeidev.ir Portfolio System',
+        title: 'alirezasafeidev.ir Portfolio System',
         summary: 'Built this portfolio as a measurable visitor→lead system with strict QA gates and VPS-ready deployment.',
         href: '/case-studies/alirezasafaeidev-portfolio',
         metric: 'Portfolio as a production funnel',
@@ -40,7 +40,7 @@ function getCaseStudies(lang: 'fa' | 'en') {
 
   return [
     {
-      title: 'سیستم پورتفولیو alirezasafaeidev.ir',
+      title: 'سیستم پورتفولیو alirezasafeidev.ir',
       summary: 'ساخت این سایت به عنوان یک سیستم Visitor→Lead با گیت‌های کیفیت سخت‌گیرانه و آمادگی استقرار روی VPS.',
       href: '/case-studies/alirezasafaeidev-portfolio',
       metric: 'پورتفولیو به عنوان قیف تولیدی',

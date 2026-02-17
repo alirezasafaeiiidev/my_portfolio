@@ -1,7 +1,7 @@
 import { env } from '@/lib/env'
 
 const LOCAL_DEFAULT_SITE_URL = 'http://localhost:3000'
-const PRODUCTION_FALLBACK_SITE_URL = 'https://alirezasafaeidev.ir'
+const PRODUCTION_FALLBACK_SITE_URL = 'https://alirezasafeidev.ir'
 
 export function getSiteUrl(): string {
   const raw = env.NEXT_PUBLIC_SITE_URL?.trim()

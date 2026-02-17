@@ -11,13 +11,13 @@ This is a local, version-controlled snapshot of the decisions and actions taken 
   - Deployment order on shared server: deploy `asdev-persiantoolbox` first, then portfolio (not executed in this iteration).
 - User brand data provided:
   - Name: علیرضا صفایی (Alireza Safaei)
-  - Domain: alirezasafaeidev.ir
+  - Domain: alirezasafeidev.ir
   - Company: ASDEV
   - Social handle (Telegram/WhatsApp/Instagram/LinkedIn/GitHub): `alirezasafaeisystems`
   - Profile README: https://github.com/alirezasafaeisystems/alirezasafaeisystems
   - Portfolio proofs:
     - persiantoolbox.ir
-    - alirezasafaeidev.ir
+    - alirezasafeidev.ir
     - in progress: asdev-automation-hub, asdev-creator-membership-ir
 
 ## Implemented Changes (High-Level)

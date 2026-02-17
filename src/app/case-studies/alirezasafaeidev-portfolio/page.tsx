@@ -8,7 +8,7 @@ import { getRequestLanguage } from '@/lib/i18n/server'
 const siteUrl = getSiteUrl()
 
 export const metadata: Metadata = {
-  title: 'Case Study: alirezasafaeidev.ir Portfolio System',
+  title: 'Case Study: alirezasafeidev.ir Portfolio System',
   description:
     'How this portfolio was engineered as a production-grade lead acquisition system with strict QA gates and local-first deployment constraints.',
   alternates: { canonical: `${siteUrl}/case-studies/alirezasafaeidev-portfolio` },
@@ -20,7 +20,7 @@ export default async function PortfolioCaseStudyPage() {
     breadcrumbHome: lang === 'en' ? 'Home' : 'خانه',
     breadcrumbCases: lang === 'en' ? 'Case Studies' : 'مطالعات موردی',
     eyebrow: lang === 'en' ? 'Case Study' : 'مطالعه موردی',
-    title: 'alirezasafaeidev.ir Portfolio System',
+    title: 'alirezasafeidev.ir Portfolio System',
     intro:
       lang === 'en'
         ? 'This site was built as an engineering proof: not just a skills page, but a visitor→lead conversion system with measurable quality.'
@@ -68,14 +68,14 @@ export default async function PortfolioCaseStudyPage() {
   const pageUrl = `${siteUrl}/case-studies/alirezasafaeidev-portfolio`
 
   const projectSchema = generateProjectSchema({
-    name: 'alirezasafaeidev.ir Portfolio System',
+    name: 'alirezasafeidev.ir Portfolio System',
     description: 'A portfolio that functions as a measurable visitor-to-lead conversion system with production readiness.',
     url: '/case-studies/alirezasafaeidev-portfolio',
     technologies: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Prisma', 'Playwright', 'Lighthouse CI'],
   })
 
   const articleSchema = generateArticleSchema({
-    title: 'Case Study: alirezasafaeidev.ir Portfolio System',
+    title: 'Case Study: alirezasafeidev.ir Portfolio System',
     description:
       'Building a portfolio as a production-grade funnel: clear positioning, evidence-driven case studies, and secure lead capture.',
     publishDate: '2026-02-16',
@@ -89,7 +89,7 @@ export default async function PortfolioCaseStudyPage() {
         data={generateBreadcrumbSchema([
           { name: copy.breadcrumbHome, url: siteUrl },
           { name: copy.breadcrumbCases, url: `${siteUrl}/case-studies` },
-          { name: 'alirezasafaeidev.ir Portfolio System', url: pageUrl },
+          { name: 'alirezasafeidev.ir Portfolio System', url: pageUrl },
         ])}
       />
       <JsonLd data={projectSchema} />

@@ -9,6 +9,13 @@ Move from "application-ready" to "production-server-ready" with explicit securit
 - Production/VPS rollout gates: still pending (requires real server state and domain/TLS validation).
 - Co-hosting dependency: on shared VPS, latest `asdev-persiantoolbox` release must be deployed first, then portfolio rollout starts.
 
+## Status Snapshot (2026-02-17)
+- Production deploy of `asdev-portfolio` on VPS completed.
+- PM2 process `my-portfolio-production` is online and internal health checks pass.
+- Nginx site was updated to use `alirezasafeidev.ir`.
+- External DNS authority/propagation is still the active blocker for public HTTPS verification.
+- Detailed run log: `docs/DEPLOYMENT_STATUS_2026-02-17.md`
+
 ## P0 (Blockers)
 - [ ] Enforce HTTPS and HSTS in production edge config.
   - Owner: DevOps

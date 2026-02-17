@@ -36,7 +36,7 @@ done
 
 APPS=(
   "persian-tools:3000:3001:${ROOT_DIR}/persian-tools:persiantoolbox.ir:staging.persiantoolbox.ir"
-  "asdev-portfolio:3002:3003:${ROOT_DIR}/my-portfolio:alirezasafaeidev.ir:staging.alirezasafaeidev.ir"
+  "asdev-portfolio:3002:3003:${ROOT_DIR}/my-portfolio:alirezasafeidev.ir:staging.alirezasafeidev.ir"
 )
 
 status=0
