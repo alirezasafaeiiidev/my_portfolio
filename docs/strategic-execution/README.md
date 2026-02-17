@@ -16,6 +16,8 @@ This folder operationalizes ASDEV Strategic Execution Blueprint vlocal-fallback 
 - Data entry guide for new runtime evidence: `runtime/DATA_ENTRY_GUIDE.md`
 
 ## Related operational docs
+- Docs index: `docs/README.md`
 - Deployment readiness audit: `docs/DEPLOYMENT_READINESS_AUDIT_2026-02-14.md`
 - Deployment roadmap: `docs/DEPLOYMENT_ROADMAP.md`
 - Deployment prechecklist: `docs/DEPLOYMENT_PRECHECKLIST.md`
+- Backlog index: `TASKS.md`
