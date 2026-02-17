@@ -125,11 +125,10 @@ describe('formatPersianDate', () => {
 })
 
 describe('toJalaliDate', () => {
-  it('should convert known Gregorian dates to Jalali', () => {
-    const date = new Date('2024-03-20')
-    const jalali = toJalaliDate(date)
-    // March 20, 2024 is approximately Nowruz (Persian New Year)
-    expect(jalali).toMatch(/^\d{4}-\d{2}-\d{2}$/)
+  it('should convert known Gregorian vectors to exact Jalali dates', () => {
+    expect(toJalaliDate('2024-03-20')).toBe('1403-01-01')
+    expect(toJalaliDate('2023-03-21')).toBe('1402-01-01')
+    expect(toJalaliDate('2022-03-21')).toBe('1401-01-01')
   })
 
   it('should convert Date object', () => {

@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { ThemeToggle } from '@/components/theme/theme-toggle'
+import { CommandPalette } from '@/components/search/command-palette'
 import { useI18n } from '@/lib/i18n-context'
 import { brand } from '@/lib/brand'
 import {
@@ -108,6 +109,7 @@ export function Header() {
             
             {/* Language & Theme Toggles */}
             <div className="flex items-center gap-2">
+              <CommandPalette />
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button

@@ -33,6 +33,4 @@
 ## Remaining (Product Enhancements)
 1. `P2-01` Export/import history & settings.
 2. `P2-02` Batch processing queue.
-3. `P2-03` Command palette + keyboard shortcuts.
-4. `P2-04` PWA update UX polish.
-5. `P2-05` Persian date/numeral unification.
+3. `P2-05` Persian date/numeral unification (number/currency/date output in all UI surfaces).

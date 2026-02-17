@@ -2,9 +2,16 @@
 
 import { useEffect, useState } from 'react'
 import { registerServiceWorker } from '@/lib/service-worker'
+import { UpdateBanner } from '@/components/service-worker/update-banner'
 
 export function ServiceWorkerProvider() {
   const [updateReady, setUpdateReady] = useState(false)
+  const [updateVersion, setUpdateVersion] = useState<string | null>(null)
+
+  const isDismissedVersion = (version: string | null) => {
+    if (!version || typeof window === 'undefined') return false
+    return localStorage.getItem('sw:update-dismissed') === version
+  }
 
   useEffect(() => {
     if (process.env.NODE_ENV !== 'production' || typeof window === 'undefined') {
@@ -29,7 +36,11 @@ export function ServiceWorkerProvider() {
 
     const messageHandler = (event: MessageEvent) => {
       if (event.data?.type === 'UPDATE_AVAILABLE') {
-        setUpdateReady(true)
+        const version = event.data?.version || null
+        setUpdateVersion(version)
+        if (!isDismissedVersion(version)) {
+          setUpdateReady(true)
+        }
       }
       if (event.data?.type === 'UPDATED') {
         window.location.reload()
@@ -55,18 +66,14 @@ export function ServiceWorkerProvider() {
     setUpdateReady(false)
   }
 
+  const dismissUpdate = () => {
+    if (updateVersion) {
+      localStorage.setItem('sw:update-dismissed', updateVersion)
+    }
+    setUpdateReady(false)
+  }
+
   if (!updateReady) return null
 
-  return (
-    <div className="fixed bottom-4 left-1/2 z-50 flex -translate-x-1/2 items-center gap-3 rounded-full bg-background/90 px-4 py-3 shadow-lg ring-1 ring-border backdrop-blur">
-      <span className="text-sm font-medium">نسخه جدید آماده است</span>
-      <button
-        type="button"
-        className="rounded-full bg-foreground px-3 py-1 text-xs font-semibold text-background"
-        onClick={applyUpdate}
-      >
-        بروزرسانی و بارگذاری
-      </button>
-    </div>
-  )
+  return <UpdateBanner onUpdateNow={applyUpdate} onLater={dismissUpdate} />
 }

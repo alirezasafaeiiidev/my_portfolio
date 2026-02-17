@@ -124,69 +124,48 @@ export function formatPersianDate(
 }
 
 /**
- * Simple Gregorian to Jalali conversion (self-contained, no external library)
- * This is a simplified implementation. For production, consider using a more robust library.
- * @param gregorianDate - Date object or date string
- * @returns Jalali date string in "YYYY-MM-DD" format
+ * Accurate Gregorian -> Jalali conversion using built-in Intl Persian calendar.
+ * Keeps output stable in UTC to avoid timezone-related off-by-one issues.
  */
 export function toJalaliDate(gregorianDate: Date | string): string {
-  const date = typeof gregorianDate === 'string' ? new Date(gregorianDate) : gregorianDate
+  const date = normalizeDateInput(gregorianDate)
+  if (!date) return ''
 
-  if (!(date instanceof Date) || isNaN(date.getTime())) {
+  const formatter = new Intl.DateTimeFormat('en-u-ca-persian', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    timeZone: 'UTC',
+  })
+
+  const parts = formatter.formatToParts(date)
+  const year = parts.find((part) => part.type === 'year')?.value
+  const month = parts.find((part) => part.type === 'month')?.value
+  const day = parts.find((part) => part.type === 'day')?.value
+
+  if (!year || !month || !day) {
     return ''
   }
 
-  const gregorianYear = date.getFullYear()
-  const gregorianMonth = date.getMonth() + 1 // 1-12
-  const gregorianDay = date.getDate()
-
-  // Simplified algorithm for Gregorian to Jalali conversion
-  // This is an approximation. For accurate conversions, use a library like jalaali-js
-  const gy = gregorianYear - 1600
-  const gm = gregorianMonth - 1
-  const gd = gregorianDay - 1
-
-  const gDayNo = 365 * gy + Math.floor((gy + 3) / 4) - Math.floor((gy + 99) / 100) +
-                 Math.floor((gy + 399) / 400) + Math.floor((367 * gm + 362) / 12) + gd
-
-  let jalaliDayNo = gDayNo - 79
-
-  const jNp = Math.floor(jalaliDayNo / 12053)
-  jalaliDayNo %= 12053
-
-  let jy = 979 + 33 * jNp + 4 * Math.floor(jalaliDayNo / 1461)
-
-  jalaliDayNo %= 1461
-
-  if (jalaliDayNo >= 366) {
-    jy += Math.floor((jalaliDayNo - 1) / 365)
-    jalaliDayNo = (jalaliDayNo - 1) % 365
-  }
-
-  let jalaliMonth = 0
-  let jalaliDay = jalaliDayNo + 1
-
-  for (let i = 0; i < 11 && jalaliDay > persianDaysInMonth(i, jy); i++) {
-    jalaliMonth++
-    jalaliDay -= persianDaysInMonth(i, jy)
-  }
-
-  const yearStr = String(jy)
-  const monthStr = String(jalaliMonth + 1).padStart(2, '0')
-  const dayStr = String(jalaliDay).padStart(2, '0')
-
-  return `${yearStr}-${monthStr}-${dayStr}`
+  return `${year}-${month}-${day}`
 }
 
-/**
- * Get number of days in a Persian month
- */
-function persianDaysInMonth(month: number, year: number): number {
-  if (month <= 6) return 31
-  if (month <= 11) return 30
-  // Check for leap year (simplified)
-  const leapYears = Math.floor((year % 33) / 4)
-  return leapYears === 3 ? 30 : 29
+function normalizeDateInput(input: Date | string): Date | null {
+  if (input instanceof Date) {
+    return isNaN(input.getTime()) ? null : input
+  }
+
+  const isoMatch = input.match(/^(\d{4})-(\d{2})-(\d{2})$/)
+  if (isoMatch) {
+    const year = Number(isoMatch[1])
+    const month = Number(isoMatch[2])
+    const day = Number(isoMatch[3])
+    const date = new Date(Date.UTC(year, month - 1, day, 12, 0, 0))
+    return isNaN(date.getTime()) ? null : date
+  }
+
+  const parsed = new Date(input)
+  return isNaN(parsed.getTime()) ? null : parsed
 }
 
 /**
