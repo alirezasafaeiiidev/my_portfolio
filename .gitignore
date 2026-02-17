@@ -62,3 +62,11 @@ backups/
 
 # local tool binaries (not for git)
 artifacts/bin/
+
+# unattended autopilot runtime logs/artifacts
+artifacts/autopilot_unattended_*.log
+artifacts/autopilot_unattended_*_attempt*.log
+artifacts/autopilot_unattended_*_commands.tsv
+artifacts/autopilot_unattended_*_summary.tsv
+artifacts/autopilot_loop_*.log
+artifacts/autopilot_loop.pid

@@ -32,7 +32,9 @@
     "verify": "bash scripts/verify.sh",
     "scan:external": "bash scripts/offline-external-scan.sh",
     "audit:high": "bash scripts/audit-high-critical.sh",
-    "scan:secrets": "bash scripts/scan-secrets.sh"
+    "scan:secrets": "bash scripts/scan-secrets.sh",
+    "autopilot:unattended": "bash scripts/autopilot-unattended.sh",
+    "autopilot:loop": "bash scripts/autopilot-loop.sh"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
