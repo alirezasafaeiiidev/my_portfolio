@@ -25,6 +25,7 @@
 - offsite backup روی Arvan Object Storage فعال شد (remote + first sync + offsite cron).
 - offsite restore drill از Arvan Object Storage اجرا شد (sha256 + extract + readiness 200).
 - cadence چرخش secrets در فرم governance نهایی شد (هر 90 روز).
+- دیپلوی نهایی production روی release `20260218T225147Z` انجام شد و smoke/healthcheck پاس شد (`POST_DEPLOY_VALIDATION_2026-02-19.md`).
 
 ## Backlog باقیمانده (اجرایی)
 
