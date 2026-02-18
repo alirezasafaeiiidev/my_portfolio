@@ -79,6 +79,19 @@ interface RSSItem {
   category?: string[]
 }
 
+function escapeXml(value: string): string {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;')
+}
+
+function normalizeLanguage(rawLang: string | null): 'en' | 'fa' {
+  return rawLang === 'fa' ? 'fa' : 'en'
+}
+
 function generateRSSFeed(items: RSSItem[], language: string): string {
   const siteUrl = getSiteUrl()
   const feedTitle = language === 'fa' ? 'پورتفولیو - بلاگ' : 'Portfolio - Blog'
@@ -91,21 +104,21 @@ function generateRSSFeed(items: RSSItem[], language: string): string {
   xmlns:content="http://purl.org/rss/1.0/modules/content/"
   xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>${feedTitle}</title>
-    <description>${feedDescription}</description>
-    <link>${siteUrl}</link>
+    <title>${escapeXml(feedTitle)}</title>
+    <description>${escapeXml(feedDescription)}</description>
+    <link>${escapeXml(siteUrl)}</link>
     <language>${language === 'fa' ? 'fa-ir' : 'en-us'}</language>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
-    <atom:link href="${siteUrl}/api/rss?lang=${language}" rel="self" type="application/rss+xml"/>
+    <atom:link href="${escapeXml(`${siteUrl}/api/rss?lang=${encodeURIComponent(language)}`)}" rel="self" type="application/rss+xml"/>
     ${items.map(item => `
     <item>
-      <title><![CDATA[${item.title}]]></title>
-      <description><![CDATA[${item.description}]]></description>
-      <link>${item.link}</link>
-      <guid isPermaLink="true">${item.guid}</guid>
+      <title>${escapeXml(item.title)}</title>
+      <description>${escapeXml(item.description)}</description>
+      <link>${escapeXml(item.link)}</link>
+      <guid isPermaLink="true">${escapeXml(item.guid)}</guid>
       <pubDate>${item.pubDate}</pubDate>
-      ${item.author ? `<author>${item.author}</author>` : ''}
-      ${item.category ? item.category.map(cat => `<category><![CDATA[${cat}]]></category>`).join('') : ''}
+      ${item.author ? `<author>${escapeXml(item.author)}</author>` : ''}
+      ${item.category ? item.category.map(cat => `<category>${escapeXml(cat)}</category>`).join('') : ''}
     </item>`).join('\n')}
   </channel>
 </rss>`
@@ -114,7 +127,7 @@ function generateRSSFeed(items: RSSItem[], language: string): string {
 export async function GET(request: Request) {
   const siteUrl = getSiteUrl()
   const { searchParams } = new URL(request.url)
-  const language = (searchParams.get('lang') || 'en') as 'en' | 'fa'
+  const language = normalizeLanguage(searchParams.get('lang'))
 
   // Generate RSS items
   const rssItems: RSSItem[] = blogPosts.map(post => ({
