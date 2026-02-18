@@ -305,7 +305,7 @@ Retention Policy:
 
 Backup Location:
 - Onsite (current): same VPS
-- Offsite (target): TODO (object storage not yet implemented)
+- Offsite: Arvan Object Storage (`asdev-portfolio-buckets`, region `ir-thr-at1`) via `rclone` sync
 
 Restore Tested?
 - [x] Yes
@@ -364,9 +364,8 @@ Date:
 
 # 1️⃣1️⃣ RISK DECLARATION & EXCEPTIONS
 
-1. Backup is currently onsite-only; offsite backup is not implemented yet.
-2. Latest formal rollback incident note for current hardening cycle is still missing (`Latest rollback incident note: not-found` in evidence).
-3. SLO/MTTR mismatch remains unresolved (99.99% vs MTTR 24h).
+1. Latest formal rollback incident note for current hardening cycle is still missing (`Latest rollback incident note: not-found` in evidence).
+2. SLO/MTTR mismatch remains unresolved (99.99% vs MTTR 24h).
 
 ------------------------------------------------------------------------
 
