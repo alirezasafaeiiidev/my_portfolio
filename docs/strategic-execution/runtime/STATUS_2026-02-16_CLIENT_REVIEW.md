@@ -27,3 +27,8 @@
 - Remaining executable roadmap tasks were re-tasked and executed in local workspace.
 - Report: `docs/strategic-execution/runtime/ROADMAP_EXECUTION_2026-02-18.md`.
 - VPS-bound steps remain blocked pending real server environment (`/var/www` paths, `pm2`, `nginx`, `ss`) and Chrome availability for Lighthouse.
+
+## Documentation Update (2026-02-18)
+- اسناد اجرای Batch 3 و وضعیت نهایی اقدامات ثبت شد.
+- لیست رسمی کارهای باقیمانده ایجاد شد: `docs/strategic-execution/runtime/REMAINING_TASKS_2026-02-18.md`.
+- جمع‌بندی: اکثر گیت‌های اجرایی پاس شده‌اند و موارد باز عمدتاً external/edge هستند.

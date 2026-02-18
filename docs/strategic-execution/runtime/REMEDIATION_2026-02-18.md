@@ -34,3 +34,6 @@
 - مراحل باقیمانده deploy به drill اجرایی تبدیل و اجرا شد: staging deploy, production deploy, rollback, health checks.
 - گزارش: `docs/strategic-execution/runtime/ROADMAP_EXECUTION_2026-02-18_BATCH3.md`.
 - Lighthouse gate در این batch پاس شد؛ blockerهای نهایی فقط external (cert ownership evidence + timeout دامنه toolbox) هستند.
+
+## Documentation closure
+- لیست کارهای باقیمانده برای فاز بعدی تدوین شد: `docs/strategic-execution/runtime/REMAINING_TASKS_2026-02-18.md`.
