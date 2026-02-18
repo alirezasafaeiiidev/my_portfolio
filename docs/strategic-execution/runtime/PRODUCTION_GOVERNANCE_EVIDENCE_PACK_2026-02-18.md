@@ -82,9 +82,27 @@ Mandatory scope:
 - runtime assets/log metadata as required
 
 Restore drill evidence:
-- [ ] restore executed on test path
-- [ ] app boots with restored env/db
-- [ ] results recorded with timestamp
+- [x] restore executed on test path
+- [x] app boots with restored env/db
+- [x] results recorded with timestamp
+
+Latest execution (VPS):
+- Timestamp (UTC): `2026-02-18T18:55:53Z`
+- Cron schedule installed (Asia/Tehran) under root crontab:
+  - daily: `02:30`
+  - weekly: `Friday 03:00`
+  - monthly: `day 1 at 04:00`
+- Backup artifact:
+  - `/var/backups/my-portfolio/daily/my-portfolio-production-daily-20260218T185554Z.tar.gz`
+  - `/var/backups/my-portfolio/daily/my-portfolio-production-daily-20260218T185554Z.tar.gz.sha256`
+- Evidence logs:
+  - `/var/www/my-portfolio/shared/logs/governance/backup-production-20260218T185553Z.log`
+  - `/var/www/my-portfolio/shared/logs/governance/restore-drill-production-20260218T185553Z.log`
+  - `/var/www/my-portfolio/shared/logs/governance/governance-summary-production-20260218T185553Z.md`
+- Restore drill result file:
+  - `/tmp/my-portfolio-restore-drill/production-daily-20260218T185558Z/RESTORE_DRILL_RESULT.txt`
+- Post-drill readiness check:
+  - `https://alirezasafaeisystems.ir/api/ready` => `200` with `{"status":"ready","service":"my-portfolio-production"}`
 
 ## 5) Alert Test Evidence
 
@@ -100,5 +118,4 @@ Attach:
 ## 6) Open Gaps
 
 1. Offsite backup not implemented yet.
-2. Restore drill evidence still pending.
-3. SLO/MTTR mismatch needs policy decision (99.99% vs MTTR 24h).
+2. SLO/MTTR mismatch needs policy decision (99.99% vs MTTR 24h).
