@@ -28,11 +28,16 @@
 1. **Offsite Backup Enablement (P1)**
    - مالک: Platform owner
    - اقدام:
-     - انتخاب مقصد offsite (Object Storage)
-     - تعریف policy انتقال/retention و restore از offsite
+      - انتخاب مقصد offsite (Object Storage)
+      - تعریف policy انتقال/retention و restore از offsite
+      - اجرای automation آماده:
+        - `scripts/deploy/push-offsite-backup.sh`
+        - `scripts/deploy/install-offsite-sync-cron.sh`
+   - blocker فعلی:
+      - credential/remote کانفیگ نشده (`rclone.conf` ندارد)
    - خروجی مورد انتظار:
-     - حذف ریسک «onsite-only backup»
-     - مستند عملیاتی offsite
+      - حذف ریسک «onsite-only backup»
+      - مستند عملیاتی offsite
 
 2. **SLO/MTTR Policy Decision (P1)**
    - مالک: Product/Platform owner

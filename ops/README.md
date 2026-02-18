@@ -31,3 +31,5 @@
 - `scripts/deploy/restore-drill-onsite.sh` (backup restore drill)
 - `scripts/deploy/install-backup-cron.sh` (install cron schedule for automated backups)
 - `scripts/deploy/run-governance-evidence.sh` (run backup+restore drill and write evidence logs)
+- `scripts/deploy/push-offsite-backup.sh` (sync onsite backup artifacts to object storage via rclone)
+- `scripts/deploy/install-offsite-sync-cron.sh` (install cron schedule for offsite sync)

@@ -119,3 +119,23 @@ Attach:
 
 1. Offsite backup not implemented yet.
 2. SLO/MTTR mismatch needs policy decision (99.99% vs MTTR 24h).
+
+## 7) Offsite Backup Enablement Plan
+
+Execution commands:
+- `bash scripts/deploy/push-offsite-backup.sh --frequency daily --env production`
+- `bash scripts/deploy/install-offsite-sync-cron.sh --repo-dir /var/www/my-portfolio/current/production --env production --offsite-remote <remote:path>`
+
+Prerequisites:
+- `rclone` installed on VPS
+- rclone remote configured with object-storage credentials
+- `OFFSITE_REMOTE` path decided and documented
+
+Current VPS status (2026-02-18):
+- `rclone` installed
+- `restic` installed
+- no configured remote yet (`/root/.config/rclone/rclone.conf` not found)
+
+Evidence to capture:
+- first successful offsite sync log line from `/var/log/my-portfolio-offsite-sync.log`
+- sample object listing from remote bucket/prefix
