@@ -28,6 +28,7 @@
    - اقدام:
      - زمان‌بندی روزانه/هفتگی/ماهانه روی VPS (cron یا systemd timer)
      - تولید اولین artifacts واقعی بکاپ
+     - اسکریپت آماده: `scripts/deploy/install-backup-cron.sh`
    - خروجی مورد انتظار:
      - لیست آرشیوها + checksum در مسیر بکاپ
      - ثبت مسیر/زمان در evidence pack
@@ -37,6 +38,7 @@
    - اقدام:
      - اجرای `scripts/deploy/restore-drill-onsite.sh` روی آرشیو واقعی
      - ثبت نتیجه restore + timestamp + صحت env/db
+     - اسکریپت ترکیبی آماده: `scripts/deploy/run-governance-evidence.sh`
    - خروجی مورد انتظار:
      - فایل نتیجه restore drill
      - بروزرسانی تیک‌های بخش Restore در evidence pack و governance form

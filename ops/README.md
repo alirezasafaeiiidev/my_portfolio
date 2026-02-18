@@ -29,3 +29,5 @@
 - `scripts/deploy/validate-cohosting-config.sh`
 - `scripts/deploy/backup-onsite.sh` (onsite backup with retention)
 - `scripts/deploy/restore-drill-onsite.sh` (backup restore drill)
+- `scripts/deploy/install-backup-cron.sh` (install cron schedule for automated backups)
+- `scripts/deploy/run-governance-evidence.sh` (run backup+restore drill and write evidence logs)
