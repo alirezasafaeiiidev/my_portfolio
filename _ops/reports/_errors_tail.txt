@@ -1,0 +1,120 @@
+#4 DONE 24.4s
+
+#4 [deps 1/4] FROM docker.io/oven/bun:1.3.8@sha256:371d30538b69303ced927bb5915697ac7e2fa8cb409ee332c66009de64de5aa3
+#4 extracting sha256:430a88cd5cf3ec15b5c810fec5e5f8524a66dd9d614edf3f33eaeb28ab6e2e43 0.0s done
+#4 extracting sha256:12020bc35c043f51d29d64b8066787bd5e92b94dc161589c13c23e9501dd0ef6 0.0s done
+#4 extracting sha256:aff332439c7ed2289223f0744216a477ce8faba60b5b1d614a8354cd827edf9d 0.0s done
+#4 DONE 24.5s
+
+#6 [deps 2/4] WORKDIR /app
+#6 DONE 0.8s
+
+#7 [deps 3/4] COPY package.json bun.lock ./
+#7 DONE 0.1s
+
+#8 [runner 3/9] RUN addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 nextjs
+#8 0.194 /bin/sh: 1: addgroup: not found
+#8 ERROR: process "/bin/sh -c addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 nextjs" did not complete successfully: exit code: 127
+
+#9 [deps 4/4] RUN bun install --frozen-lockfile
+#9 0.138 bun install v1.3.8 (b64edcb4)
+#9 0.159 Resolving dependencies
+#9 CANCELED
+------
+ > [runner 3/9] RUN addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 nextjs:
+0.194 /bin/sh: 1: addgroup: not found
+------
+Dockerfile:17
+--------------------
+  15 |     ENV HOSTNAME=0.0.0.0
+  16 |     
+  17 | >>> RUN addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 nextjs
+  18 |     
+  19 |     COPY --from=builder /app/.next/standalone ./
+--------------------
+ERROR: failed to build: failed to solve: process "/bin/sh -c addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 nextjs" did not complete successfully: exit code: 127
+[2026-02-15T13:39:48+01:00] ERROR docker-build-retry (exit=1)
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 964B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/oven/bun:1.3.8
+#2 ERROR: failed to do request: Head "https://registry-1.docker.io/v2/oven/bun/manifests/1.3.8": net/http: TLS handshake timeout
+------
+ > [internal] load metadata for docker.io/oven/bun:1.3.8:
+------
+Dockerfile:11
+--------------------
+   9 |     RUN bun run build
+  10 |     
+  11 | >>> FROM oven/bun:1.3.8 AS runner
+  12 |     WORKDIR /app
+  13 |     ENV NODE_ENV=production
+--------------------
+ERROR: failed to build: failed to solve: oven/bun:1.3.8: failed to resolve source metadata for docker.io/oven/bun:1.3.8: failed to do request: Head "https://registry-1.docker.io/v2/oven/bun/manifests/1.3.8": net/http: TLS handshake timeout
+[2026-02-15T13:40:10+01:00] ERROR docker-build-retry-2 (exit=1)
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 DONE 0.0s
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 964B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/oven/bun:1.3.8
+#2 DONE 0.9s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 177B done
+#3 DONE 0.0s
+
+#4 [deps 1/4] FROM docker.io/oven/bun:1.3.8@sha256:371d30538b69303ced927bb5915697ac7e2fa8cb409ee332c66009de64de5aa3
+#4 resolve docker.io/oven/bun:1.3.8@sha256:371d30538b69303ced927bb5915697ac7e2fa8cb409ee332c66009de64de5aa3 0.0s done
+#4 DONE 0.0s
+
+#5 [deps 2/4] WORKDIR /app
+#5 CACHED
+
+#6 [internal] load build context
+#6 transferring context: 45.16kB done
+#6 DONE 0.0s
+
+#7 [deps 3/4] COPY package.json bun.lock ./
+#7 CACHED
+
+#8 [deps 4/4] RUN bun install --frozen-lockfile
+#8 0.131 bun install v1.3.8 (b64edcb4)
+#8 ...
+
+#9 [runner 3/9] RUN (groupadd --system --gid 1001 nodejs || addgroup -g 1001 -S nodejs)   && (useradd --system --uid 1001 --gid 1001 nextjs || adduser -S -D -u 1001 -G nodejs nextjs)
+#9 0.177 useradd warning: nextjs's uid 1001 is greater than SYS_UID_MAX 999
+#9 DONE 0.2s
+
+#8 [deps 4/4] RUN bun install --frozen-lockfile
+#8 0.145 Resolving dependencies
+#8 5.424 Resolved, downloaded and extracted [70]
+#8 5.427 error: lockfile had changes, but lockfile is frozen
+#8 5.427 note: try re-running without --frozen-lockfile and commit the updated lockfile
+#8 ERROR: process "/bin/sh -c bun install --frozen-lockfile" did not complete successfully: exit code: 1
+------
+ > [deps 4/4] RUN bun install --frozen-lockfile:
+0.131 bun install v1.3.8 (b64edcb4)
+0.145 Resolving dependencies
+5.424 Resolved, downloaded and extracted [70]
+5.427 error: lockfile had changes, but lockfile is frozen
+5.427 note: try re-running without --frozen-lockfile and commit the updated lockfile
+------
+Dockerfile:4
+--------------------
+   2 |     WORKDIR /app
+   3 |     COPY package.json bun.lock ./
+   4 | >>> RUN bun install --frozen-lockfile
+   5 |     
+   6 |     FROM deps AS builder
+--------------------
+ERROR: failed to build: failed to solve: process "/bin/sh -c bun install --frozen-lockfile" did not complete successfully: exit code: 1
+[2026-02-15T13:48:06+01:00] ERROR bun-install-timeout exit=124 (dependency resolution timeout)
+[2026-02-15T13:52:12+01:00] ERROR lockfile-sync blocked (bun install timed out repeatedly) -> applying safe fallback in Dockerfile

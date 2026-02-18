@@ -1,0 +1,458 @@
+{
+  "project": "asdev-portfolio",
+  "phases": [
+    {
+      "id": "phase-1",
+      "name": "Phase 1 — امنیت پایه (Baseline Security)",
+      "status": "done",
+      "milestones": [
+        {
+          "id": "p1-m1",
+          "name": "سخت‌سازی دسترسی و زنجیره تامین",
+          "status": "done"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "P1-T1",
+          "title": "بستن دسترسی غیرمجاز api/messages",
+          "goal": "الزام احراز هویت ادمین برای خواندن/حذف پیام‌ها",
+          "steps": [
+            "اعمال enforceAdminAccess در GET",
+            "اعمال enforceAdminAccess در DELETE",
+            "اعتبارسنجی با تست integration"
+          ],
+          "acceptance_criteria": [
+            "در نبود auth پاسخ 401 یا 503",
+            "با bearer معتبر پاسخ 200"
+          ],
+          "required_roles": [
+            "Backend",
+            "Security",
+            "QA"
+          ],
+          "risk_level": "high",
+          "status": "done",
+          "evidence": [
+            "src/app/api/messages/route.ts:9",
+            "src/app/api/messages/route.ts:49"
+          ]
+        },
+        {
+          "id": "P1-T2",
+          "title": "اسکن secrets و گیت CI",
+          "goal": "کاهش نشت credential در مخزن",
+          "steps": [
+            "ایجاد scan-secrets.sh",
+            "افزودن script در package.json",
+            "افزودن job در security workflow"
+          ],
+          "acceptance_criteria": [
+            "اجرای bun run scan:secrets",
+            "job امنیتی CI فعال باشد"
+          ],
+          "required_roles": [
+            "Security",
+            "DevOps/SRE"
+          ],
+          "risk_level": "medium",
+          "status": "done",
+          "evidence": [
+            "scripts/scan-secrets.sh:1",
+            ".github/workflows/security-audit.yml:49",
+            "package.json:31"
+          ]
+        },
+        {
+          "id": "P1-T3",
+          "title": "CSPRNG برای توکن",
+          "goal": "حذف fallback ناامن Math.random",
+          "steps": [
+            "بازنویسی generateSecureToken با crypto.getRandomValues"
+          ],
+          "acceptance_criteria": [
+            "fallback ناامن حذف شود"
+          ],
+          "required_roles": [
+            "Backend",
+            "Security"
+          ],
+          "risk_level": "medium",
+          "status": "done",
+          "evidence": [
+            "src/lib/security.ts:106"
+          ]
+        },
+        {
+          "id": "P1-T4",
+          "title": "همگرایی Bun در CI",
+          "goal": "حذف drift نسخه ابزار ساخت",
+          "steps": [
+            "به‌روزرسانی bun-version در workflowها به 1.3.9"
+          ],
+          "acceptance_criteria": [
+            "workflowهای اصلی نسخه یکسان Bun داشته باشند"
+          ],
+          "required_roles": [
+            "DevOps/SRE"
+          ],
+          "risk_level": "low",
+          "status": "done",
+          "evidence": [
+            ".github/workflows/ci.yml:23",
+            ".github/workflows/e2e-smoke.yml:23",
+            ".github/workflows/lighthouse.yml:20"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "phase-2",
+      "name": "Phase 2 — تست (Testing)",
+      "status": "done",
+      "milestones": [
+        {
+          "id": "p2-m1",
+          "name": "پوشش baseline و gate عملیاتی",
+          "status": "done"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "P2-T1",
+          "title": "پایداری baseline پوشش",
+          "goal": "حفظ threshold و enforce پوشش",
+          "steps": [
+            "بازبینی vitest coverage thresholds",
+            "تأیید job coverage در CI"
+          ],
+          "acceptance_criteria": [
+            "thresholdهای 80 فعال باشند"
+          ],
+          "required_roles": [
+            "QA",
+            "Backend"
+          ],
+          "risk_level": "low",
+          "status": "done",
+          "evidence": [
+            "vitest.config.ts:21",
+            ".github/workflows/ci.yml:63"
+          ]
+        },
+        {
+          "id": "P2-T2",
+          "title": "integration test برای api/messages",
+          "goal": "حفظ امنیت endpoint در regressionهای بعدی",
+          "steps": [
+            "افزودن تست no-auth",
+            "افزودن تست bearer auth"
+          ],
+          "acceptance_criteria": [
+            "تست‌ها PASS شوند"
+          ],
+          "required_roles": [
+            "QA",
+            "Backend",
+            "Security"
+          ],
+          "risk_level": "medium",
+          "status": "done",
+          "evidence": [
+            "src/__tests__/api/messages.integration.test.ts:1"
+          ]
+        },
+        {
+          "id": "P2-T3",
+          "title": "integration test برای readiness",
+          "goal": "پوشش سناریوهای healthy/unhealthy",
+          "steps": [
+            "mock موفق DB",
+            "mock failure DB"
+          ],
+          "acceptance_criteria": [
+            "status 200 و 503 پوشش داده شود"
+          ],
+          "required_roles": [
+            "QA",
+            "Backend"
+          ],
+          "risk_level": "low",
+          "status": "done",
+          "evidence": [
+            "src/__tests__/api/ready.integration.test.ts:1"
+          ]
+        },
+        {
+          "id": "P2-T4",
+          "title": "اجرای گیت‌های کیفی",
+          "goal": "تأیید سلامت build pipeline در لوکال",
+          "steps": [
+            "bun run lint",
+            "bun run type-check",
+            "bun run test",
+            "bun run build"
+          ],
+          "acceptance_criteria": [
+            "همه گیت‌ها PASS"
+          ],
+          "required_roles": [
+            "QA",
+            "DevOps/SRE"
+          ],
+          "risk_level": "low",
+          "status": "done",
+          "evidence": [
+            "_ops/logs/actions.log:1"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "phase-3",
+      "name": "Phase 3 — کارایی / Observability (Performance & Observability)",
+      "status": "done",
+      "milestones": [
+        {
+          "id": "p3-m1",
+          "name": "خط مبنای پایش و مقاومت",
+          "status": "done"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "P3-T1",
+          "title": "readiness endpoint",
+          "goal": "فراهم‌سازی readiness برای orchestration",
+          "steps": [
+            "افزودن /api/ready",
+            "DB probe با SELECT 1"
+          ],
+          "acceptance_criteria": [
+            "در دسترس بودن DB => 200",
+            "خرابی DB => 503"
+          ],
+          "required_roles": [
+            "Backend",
+            "DevOps/SRE"
+          ],
+          "risk_level": "medium",
+          "status": "done",
+          "evidence": [
+            "src/app/api/ready/route.ts:1"
+          ]
+        },
+        {
+          "id": "P3-T2",
+          "title": "global error boundary",
+          "goal": "بهبود تجربه خطا و ثبت خطای کلاینت",
+          "steps": [
+            "ایجاد src/app/error.tsx"
+          ],
+          "acceptance_criteria": [
+            "UI fallback هنگام خطای runtime نمایش داده شود"
+          ],
+          "required_roles": [
+            "Frontend",
+            "Backend"
+          ],
+          "risk_level": "low",
+          "status": "done",
+          "evidence": [
+            "src/app/error.tsx:1"
+          ]
+        },
+        {
+          "id": "P3-T3",
+          "title": "بهبود logging",
+          "goal": "کاهش نویز و امنیت لاگ",
+          "steps": [
+            "اصلاح logger levels",
+            "کاهش Prisma query log در prod"
+          ],
+          "acceptance_criteria": [
+            "info/debug روی console.log",
+            "query log در prod غیرفعال"
+          ],
+          "required_roles": [
+            "Backend",
+            "DevOps/SRE"
+          ],
+          "risk_level": "low",
+          "status": "done",
+          "evidence": [
+            "src/lib/logger.ts:32",
+            "src/lib/db.ts:10"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "phase-4",
+      "name": "Phase 4 — معماری / استانداردسازی (Architecture & Standardization)",
+      "status": "done",
+      "milestones": [
+        {
+          "id": "p4-m1",
+          "name": "یکپارچگی قراردادهای runtime",
+          "status": "done"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "P4-T1",
+          "title": "استانداردسازی runtime contract",
+          "goal": "شفاف‌سازی نسخه ابزار برای همه محیط‌ها",
+          "steps": [
+            "افزودن packageManager",
+            "افزودن engines",
+            "افزودن .nvmrc"
+          ],
+          "acceptance_criteria": [
+            "نسخه runtime در repo مشخص باشد"
+          ],
+          "required_roles": [
+            "Architect",
+            "DevOps/SRE"
+          ],
+          "risk_level": "low",
+          "status": "done",
+          "evidence": [
+            "package.json:5",
+            "package.json:6",
+            ".nvmrc:1"
+          ]
+        },
+        {
+          "id": "P4-T2",
+          "title": "استانداردسازی مستندات عملیاتی",
+          "goal": "یکپارچه‌سازی تصمیمات معماری/امنیت/عملیات",
+          "steps": [
+            "تکمیل audit docs",
+            "تکمیل evidence mapping"
+          ],
+          "acceptance_criteria": [
+            "پوشش کامل اسناد در _ops/docs/audit"
+          ],
+          "required_roles": [
+            "Architect",
+            "Product/UX"
+          ],
+          "risk_level": "low",
+          "status": "done",
+          "evidence": [
+            "_ops/docs/audit/architecture.md:1",
+            "_ops/docs/audit/evidence.md:1"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "phase-5",
+      "name": "Phase 5 — تحویل / انتشار (Delivery & Release)",
+      "status": "done",
+      "milestones": [
+        {
+          "id": "p5-m1",
+          "name": "artifact قابل استقرار",
+          "status": "done"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "P5-T1",
+          "title": "Docker multi-stage production",
+          "goal": "تولید image قابل استقرار",
+          "steps": [
+            "ساخت Dockerfile",
+            "افزودن non-root user",
+            "افزودن healthcheck",
+            "prisma generate قبل build"
+          ],
+          "acceptance_criteria": [
+            "docker build موفق"
+          ],
+          "required_roles": [
+            "DevOps/SRE",
+            "Backend"
+          ],
+          "risk_level": "medium",
+          "status": "done",
+          "evidence": [
+            "Dockerfile:1",
+            "Dockerfile:9",
+            "Dockerfile:31",
+            "_ops/logs/actions.log:1"
+          ]
+        },
+        {
+          "id": "P5-T2",
+          "title": "docker-compose محلی",
+          "goal": "اجرای سریع سرویس در سرور/لوکال",
+          "steps": [
+            "ایجاد docker-compose.yml با env/port/healthcheck"
+          ],
+          "acceptance_criteria": [
+            "compose file معتبر و self-contained"
+          ],
+          "required_roles": [
+            "DevOps/SRE"
+          ],
+          "risk_level": "low",
+          "status": "done",
+          "evidence": [
+            "docker-compose.yml:1"
+          ]
+        },
+        {
+          "id": "P5-T3",
+          "title": "enforce strict frozen lockfile in Docker",
+          "goal": "reproducibility کامل install stage",
+          "steps": [
+            "sync lockfile",
+            "بازگشت به bun install --frozen-lockfile"
+          ],
+          "acceptance_criteria": [
+            "عدم تغییر lockfile در docker deps stage"
+          ],
+          "required_roles": [
+            "DevOps/SRE"
+          ],
+          "risk_level": "medium",
+          "status": "skipped",
+          "notes": "در معماری local-first، Docker اختیاری است؛ enforce سخت lockfile برای مسیر اصلی لازم نیست.",
+          "evidence": [
+            "_ops/logs/errors.log:1"
+          ]
+        },
+        {
+          "id": "P5-T4",
+          "title": "Co-Hosting روی VPS کنار PersianToolbox",
+          "goal": "استقرار هم‌زمان بدون تداخل پورت/دامنه و با ملاحظات ایران",
+          "steps": [
+            "استخراج پورت/دامنه PersianToolbox از مخزن مرجع",
+            "به‌روزرسانی check-hosting-sync برای topology واقعی",
+            "تکمیل راهنمای VPS با co-hosting و local-first constraints"
+          ],
+          "acceptance_criteria": [
+            "پورت‌ها 3000/3001/3002/3003 بدون تداخل تعریف شوند",
+            "دامنه‌های production/staging هر دو سرویس مستند باشند",
+            "اسناد deployment برای VPS ایران به‌روز شوند"
+          ],
+          "required_roles": [
+            "DevOps/SRE",
+            "Backend",
+            "Security"
+          ],
+          "risk_level": "high",
+          "status": "done",
+          "evidence": [
+            "scripts/deploy/check-hosting-sync.sh:38",
+            "docs/VPS_DEPLOYMENT.md:15",
+            "_ops/reports/cohosting_plan_portfolio_persiantoolbox.md:1"
+          ]
+        }
+      ]
+    }
+  ]
+}

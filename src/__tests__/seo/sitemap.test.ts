@@ -10,11 +10,13 @@ describe('sitemap contract', () => {
   it('contains only indexable URLs and no hash fragments', async () => {
     const { default: sitemap } = await import('@/app/sitemap')
     const entries = sitemap()
+    const expectedBase = new URL('https://alirezasafaeidev.ir')
 
     expect(entries.length).toBeGreaterThan(0)
     entries.forEach((entry) => {
-      expect(entry.url.includes('#')).toBe(false)
-      expect(entry.url.startsWith('https://alirezasafaeidev.ir')).toBe(true)
+      const parsed = new URL(entry.url)
+      expect(parsed.hash).toBe('')
+      expect(parsed.origin).toBe(expectedBase.origin)
     })
   })
 })
