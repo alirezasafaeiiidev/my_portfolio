@@ -1,8 +1,8 @@
 # Default owner for this repository.
-* @alirezasafaeiiidev
+* @alirezasafaeisystems
 
 # Sensitive areas.
-/.github/ @alirezasafaeiiidev
-/src/app/api/ @alirezasafaeiiidev
-/src/lib/ @alirezasafaeiiidev
-/prisma/ @alirezasafaeiiidev
+/.github/ @alirezasafaeisystems
+/src/app/api/ @alirezasafaeisystems
+/src/lib/ @alirezasafaeisystems
+/prisma/ @alirezasafaeisystems
