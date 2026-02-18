@@ -21,9 +21,9 @@ const config = {
     launchOptions,
   },
   webServer: {
-    command: "bash -lc 'fuser -k 3000/tcp >/dev/null 2>&1 || true; pnpm run build && PORT=3000 pnpm exec next start -p 3000 -H 127.0.0.1'",
+    command: "bash -lc 'fuser -k 3000/tcp >/dev/null 2>&1 || true; pnpm run build && PORT=3000 pnpm run start'",
     url: 'http://127.0.0.1:3000',
-    reuseExistingServer: true,
+    reuseExistingServer: false,
     timeout: 240_000,
   },
 }
