@@ -30,7 +30,7 @@
 - [ ] Confirm cache/security headers on public and API routes.
 - [ ] Confirm both domains are healthy after portfolio deploy:
 - [ ] `https://persiantoolbox.ir` (no regression)
-- [ ] `https://alirezasafaeidev.ir` (portfolio healthy)
+- [ ] `https://alirezasafaeisystems.ir` (portfolio healthy)
 
 ## Rollback (if needed)
 - [ ] Run `ops/deploy/rollback.sh --env production`.
