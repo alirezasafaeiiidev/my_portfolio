@@ -24,3 +24,8 @@
 - `artifacts/e2e-smoke-fixed2-20260218T072430Z.log`
 - `artifacts/lighthouse-fixed2-20260218T072430Z.log`
 - `artifacts/verify-fixed2-20260218T072430Z.log`
+
+## Batch 2 (Roadmap continuation)
+- تسک‌های بعدی roadmap به بسته اجرایی تبدیل شد و run شد: preflight, smoke, lighthouse, verify.
+- گزارش: `docs/strategic-execution/runtime/ROADMAP_EXECUTION_2026-02-18_BATCH2.md`.
+- وضعیت نهایی این batch: همه گیت‌ها PASS به جز policy performance در Lighthouse.
