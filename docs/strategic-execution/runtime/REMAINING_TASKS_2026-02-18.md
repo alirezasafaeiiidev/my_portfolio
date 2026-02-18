@@ -28,19 +28,11 @@
 
 ## Backlog باقیمانده (اجرایی)
 
-1. **Firewall/Fail2Ban Verification Closure (P1)**
-   - مالک: DevOps on-call
-   - اقدام:
-     - اجرای verification با دسترسی root/sudo (در حال حاضر از این کلاینت sudo بدون پسورد فعال نیست)
-     - ثبت خروجی واقعی `ufw status verbose`
-     - ثبت خروجی واقعی `fail2ban-client status` و `fail2ban-client status sshd`
-     - به‌روزرسانی چک‌باکس‌های فرم governance
-   - خروجی مورد انتظار:
-     - حذف TODOهای hardening باقی‌مانده در فرم
+- مورد بحرانی/عملیاتی باز وجود ندارد.
 
 ## Definition of Done
-- وضعیت firewall/fail2ban با evidence واقعی ثبت و TODOهای hardening بسته شوند.
-- evidence pack و فرم governance در حالت کامل و audit-ready باقی بمانند.
+- وضعیت firewall/fail2ban با evidence واقعی ثبت و TODOهای hardening بسته شد.
+- evidence pack و فرم governance در حالت کامل و audit-ready هستند.
 
 ## اسناد مرجع
 - `docs/strategic-execution/ROADMAP_TASKS_PRIORITIZED.md`
