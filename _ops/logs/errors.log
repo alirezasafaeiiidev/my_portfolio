@@ -1,0 +1,225 @@
+[2026-02-15T13:36:48+01:00] ERROR scan-secrets (exit=1)
+$ bash scripts/scan-secrets.sh
+Potential secrets detected:
+./src/__tests__/lib/rate-limit.test.ts:33:    process.env.REDIS_REST_TOKEN = 'redis-secret-token'
+./src/__tests__/api/admin-routes.integration.test.ts:48:    process.env.ADMIN_API_TOKEN = 'abcdefghijklmnopqrstuvwxyz'
+./src/__tests__/api/admin-routes.integration.test.ts:71:    process.env.ADMIN_API_TOKEN = 'abcdefghijklmnopqrstuvwxyz'
+./src/__tests__/lib/admin-auth.test.ts:35:    process.env.ADMIN_API_TOKEN = 'abcdefghijklmnopqrstuvwxyz'
+./src/__tests__/lib/admin-auth.test.ts:50:    process.env.ADMIN_PASSWORD = 'supersecurepassword'
+./src/__tests__/lib/admin-auth.test.ts:51:    process.env.ADMIN_SESSION_SECRET = 'very-secure-session-secret-with-32-plus'
+./src/__tests__/api/admin-auth.integration.test.ts:34:    process.env.ADMIN_PASSWORD = 'supersecurepassword'
+./src/__tests__/api/admin-auth.integration.test.ts:35:    process.env.ADMIN_SESSION_SECRET = 'very-secure-session-secret-with-32-plus'
+./src/__tests__/api/admin-auth.integration.test.ts:41:      body: JSON.stringify({ username: 'admin', password: 'supersecurepassword' }),
+./src/__tests__/api/admin-auth.integration.test.ts:53:    process.env.ADMIN_API_TOKEN = 'abcdefghijklmnopqrstuvwxyz'
+./src/__tests__/lib/env.test.ts:36:      ADMIN_API_TOKEN: 'abcdefghijklmnopqrstuvwxyz',
+./src/__tests__/lib/env.test.ts:38:      ADMIN_PASSWORD: 'supersecurepassword',
+./src/__tests__/lib/env.test.ts:39:      ADMIN_SESSION_SECRET: 'very-secure-session-secret-with-32-plus',
+./src/__tests__/lib/env.test.ts:42:      REDIS_REST_TOKEN: 'redis-secret-token',
+./src/__tests__/api/messages.integration.test.ts:41:    process.env.ADMIN_API_TOKEN = 'abcdefghijklmnopqrstuvwxyz'
+error: script "scan:secrets" exited with code 1
+[2026-02-15T13:39:20+01:00] ERROR docker-build (exit=1)
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 873B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/oven/bun:1.3.8
+#2 DONE 4.3s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 177B done
+#3 DONE 0.0s
+
+#4 [deps 1/4] FROM docker.io/oven/bun:1.3.8@sha256:371d30538b69303ced927bb5915697ac7e2fa8cb409ee332c66009de64de5aa3
+#4 resolve docker.io/oven/bun:1.3.8@sha256:371d30538b69303ced927bb5915697ac7e2fa8cb409ee332c66009de64de5aa3 0.0s done
+#4 ...
+
+#5 [internal] load build context
+#5 transferring context: 4.36MB 0.0s done
+#5 DONE 0.1s
+
+#4 [deps 1/4] FROM docker.io/oven/bun:1.3.8@sha256:371d30538b69303ced927bb5915697ac7e2fa8cb409ee332c66009de64de5aa3
+#4 sha256:aff332439c7ed2289223f0744216a477ce8faba60b5b1d614a8354cd827edf9d 0B / 139B 0.2s
+#4 sha256:12020bc35c043f51d29d64b8066787bd5e92b94dc161589c13c23e9501dd0ef6 0B / 3.40kB 0.2s
+#4 sha256:430a88cd5cf3ec15b5c810fec5e5f8524a66dd9d614edf3f33eaeb28ab6e2e43 0B / 183B 0.2s
+#4 sha256:0f5801ce0de320658d43eb5e31506fecd96954b7c8e63f2a7dc1909a75a30805 0B / 39.61MB 0.2s
+#4 sha256:aff332439c7ed2289223f0744216a477ce8faba60b5b1d614a8354cd827edf9d 139B / 139B 0.4s done
+#4 sha256:08707d5a51e6d9236e9c05e136658727a8fbd93873e0b3c33a19f268e459aa40 0B / 294B 0.2s
+#4 sha256:12020bc35c043f51d29d64b8066787bd5e92b94dc161589c13c23e9501dd0ef6 3.40kB / 3.40kB 0.6s done
+#4 sha256:2ca1bfae7ba8b9e2a56c1c19a2d14036cae96bf868ca154ca88bc078eaf7c376 0B / 49.29MB 0.2s
+#4 sha256:430a88cd5cf3ec15b5c810fec5e5f8524a66dd9d614edf3f33eaeb28ab6e2e43 183B / 183B 1.0s done
+#4 sha256:08707d5a51e6d9236e9c05e136658727a8fbd93873e0b3c33a19f268e459aa40 294B / 294B 2.0s
+#4 sha256:08707d5a51e6d9236e9c05e136658727a8fbd93873e0b3c33a19f268e459aa40 294B / 294B 2.0s done
+#4 sha256:0f5801ce0de320658d43eb5e31506fecd96954b7c8e63f2a7dc1909a75a30805 2.10MB / 39.61MB 3.9s
+#4 sha256:0f5801ce0de320658d43eb5e31506fecd96954b7c8e63f2a7dc1909a75a30805 4.19MB / 39.61MB 4.4s
+#4 sha256:0f5801ce0de320658d43eb5e31506fecd96954b7c8e63f2a7dc1909a75a30805 6.29MB / 39.61MB 4.8s
+#4 sha256:0f5801ce0de320658d43eb5e31506fecd96954b7c8e63f2a7dc1909a75a30805 8.39MB / 39.61MB 5.4s
+#4 sha256:2ca1bfae7ba8b9e2a56c1c19a2d14036cae96bf868ca154ca88bc078eaf7c376 3.15MB / 49.29MB 5.1s
+#4 sha256:0f5801ce0de320658d43eb5e31506fecd96954b7c8e63f2a7dc1909a75a30805 10.49MB / 39.61MB 6.0s
+#4 sha256:0f5801ce0de320658d43eb5e31506fecd96954b7c8e63f2a7dc1909a75a30805 12.58MB / 39.61MB 6.6s
+#4 sha256:2ca1bfae7ba8b9e2a56c1c19a2d14036cae96bf868ca154ca88bc078eaf7c376 6.29MB / 49.29MB 6.3s
+#4 sha256:0f5801ce0de320658d43eb5e31506fecd96954b7c8e63f2a7dc1909a75a30805 14.68MB / 39.61MB 7.4s
+#4 sha256:0f5801ce0de320658d43eb5e31506fecd96954b7c8e63f2a7dc1909a75a30805 16.78MB / 39.61MB 8.0s
+#4 sha256:0f5801ce0de320658d43eb5e31506fecd96954b7c8e63f2a7dc1909a75a30805 18.87MB / 39.61MB 8.7s
+#4 sha256:2ca1bfae7ba8b9e2a56c1c19a2d14036cae96bf868ca154ca88bc078eaf7c376 9.44MB / 49.29MB 8.0s
+#4 sha256:0f5801ce0de320658d43eb5e31506fecd96954b7c8e63f2a7dc1909a75a30805 20.97MB / 39.61MB 9.3s
+#4 sha256:0f5801ce0de320658d43eb5e31506fecd96954b7c8e63f2a7dc1909a75a30805 23.07MB / 39.61MB 9.9s
+#4 sha256:2ca1bfae7ba8b9e2a56c1c19a2d14036cae96bf868ca154ca88bc078eaf7c376 12.58MB / 49.29MB 9.6s
+#4 sha256:0f5801ce0de320658d43eb5e31506fecd96954b7c8e63f2a7dc1909a75a30805 25.17MB / 39.61MB 10.5s
+#4 sha256:0f5801ce0de320658d43eb5e31506fecd96954b7c8e63f2a7dc1909a75a30805 27.26MB / 39.61MB 11.1s
+#4 sha256:0f5801ce0de320658d43eb5e31506fecd96954b7c8e63f2a7dc1909a75a30805 29.36MB / 39.61MB 11.6s
+#4 sha256:0f5801ce0de320658d43eb5e31506fecd96954b7c8e63f2a7dc1909a75a30805 31.46MB / 39.61MB 12.0s
+#4 sha256:2ca1bfae7ba8b9e2a56c1c19a2d14036cae96bf868ca154ca88bc078eaf7c376 15.73MB / 49.29MB 11.3s
+#4 sha256:0f5801ce0de320658d43eb5e31506fecd96954b7c8e63f2a7dc1909a75a30805 33.55MB / 39.61MB 12.5s
+#4 sha256:0f5801ce0de320658d43eb5e31506fecd96954b7c8e63f2a7dc1909a75a30805 35.65MB / 39.61MB 12.9s
+#4 sha256:0f5801ce0de320658d43eb5e31506fecd96954b7c8e63f2a7dc1909a75a30805 37.75MB / 39.61MB 13.4s
+#4 sha256:2ca1bfae7ba8b9e2a56c1c19a2d14036cae96bf868ca154ca88bc078eaf7c376 18.87MB / 49.29MB 13.7s
+#4 sha256:2ca1bfae7ba8b9e2a56c1c19a2d14036cae96bf868ca154ca88bc078eaf7c376 22.02MB / 49.29MB 14.7s
+#4 sha256:2ca1bfae7ba8b9e2a56c1c19a2d14036cae96bf868ca154ca88bc078eaf7c376 25.17MB / 49.29MB 15.5s
+#4 sha256:2ca1bfae7ba8b9e2a56c1c19a2d14036cae96bf868ca154ca88bc078eaf7c376 28.31MB / 49.29MB 16.2s
+#4 sha256:2ca1bfae7ba8b9e2a56c1c19a2d14036cae96bf868ca154ca88bc078eaf7c376 31.46MB / 49.29MB 18.3s
+#4 sha256:2ca1bfae7ba8b9e2a56c1c19a2d14036cae96bf868ca154ca88bc078eaf7c376 34.60MB / 49.29MB 19.8s
+#4 sha256:2ca1bfae7ba8b9e2a56c1c19a2d14036cae96bf868ca154ca88bc078eaf7c376 37.75MB / 49.29MB 20.3s
+#4 sha256:2ca1bfae7ba8b9e2a56c1c19a2d14036cae96bf868ca154ca88bc078eaf7c376 40.89MB / 49.29MB 20.9s
+#4 sha256:2ca1bfae7ba8b9e2a56c1c19a2d14036cae96bf868ca154ca88bc078eaf7c376 44.04MB / 49.29MB 21.5s
+#4 sha256:2ca1bfae7ba8b9e2a56c1c19a2d14036cae96bf868ca154ca88bc078eaf7c376 47.19MB / 49.29MB 21.9s
+#4 sha256:2ca1bfae7ba8b9e2a56c1c19a2d14036cae96bf868ca154ca88bc078eaf7c376 49.29MB / 49.29MB 22.4s done
+#4 extracting sha256:2ca1bfae7ba8b9e2a56c1c19a2d14036cae96bf868ca154ca88bc078eaf7c376
+#4 extracting sha256:2ca1bfae7ba8b9e2a56c1c19a2d14036cae96bf868ca154ca88bc078eaf7c376 0.8s done
+#4 DONE 24.0s
+
+#4 [deps 1/4] FROM docker.io/oven/bun:1.3.8@sha256:371d30538b69303ced927bb5915697ac7e2fa8cb409ee332c66009de64de5aa3
+#4 extracting sha256:08707d5a51e6d9236e9c05e136658727a8fbd93873e0b3c33a19f268e459aa40 0.0s done
+#4 extracting sha256:0f5801ce0de320658d43eb5e31506fecd96954b7c8e63f2a7dc1909a75a30805
+#4 extracting sha256:0f5801ce0de320658d43eb5e31506fecd96954b7c8e63f2a7dc1909a75a30805 0.4s done
+#4 DONE 24.4s
+
+#4 [deps 1/4] FROM docker.io/oven/bun:1.3.8@sha256:371d30538b69303ced927bb5915697ac7e2fa8cb409ee332c66009de64de5aa3
+#4 extracting sha256:430a88cd5cf3ec15b5c810fec5e5f8524a66dd9d614edf3f33eaeb28ab6e2e43 0.0s done
+#4 extracting sha256:12020bc35c043f51d29d64b8066787bd5e92b94dc161589c13c23e9501dd0ef6 0.0s done
+#4 extracting sha256:aff332439c7ed2289223f0744216a477ce8faba60b5b1d614a8354cd827edf9d 0.0s done
+#4 DONE 24.5s
+
+#6 [deps 2/4] WORKDIR /app
+#6 DONE 0.8s
+
+#7 [deps 3/4] COPY package.json bun.lock ./
+#7 DONE 0.1s
+
+#8 [runner 3/9] RUN addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 nextjs
+#8 0.194 /bin/sh: 1: addgroup: not found
+#8 ERROR: process "/bin/sh -c addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 nextjs" did not complete successfully: exit code: 127
+
+#9 [deps 4/4] RUN bun install --frozen-lockfile
+#9 0.138 bun install v1.3.8 (b64edcb4)
+#9 0.159 Resolving dependencies
+#9 CANCELED
+------
+ > [runner 3/9] RUN addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 nextjs:
+0.194 /bin/sh: 1: addgroup: not found
+------
+Dockerfile:17
+--------------------
+  15 |     ENV HOSTNAME=0.0.0.0
+  16 |     
+  17 | >>> RUN addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 nextjs
+  18 |     
+  19 |     COPY --from=builder /app/.next/standalone ./
+--------------------
+ERROR: failed to build: failed to solve: process "/bin/sh -c addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 nextjs" did not complete successfully: exit code: 127
+[2026-02-15T13:39:48+01:00] ERROR docker-build-retry (exit=1)
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 964B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/oven/bun:1.3.8
+#2 ERROR: failed to do request: Head "https://registry-1.docker.io/v2/oven/bun/manifests/1.3.8": net/http: TLS handshake timeout
+------
+ > [internal] load metadata for docker.io/oven/bun:1.3.8:
+------
+Dockerfile:11
+--------------------
+   9 |     RUN bun run build
+  10 |     
+  11 | >>> FROM oven/bun:1.3.8 AS runner
+  12 |     WORKDIR /app
+  13 |     ENV NODE_ENV=production
+--------------------
+ERROR: failed to build: failed to solve: oven/bun:1.3.8: failed to resolve source metadata for docker.io/oven/bun:1.3.8: failed to do request: Head "https://registry-1.docker.io/v2/oven/bun/manifests/1.3.8": net/http: TLS handshake timeout
+[2026-02-15T13:40:10+01:00] ERROR docker-build-retry-2 (exit=1)
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 DONE 0.0s
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 964B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/oven/bun:1.3.8
+#2 DONE 0.9s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 177B done
+#3 DONE 0.0s
+
+#4 [deps 1/4] FROM docker.io/oven/bun:1.3.8@sha256:371d30538b69303ced927bb5915697ac7e2fa8cb409ee332c66009de64de5aa3
+#4 resolve docker.io/oven/bun:1.3.8@sha256:371d30538b69303ced927bb5915697ac7e2fa8cb409ee332c66009de64de5aa3 0.0s done
+#4 DONE 0.0s
+
+#5 [deps 2/4] WORKDIR /app
+#5 CACHED
+
+#6 [internal] load build context
+#6 transferring context: 45.16kB done
+#6 DONE 0.0s
+
+#7 [deps 3/4] COPY package.json bun.lock ./
+#7 CACHED
+
+#8 [deps 4/4] RUN bun install --frozen-lockfile
+#8 0.131 bun install v1.3.8 (b64edcb4)
+#8 ...
+
+#9 [runner 3/9] RUN (groupadd --system --gid 1001 nodejs || addgroup -g 1001 -S nodejs)   && (useradd --system --uid 1001 --gid 1001 nextjs || adduser -S -D -u 1001 -G nodejs nextjs)
+#9 0.177 useradd warning: nextjs's uid 1001 is greater than SYS_UID_MAX 999
+#9 DONE 0.2s
+
+#8 [deps 4/4] RUN bun install --frozen-lockfile
+#8 0.145 Resolving dependencies
+#8 5.424 Resolved, downloaded and extracted [70]
+#8 5.427 error: lockfile had changes, but lockfile is frozen
+#8 5.427 note: try re-running without --frozen-lockfile and commit the updated lockfile
+#8 ERROR: process "/bin/sh -c bun install --frozen-lockfile" did not complete successfully: exit code: 1
+------
+ > [deps 4/4] RUN bun install --frozen-lockfile:
+0.131 bun install v1.3.8 (b64edcb4)
+0.145 Resolving dependencies
+5.424 Resolved, downloaded and extracted [70]
+5.427 error: lockfile had changes, but lockfile is frozen
+5.427 note: try re-running without --frozen-lockfile and commit the updated lockfile
+------
+Dockerfile:4
+--------------------
+   2 |     WORKDIR /app
+   3 |     COPY package.json bun.lock ./
+   4 | >>> RUN bun install --frozen-lockfile
+   5 |     
+   6 |     FROM deps AS builder
+--------------------
+ERROR: failed to build: failed to solve: process "/bin/sh -c bun install --frozen-lockfile" did not complete successfully: exit code: 1
+[2026-02-15T13:48:06+01:00] ERROR bun-install-timeout exit=124 (dependency resolution timeout)
+[2026-02-15T13:52:12+01:00] ERROR lockfile-sync blocked (bun install timed out repeatedly) -> applying safe fallback in Dockerfile
+[2026-02-15T14:11:23+01:00] ERROR lockfile-sync-via-docker (exit=125)
+Unable to find image 'oven/bun:1.3.9' locally
+1.3.9: Pulling from oven/bun
+docker: failed to copy: httpReadSeeker: failed open: failed to do request: Get "https://registry-1.docker.io/v2/oven/bun/manifests/sha256:7077ad6c6ba95d2117fa805156585986f7d40acf580988bca7219547dbf00e01": net/http: TLS handshake timeout
+
+Run 'docker run --help' for more information
+[2026-02-15T14:21:35+01:00] ERROR lint failure: missing react-hooks plugin resolution in eslint flat config
+[2026-02-15T14:22:40+01:00] ERROR quality-gates contaminated by _ops/external test/lint scope after cloning external repos
+[2026-02-15T14:34:48+01:00] ERROR validate-cohosting-config.sh failed due to unbound variable host in pattern string
+[2026-02-15T14:40:14+01:00] ERROR push to main rejected by branch protection (PR required + status checks expected)
