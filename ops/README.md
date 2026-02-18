@@ -27,3 +27,5 @@
 - `docs/DEPLOYMENT_PRECHECKLIST.md`
 - `scripts/deploy/check-hosting-sync.sh`
 - `scripts/deploy/validate-cohosting-config.sh`
+- `scripts/deploy/backup-onsite.sh` (onsite backup with retention)
+- `scripts/deploy/restore-drill-onsite.sh` (backup restore drill)
