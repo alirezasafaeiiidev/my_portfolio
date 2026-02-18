@@ -1,0 +1,24 @@
+# شواهد (Path:Line)
+
+- `package.json:5` تعریف package manager
+- `package.json:7` محدودیت نسخه Node
+- `package.json:31` اسکریپت `scan:secrets`
+- `.github/workflows/security-audit.yml:49` job اسکن secrets
+- `.github/workflows/ci.yml:23` همسان‌سازی Bun
+- `src/app/api/messages/route.ts:9` الزام auth برای GET
+- `src/app/api/messages/route.ts:49` الزام auth برای DELETE
+- `src/app/api/ready/route.ts:13` readiness = ready
+- `src/app/error.tsx:1` boundary سراسری خطا
+- `src/lib/security.ts:106` تولید توکن با CSPRNG
+- `src/lib/logger.ts:32` log level routing
+- `src/lib/db.ts:10` Prisma log policy بر اساس env
+- `scripts/scan-secrets.sh:1` اسکن secret
+- `Dockerfile:9` prisma generate + build
+- `Dockerfile:31` HEALTHCHECK
+- `docker-compose.yml:1` compose service
+- `_ops/logs/actions.log:1` لاگ اجرای فرمان‌ها
+- `_ops/logs/errors.log:1` لاگ خطاها/blocked
+- `ops/nginx/asdev-cohosting.conf:1`
+- `scripts/deploy/validate-cohosting-config.sh:1`
+- `docs/DEPLOYMENT_PRECHECKLIST.md:4`
+- `docs/VPS_DEPLOYMENT.md:35`
