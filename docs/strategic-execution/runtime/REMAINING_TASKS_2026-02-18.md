@@ -26,35 +26,33 @@
 
 ## Backlog باقیمانده (اجرایی)
 
-1. **SLO/MTTR Policy Decision (P1)**
-   - مالک: Product/Platform owner
-   - اقدام:
-     - تعیین نهایی یکی از دو مسیر:
-       - `99.99%` + MTTR بسیار پایین + مانیتورینگ کوتاه‌بازه
-       - یا SLO واقع‌گرایانه‌تر با MTTR متناسب
-   - خروجی مورد انتظار:
-      - فرم governance بدون mismatch
-
-2. **Alert Test Evidence Closure (P2)**
+1. **Offsite Restore Drill from Object Storage (P1)**
    - مالک: DevOps on-call
    - اقدام:
-     - اجرای test سناریوی alert (Telegram + Email)
-     - ثبت زمان رسیدن alert و ack
+     - بازیابی مستقیم از Arvan Object Storage به مسیر تست
+     - اجرای `sha256` validation و readiness check بعد از restore
    - خروجی مورد انتظار:
-      - Alert Test Performed = Yes
-      - ضمیمه evidence در runtime docs
+     - DR evidence کامل با لاگ و timestamp
 
-3. **Final Sign-off (P2)**
-   - مالک: Release approver
+2. **SSH Hardening Closure Evidence (P1)**
+   - مالک: Platform owner
    - اقدام:
-     - تکمیل `Reviewed By / Role / Digital Signature` در فرم governance
+     - ثبت خروجی واقعی `sshd_config` برای `PasswordAuthentication no`
+     - ثبت وضعیت firewall/fail2ban در فرم governance
    - خروجی مورد انتظار:
-     - فرم نهایی audit-ready و بدون TODO بحرانی
+     - حذف TODOهای hardening در فرم
+
+3. **Security Ops Cadence Finalization (P2)**
+   - مالک: Technical owner
+   - اقدام:
+     - تعیین دوره چرخش secrets (مثلا هر 90 روز) و ثبت در فرم
+   - خروجی مورد انتظار:
+     - بخش امنیت بدون TODO عملیاتی
 
 ## Definition of Done
-- offsite backup برنامه‌ریزی/پیاده‌سازی شود (یا exception رسمی تاییدشده داشته باشد).
-- تصمیم SLO/MTTR رسمی ثبت شود.
-- Alert test evidence و sign-off نهایی تکمیل شود.
+- offsite restore drill از object storage با موفقیت ثبت شود.
+- TODOهای امنیتی بحرانی فرم (SSH auth/firewall/fail2ban/secrets rotation) بسته شوند.
+- evidence pack و فرم governance در حالت کامل و audit-ready باقی بمانند.
 
 ## اسناد مرجع
 - `docs/strategic-execution/ROADMAP_TASKS_PRIORITIZED.md`
