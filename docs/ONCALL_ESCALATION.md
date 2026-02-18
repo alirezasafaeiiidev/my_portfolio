@@ -5,10 +5,10 @@ Define who responds to production incidents and how escalation works for `asdev-
 
 ## Roles
 - Service: `asdev-portfolio`
-- Primary on-call: `TODO_NAME`
-- Backup on-call: `TODO_NAME`
-- Release approver: `TODO_NAME`
-- Incident commander (P1/P0): `TODO_NAME`
+- Primary on-call: `platform-owner`
+- Backup on-call: `devops-backup`
+- Release approver: `platform-owner`
+- Incident commander (P1/P0): `incident-commander`
 
 ## Alert Sources
 - GitHub Action: `SLO Monitor` (`.github/workflows/slo-monitor.yml`)
@@ -21,8 +21,8 @@ Define who responds to production incidents and how escalation works for `asdev-
 3. P0 issue (full outage/security risk): immediate escalation to incident commander and release approver.
 
 ## Communication Channels
-- Primary channel: `TODO_CHANNEL` (Slack/Telegram/Email)
-- Backup channel: `TODO_CHANNEL`
+- Primary channel: `telegram:@asdev_ops_alerts`
+- Backup channel: `email:ops-backup@alirezasafaeisystems.ir`
 - Incident log location: `docs/strategic-execution/runtime/Incidents/`
 
 ## Approval Gates
@@ -34,7 +34,3 @@ Define who responds to production incidents and how escalation works for `asdev-
 ## Review Cadence
 - Weekly: check alert noise and unresolved incidents.
 - Monthly: run one rollback drill and attach incident note.
-
-## Quick Setup
-- می‌توانید این فایل را با اسکریپت زیر مقداردهی کنید:
-  - `bash scripts/release/configure-ownership.sh --primary "<name>" --backup "<name>" --approver "<name>" --commander "<name>" --primary-channel "<channel>" --backup-channel "<channel>"`
