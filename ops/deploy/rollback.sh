@@ -107,7 +107,7 @@ pm2 start "$TARGET_DIR/ecosystem.config.cjs" --only "$APP_NAME" --update-env
 pm2 save >/dev/null 2>&1 || true
 
 for attempt in {1..20}; do
-  if curl -fsS "http://127.0.0.1:$PORT/api" >/dev/null 2>&1; then
+  if curl -fsS "http://127.0.0.1:$PORT/api/ready" >/dev/null 2>&1; then
     echo "[rollback] health check passed for $ENVIRONMENT on port $PORT"
     break
   fi

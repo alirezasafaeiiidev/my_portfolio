@@ -32,3 +32,19 @@
 3. Add notification path for lead submissions (email/panel webhook) with retry-safe logging.
 4. Ensure each key page has exactly one primary CTA and 2-click path from Home to request form.
 5. Complete 3 fully structured case studies (Problem/Solution/Result/Role/Tradeoffs/Proof).
+
+## Execution Update (2026-02-18)
+- Completed: production domain cutover to `alirezasafaeisystems.ir` (DNS + nginx + cert + env + PM2).
+- Completed: SSL issuance for `alirezasafaeisystems.ir`, `www.alirezasafaeisystems.ir`, `staging.alirezasafaeisystems.ir`.
+- Completed: HSTS verification on live edge responses.
+- Completed: GitHub sync through PR `#38` (merged to `main`).
+- Completed: co-hosted domain verification for `persiantoolbox.ir` and `staging.persiantoolbox.ir` (`200` + valid TLS SAN).
+- Completed: production/staging admin secret rotation for `my-portfolio` with secured VPS record.
+- Completed: readiness endpoint contract closure on live edge (`/api/ready` => `200` for apex/www/staging).
+
+## Next Executable Tasks (Auto-first)
+1. Execute one VPS rollback drill and archive incident-style report.
+2. Validate and operationalize `scripts/deploy/recover-standalone-runtime.sh` in rollback drill.
+3. Publish single go/no-go evidence bundle for release governance.
+4. Wire monitoring ownership + restart/error alerts to on-call/escalation.
+5. Add scheduled health probe for `https://alirezasafaeisystems.ir/api/ready` and alert on non-200.

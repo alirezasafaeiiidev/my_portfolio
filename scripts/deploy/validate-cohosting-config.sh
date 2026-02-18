@@ -15,8 +15,8 @@ required_patterns=(
   "server 127.0.0.1:3003;"
   "server_name persiantoolbox.ir"
   "server_name staging.persiantoolbox.ir"
-  "server_name alirezasafaeidev.ir"
-  "server_name staging.alirezasafaeidev.ir"
+  "server_name alirezasafaeisystems.ir"
+  "server_name staging.alirezasafaeisystems.ir"
   "Strict-Transport-Security"
   'return 301 https://$host$request_uri;'
 )

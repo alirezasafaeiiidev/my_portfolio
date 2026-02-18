@@ -15,8 +15,36 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Validate SLO from deployed metrics
+        id: slo
         env:
           SITE_URL: ${{ vars.SITE_URL }}
           SLO_MAX_ERROR_RATE: ${{ vars.SLO_MAX_ERROR_RATE }}
           SLO_MIN_SAMPLE_SIZE: ${{ vars.SLO_MIN_SAMPLE_SIZE }}
         run: bash scripts/check-slo.sh
+      - name: Create incident issue on SLO breach
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const today = new Date().toISOString().slice(0, 10);
+            const title = `[SLO Breach] ${today} - ${context.ref.replace('refs/heads/', '')}`;
+            const body = [
+              'Automated SLO monitor failed.',
+              '',
+              `- Workflow run: ${runUrl}`,
+              `- Repository: ${context.repo.owner}/${context.repo.repo}`,
+              `- Ref: ${context.ref}`,
+              '',
+              'Required actions:',
+              '1. Check /api/metrics for error-rate and sample size.',
+              '2. Validate /api/ready and PM2 process status.',
+              '3. Follow escalation policy in docs/ONCALL_ESCALATION.md.',
+            ].join('\n');
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title,
+              body,
+              labels: ['incident', 'slo'],
+            });

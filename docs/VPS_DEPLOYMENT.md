@@ -3,7 +3,7 @@
 ## پیش‌نیازها
 - Ubuntu 22.04+
 - نصب ابزارها: `node`, `pnpm`, `pm2`, `rsync`, `nginx`
-- دامنه و DNS برای `alirezasafaeidev.ir`
+- دامنه و DNS برای `alirezasafaeisystems.ir`
 - هم‌میزبانی با `persiantoolbox.ir` روی همان VPS (بدون تداخل پورت)
 
 ## ساختار مسیرها
@@ -17,8 +17,8 @@
   - Production: `127.0.0.1:3000` -> `persiantoolbox.ir`
   - Staging: `127.0.0.1:3001` -> `staging.persiantoolbox.ir`
 - Portfolio:
-  - Production: `127.0.0.1:3002` -> `alirezasafaeidev.ir`
-  - Staging: `127.0.0.1:3003` -> `staging.alirezasafaeidev.ir`
+  - Production: `127.0.0.1:3002` -> `alirezasafaeisystems.ir`
+  - Staging: `127.0.0.1:3003` -> `staging.alirezasafaeisystems.ir`
 - پیش از deploy هر پروژه، تداخل را چک کنید:
   - `bash scripts/deploy/check-hosting-sync.sh --strict`
 
