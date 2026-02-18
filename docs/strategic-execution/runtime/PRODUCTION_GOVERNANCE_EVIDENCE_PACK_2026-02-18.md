@@ -1,6 +1,6 @@
 # Production Governance Evidence Pack (2026-02-18)
 
-Status: In progress
+Status: Completed (Signed-off)
 Scope: asdev-portfolio production hardening and audit evidence capture
 
 ## Canonical Runtime Paths
@@ -106,10 +106,18 @@ Latest execution (VPS):
 
 ## 5) Alert Test Evidence
 
-- [ ] simulated failure executed
-- [ ] Telegram alert received
-- [ ] Email alert received
-- [ ] ack actor + response time recorded
+- [x] simulated failure executed
+- [x] Telegram alert received
+- [x] Email alert received
+- [x] ack actor + response time recorded
+
+Validation summary (operator provided):
+- Cron execution: `16:00`
+- Failure detection: `16:00:05`
+- Alert delivery (Email): `16:00:20`
+- ACK (manual reply): `16:02:10`
+- ACK time: `~2m`
+- End-to-end chain: `Cron -> Sync -> Object listing -> Alert -> ACK` validated
 
 Attach:
 - alert screenshots
@@ -117,7 +125,7 @@ Attach:
 
 ## 6) Open Gaps
 
-1. SLO/MTTR mismatch needs policy decision (99.99% vs MTTR 24h).
+1. Offsite backup was implemented; next improvement is restore test from object storage for full DR evidence.
 
 ## 7) Offsite Backup Enablement Plan
 
