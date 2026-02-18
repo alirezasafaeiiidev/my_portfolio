@@ -186,19 +186,19 @@ Root SSH Login Disabled?
 - Status updated from latest operator confirmation (2026-02-18). Keep command evidence in ops runbook.
 
 Password Authentication Disabled?
-- [ ] Yes
+- [x] Yes
 - [ ] No
-- TODO
+- Enforced on VPS (`PasswordAuthentication no`) during hardening run on 2026-02-18.
 
 Firewall Enabled?
 - [ ] Yes
 - [ ] No
-- TODO
+- Verification pending: SSH access from this workstation is now key-only and root login is disabled; firewall state must be re-checked after non-root key access validation.
 
 Fail2Ban / Rate Limiting?
 - [ ] Yes
 - [ ] No
-- TODO
+- Verification pending with same access constraint as firewall check.
 
 ------------------------------------------------------------------------
 
@@ -350,7 +350,7 @@ Alert Test Summary:
 # 🔟 SECURITY CONTROLS
 
 Secrets Rotation Interval:
-- TODO (e.g. every 90 days)
+- Every 90 days (quarterly) for production/staging runtime secrets.
 
 Dependency Scanning Enabled?
 - [x] Yes
@@ -372,6 +372,7 @@ Date:
 # 1️⃣1️⃣ RISK DECLARATION & EXCEPTIONS
 
 1. Latest formal rollback incident note for current hardening cycle is still missing (`Latest rollback incident note: not-found` in evidence).
+2. Operator workstation requires deploy-user SSH key mapping after root/password login hardening; see `docs/strategic-execution/runtime/SSH_ACCESS_RECOVERY_2026-02-18.md`.
 
 ------------------------------------------------------------------------
 

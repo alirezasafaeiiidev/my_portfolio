@@ -14,9 +14,9 @@ Scope: asdev-portfolio production hardening and audit evidence capture
 
 ## 1) SSH Hardening Evidence
 
-- [ ] Root login disabled (`PermitRootLogin no`)
-- [ ] Password auth disabled (`PasswordAuthentication no`)
-- [ ] SSH config test and daemon reload successful
+- [x] Root login disabled (`PermitRootLogin no`)
+- [x] Password auth disabled (`PasswordAuthentication no`)
+- [x] SSH config test and daemon reload successful
 - [ ] Non-root deploy login verified
 
 Commands:
@@ -31,6 +31,17 @@ ssh deploy@SERVER_IP
 Attach:
 - command output snippets
 - timestamp
+
+Latest execution (VPS):
+- Timestamp (UTC): `2026-02-18T20:08:59Z`
+- Effective sshd_config lines observed:
+  - `PermitRootLogin no`
+  - `PubkeyAuthentication yes`
+  - `PasswordAuthentication no`
+- Evidence log:
+  - `/var/www/my-portfolio/shared/logs/governance/security-hardening-production-20260218T200859Z.log`
+- Note:
+  - SSH access from this workstation became key-only after enforcement; non-root key login verification is pending until deploy user key is available on this client.
 
 ## 2) 2FA Evidence
 
@@ -65,7 +76,7 @@ Policy (current target):
 - Daily retention: 7
 - Weekly retention: 4
 - Monthly retention: 6
-- Location: onsite VPS (offsite pending)
+- Location: onsite VPS + offsite Arvan Object Storage
 
 Automation:
 - `bash scripts/deploy/backup-onsite.sh --frequency daily --env production`
@@ -125,7 +136,8 @@ Attach:
 
 ## 6) Open Gaps
 
-1. Offsite backup was implemented; next improvement is restore test from object storage for full DR evidence.
+1. Non-root deploy login verification is pending from this workstation (server is now key-only; root SSH password path disabled).
+2. Firewall/Fail2Ban final status needs direct post-hardening verification after access recovery.
 
 ## 7) Offsite Backup Enablement Plan
 
@@ -148,13 +160,20 @@ Current VPS status (2026-02-18):
 Execution evidence (VPS):
 - Offsite log:
   - `/var/log/my-portfolio-offsite-sync.log`
+- Offsite restore drill log:
+  - `/var/www/my-portfolio/shared/logs/governance/offsite-restore-production-20260218T200859Z.log`
 - Offsite cron block installed:
   - `# BEGIN MY_PORTFOLIO_OFFSITE_SYNC ... # END MY_PORTFOLIO_OFFSITE_SYNC`
 - Remote object listing sample:
   - `my-portfolio-production-daily-20260218T185554Z.tar.gz`
   - `my-portfolio-production-daily-20260218T185554Z.tar.gz.manifest.txt`
   - `my-portfolio-production-daily-20260218T185554Z.tar.gz.sha256`
+- Offsite restore drill result:
+  - `/tmp/my-portfolio-offsite-restore-drill/production-daily-20260218T200859Z/OFFSITE_RESTORE_DRILL_RESULT.txt`
+- Validation points:
+  - `sha256sum -c` result: `OK`
+  - Readiness check: `https://alirezasafaeisystems.ir/api/ready` returned `200`
 
 Evidence to capture:
-- first successful offsite sync log line from `/var/log/my-portfolio-offsite-sync.log`
-- sample object listing from remote bucket/prefix
+- screenshot/snippet of successful non-root SSH login (`deploy@SERVER_IP`) from operator workstation
+- post-recovery snapshot for `ufw status verbose` and `fail2ban-client status sshd`
