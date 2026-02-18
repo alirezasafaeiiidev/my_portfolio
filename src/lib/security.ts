@@ -52,16 +52,7 @@ export function escapeHtml(unsafe: string): string {
  * Validates and sanitizes HTML content
  */
 export function sanitizeHtml(input: string): string {
-  // Remove script tags
-  let sanitized = input.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
-
-  // Remove dangerous event handlers
-  sanitized = sanitized.replace(/on\w+="[^"]*"/gi, '')
-
-  // Remove javascript: protocol
-  sanitized = sanitized.replace(/javascript:/gi, '')
-
-  return escapeHtml(sanitized)
+  return escapeHtml(input)
 }
 
 /**
