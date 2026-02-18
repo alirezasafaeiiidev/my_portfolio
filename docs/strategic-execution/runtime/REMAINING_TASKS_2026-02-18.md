@@ -23,35 +23,31 @@
 - زمان‌بندی بکاپ production روی VPS نصب شد (cron, Asia/Tehran).
 - اجرای واقعی backup + restore drill انجام و evidence ثبت شد.
 - offsite backup روی Arvan Object Storage فعال شد (remote + first sync + offsite cron).
+- offsite restore drill از Arvan Object Storage اجرا شد (sha256 + extract + readiness 200).
+- cadence چرخش secrets در فرم governance نهایی شد (هر 90 روز).
 
 ## Backlog باقیمانده (اجرایی)
 
-1. **Offsite Restore Drill from Object Storage (P1)**
-   - مالک: DevOps on-call
-   - اقدام:
-     - بازیابی مستقیم از Arvan Object Storage به مسیر تست
-     - اجرای `sha256` validation و readiness check بعد از restore
-   - خروجی مورد انتظار:
-     - DR evidence کامل با لاگ و timestamp
-
-2. **SSH Hardening Closure Evidence (P1)**
+1. **SSH Access Recovery to Non-root Operator Path (P0)**
    - مالک: Platform owner
    - اقدام:
-     - ثبت خروجی واقعی `sshd_config` برای `PasswordAuthentication no`
-     - ثبت وضعیت firewall/fail2ban در فرم governance
+     - اضافه کردن کلید عمومی اپراتور به `~deploy/.ssh/authorized_keys` از طریق Mobinhost console
+     - تست ورود `ssh deploy@185.3.124.93`
    - خروجی مورد انتظار:
-     - حذف TODOهای hardening در فرم
+     - بازیابی دسترسی عملیاتی key-based بدون root/password
 
-3. **Security Ops Cadence Finalization (P2)**
-   - مالک: Technical owner
+2. **Firewall/Fail2Ban Verification Closure (P1)**
+   - مالک: DevOps on-call
    - اقدام:
-     - تعیین دوره چرخش secrets (مثلا هر 90 روز) و ثبت در فرم
+     - ثبت خروجی واقعی `ufw status verbose`
+     - ثبت خروجی واقعی `fail2ban-client status` و `fail2ban-client status sshd`
+     - به‌روزرسانی چک‌باکس‌های فرم governance
    - خروجی مورد انتظار:
-     - بخش امنیت بدون TODO عملیاتی
+     - حذف TODOهای hardening باقی‌مانده در فرم
 
 ## Definition of Done
-- offsite restore drill از object storage با موفقیت ثبت شود.
-- TODOهای امنیتی بحرانی فرم (SSH auth/firewall/fail2ban/secrets rotation) بسته شوند.
+- دسترسی deploy key-based از ورک‌استیشن اپراتور تایید شود.
+- وضعیت firewall/fail2ban با evidence واقعی ثبت و TODOهای hardening بسته شوند.
 - evidence pack و فرم governance در حالت کامل و audit-ready باقی بمانند.
 
 ## اسناد مرجع
