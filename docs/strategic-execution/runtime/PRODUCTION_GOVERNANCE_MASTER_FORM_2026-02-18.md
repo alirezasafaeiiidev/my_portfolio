@@ -372,7 +372,7 @@ Date:
 # 1️⃣1️⃣ RISK DECLARATION & EXCEPTIONS
 
 1. Latest formal rollback incident note for current hardening cycle is still missing (`Latest rollback incident note: not-found` in evidence).
-2. Operator workstation requires deploy-user SSH key mapping after root/password login hardening; see `docs/strategic-execution/runtime/SSH_ACCESS_RECOVERY_2026-02-18.md`.
+2. Firewall/Fail2Ban control status requires root-level verification snapshot after SSH hardening transition.
 
 ------------------------------------------------------------------------
 

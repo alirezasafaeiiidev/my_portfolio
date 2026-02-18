@@ -17,7 +17,7 @@ Scope: asdev-portfolio production hardening and audit evidence capture
 - [x] Root login disabled (`PermitRootLogin no`)
 - [x] Password auth disabled (`PasswordAuthentication no`)
 - [x] SSH config test and daemon reload successful
-- [ ] Non-root deploy login verified
+- [x] Non-root deploy login verified
 
 Commands:
 
@@ -41,7 +41,7 @@ Latest execution (VPS):
 - Evidence log:
   - `/var/www/my-portfolio/shared/logs/governance/security-hardening-production-20260218T200859Z.log`
 - Note:
-  - SSH access from this workstation became key-only after enforcement; non-root key login verification is pending until deploy user key is available on this client.
+  - Verified from operator workstation: `ssh -i ~/.ssh/id_ed25519 -o IdentitiesOnly=yes deploy@185.3.124.93` (successful login on 2026-02-18/19).
 
 ## 2) 2FA Evidence
 
@@ -136,8 +136,7 @@ Attach:
 
 ## 6) Open Gaps
 
-1. Non-root deploy login verification is pending from this workstation (server is now key-only; root SSH password path disabled).
-2. Firewall/Fail2Ban final status needs direct post-hardening verification after access recovery.
+1. Firewall/Fail2Ban final status needs root-level verification (`sudo`) from operator session.
 
 ## 7) Offsite Backup Enablement Plan
 
@@ -175,5 +174,5 @@ Execution evidence (VPS):
   - Readiness check: `https://alirezasafaeisystems.ir/api/ready` returned `200`
 
 Evidence to capture:
-- screenshot/snippet of successful non-root SSH login (`deploy@SERVER_IP`) from operator workstation
-- post-recovery snapshot for `ufw status verbose` and `fail2ban-client status sshd`
+- root-level snapshot for `ufw status verbose`
+- root-level snapshot for `fail2ban-client status` and `fail2ban-client status sshd`
