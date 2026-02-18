@@ -28,17 +28,10 @@
 
 ## Backlog باقیمانده (اجرایی)
 
-1. **SSH Access Recovery to Non-root Operator Path (P0)**
-   - مالک: Platform owner
-   - اقدام:
-     - اضافه کردن کلید عمومی اپراتور به `~deploy/.ssh/authorized_keys` از طریق Mobinhost console
-     - تست ورود `ssh deploy@185.3.124.93`
-   - خروجی مورد انتظار:
-     - بازیابی دسترسی عملیاتی key-based بدون root/password
-
-2. **Firewall/Fail2Ban Verification Closure (P1)**
+1. **Firewall/Fail2Ban Verification Closure (P1)**
    - مالک: DevOps on-call
    - اقدام:
+     - اجرای verification با دسترسی root/sudo (در حال حاضر از این کلاینت sudo بدون پسورد فعال نیست)
      - ثبت خروجی واقعی `ufw status verbose`
      - ثبت خروجی واقعی `fail2ban-client status` و `fail2ban-client status sshd`
      - به‌روزرسانی چک‌باکس‌های فرم governance
@@ -46,7 +39,6 @@
      - حذف TODOهای hardening باقی‌مانده در فرم
 
 ## Definition of Done
-- دسترسی deploy key-based از ورک‌استیشن اپراتور تایید شود.
 - وضعیت firewall/fail2ban با evidence واقعی ثبت و TODOهای hardening بسته شوند.
 - evidence pack و فرم governance در حالت کامل و audit-ready باقی بمانند.
 
