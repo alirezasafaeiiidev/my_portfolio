@@ -36,6 +36,16 @@
 - [ ] Run `ops/deploy/rollback.sh --env production`.
 - [ ] Re-run health and smoke checks.
 - [ ] Capture rollback reason and corrective action in release notes.
+- [ ] Run formal rollback drill and store incident note:
+  - `bash scripts/deploy/run-rollback-drill.sh --env production --site-url https://alirezasafaeisystems.ir`
+
+## Release Governance
+- [ ] Generate go/no-go evidence bundle:
+  - `SITE_URL=https://alirezasafaeisystems.ir STAGING_URL=https://staging.alirezasafaeisystems.ir bash scripts/release/generate-go-no-go-evidence.sh`
+- [ ] Confirm ownership matrix is filled:
+  - `docs/ONCALL_ESCALATION.md`
+- [ ] Validate ownership placeholders are fully replaced:
+  - `bash scripts/release/validate-ownership.sh`
 
 ## بررسی‌های VPS
 - اجرای `bash scripts/vps-preflight.sh`
