@@ -6,7 +6,7 @@ This file is an internal reference to keep brand configuration consistent across
 - Name (FA): علیرضا صفایی
 - Name (EN): Alireza Safaei
 - Company: ASDEV
-- Primary Domain: alirezasafaeidev.ir
+- Primary Domain: alirezasafaeisystems.ir
 - Location: Tehran, IR
 
 ## Public Profile Handle
@@ -30,6 +30,6 @@ Production-Grade Web Systems Engineer | Architecture • Scalability • Reliabi
 
 ## Portfolio / Proof
 - persiantoolbox.ir
-- alirezasafaeidev.ir
+- alirezasafaeisystems.ir
 - In development: asdev-automation-hub
 - In development: asdev-creator-membership-ir

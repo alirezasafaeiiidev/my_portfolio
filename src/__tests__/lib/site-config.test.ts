@@ -9,9 +9,9 @@ describe('site-config', () => {
   })
 
   it('uses NEXT_PUBLIC_SITE_URL when provided', async () => {
-    process.env.NEXT_PUBLIC_SITE_URL = 'https://alirezasafaeidev.ir/'
+    process.env.NEXT_PUBLIC_SITE_URL = 'https://alirezasafaeisystems.ir/'
     const { getSiteUrl } = await import('@/lib/site-config')
-    expect(getSiteUrl()).toBe('https://alirezasafaeidev.ir')
+    expect(getSiteUrl()).toBe('https://alirezasafaeisystems.ir')
   })
 
   it('uses localhost fallback outside production', async () => {
@@ -22,6 +22,6 @@ describe('site-config', () => {
   it('uses production fallback when NEXT_PUBLIC_SITE_URL and VERCEL_URL are missing', async () => {
     vi.stubEnv('NODE_ENV', 'production')
     const { getSiteUrl } = await import('@/lib/site-config')
-    expect(getSiteUrl()).toBe('https://alirezasafaeidev.ir')
+    expect(getSiteUrl()).toBe('https://alirezasafaeisystems.ir')
   })
 })
