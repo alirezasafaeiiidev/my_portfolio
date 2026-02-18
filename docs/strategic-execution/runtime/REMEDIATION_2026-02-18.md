@@ -29,3 +29,8 @@
 - تسک‌های بعدی roadmap به بسته اجرایی تبدیل شد و run شد: preflight, smoke, lighthouse, verify.
 - گزارش: `docs/strategic-execution/runtime/ROADMAP_EXECUTION_2026-02-18_BATCH2.md`.
 - وضعیت نهایی این batch: همه گیت‌ها PASS به جز policy performance در Lighthouse.
+
+## Batch 3 (Roadmap completion drive)
+- مراحل باقیمانده deploy به drill اجرایی تبدیل و اجرا شد: staging deploy, production deploy, rollback, health checks.
+- گزارش: `docs/strategic-execution/runtime/ROADMAP_EXECUTION_2026-02-18_BATCH3.md`.
+- Lighthouse gate در این batch پاس شد؛ blockerهای نهایی فقط external (cert ownership evidence + timeout دامنه toolbox) هستند.
