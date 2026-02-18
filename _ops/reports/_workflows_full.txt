@@ -1,0 +1,312 @@
+### .github/workflows/ci.yml
+     1	name: CI
+     2	
+     3	on:
+     4	  push:
+     5	    branches:
+     6	      - main
+     7	      - develop
+     8	      - 'feature/**'
+     9	      - 'ai/**'
+    10	  pull_request:
+    11	
+    12	permissions:
+    13	  contents: read
+    14	
+    15	jobs:
+    16	  install:
+    17	    name: Install dependencies
+    18	    runs-on: ubuntu-latest
+    19	    steps:
+    20	      - uses: actions/checkout@v4
+    21	      - uses: oven-sh/setup-bun@v2
+    22	        with:
+    23	          bun-version: 1.3.9
+    24	      - name: bun install
+    25	        run: bun install
+    26	
+    27	  lint:
+    28	    name: Lint
+    29	    runs-on: ubuntu-latest
+    30	    steps:
+    31	      - uses: actions/checkout@v4
+    32	      - uses: oven-sh/setup-bun@v2
+    33	        with:
+    34	          bun-version: 1.3.9
+    35	      - run: bun install
+    36	      - name: bun run lint
+    37	        run: bun run lint
+    38	
+    39	  type-check:
+    40	    name: Type check
+    41	    runs-on: ubuntu-latest
+    42	    steps:
+    43	      - uses: actions/checkout@v4
+    44	      - uses: oven-sh/setup-bun@v2
+    45	        with:
+    46	          bun-version: 1.3.9
+    47	      - run: bun install
+    48	      - name: bun run type-check
+    49	        run: bun run type-check
+    50	
+    51	  test:
+    52	    name: Test
+    53	    runs-on: ubuntu-latest
+    54	    steps:
+    55	      - uses: actions/checkout@v4
+    56	      - uses: oven-sh/setup-bun@v2
+    57	        with:
+    58	          bun-version: 1.3.9
+    59	      - run: bun install
+    60	      - name: bun run test
+    61	        run: bun run test
+    62	
+    63	  test-coverage:
+    64	    name: Test coverage
+    65	    runs-on: ubuntu-latest
+    66	    steps:
+    67	      - uses: actions/checkout@v4
+    68	      - uses: oven-sh/setup-bun@v2
+    69	        with:
+    70	          bun-version: 1.3.9
+    71	      - run: bun install
+    72	      - name: bun run test:coverage
+    73	        run: bun run test:coverage
+    74	
+    75	  build:
+    76	    name: Build
+    77	    runs-on: ubuntu-latest
+    78	    steps:
+    79	      - uses: actions/checkout@v4
+    80	      - uses: oven-sh/setup-bun@v2
+    81	        with:
+    82	          bun-version: 1.3.9
+    83	      - run: bun install
+    84	      - name: bun run build
+    85	        run: bun run build
+    86	
+    87	  verification-scripts:
+    88	    name: Verification scripts
+    89	    runs-on: ubuntu-latest
+    90	    steps:
+    91	      - uses: actions/checkout@v4
+    92	      - uses: oven-sh/setup-bun@v2
+    93	        with:
+    94	          bun-version: 1.3.9
+    95	      - run: bun install
+    96	      - name: scripts/verify.sh
+    97	        run: bash scripts/verify.sh
+    98	      - name: scripts/offline-external-scan.sh
+    99	        run: bash scripts/offline-external-scan.sh
+### .github/workflows/codeql.yml
+     1	name: CodeQL
+     2	
+     3	on:
+     4	  push:
+     5	    branches: [main]
+     6	  pull_request:
+     7	    branches: [main]
+     8	  schedule:
+     9	    - cron: '0 6 * * 1'
+    10	
+    11	jobs:
+    12	  analyze:
+    13	    runs-on: ubuntu-latest
+    14	    permissions:
+    15	      actions: read
+    16	      contents: read
+    17	      security-events: write
+    18	    strategy:
+    19	      fail-fast: false
+    20	      matrix:
+    21	        language: [javascript-typescript]
+    22	    steps:
+    23	      - name: Checkout
+    24	        uses: actions/checkout@v4
+    25	
+    26	      - name: Initialize CodeQL
+    27	        uses: github/codeql-action/init@v3
+    28	        with:
+    29	          languages: ${{ matrix.language }}
+    30	
+    31	      - name: Autobuild
+    32	        uses: github/codeql-action/autobuild@v3
+    33	
+    34	      - name: Perform CodeQL Analysis
+    35	        uses: github/codeql-action/analyze@v3
+### .github/workflows/e2e-smoke.yml
+     1	name: E2E Smoke
+     2	
+     3	on:
+     4	  pull_request:
+     5	  push:
+     6	    branches:
+     7	      - main
+     8	      - develop
+     9	      - 'feature/**'
+    10	      - 'ai/**'
+    11	
+    12	permissions:
+    13	  contents: read
+    14	
+    15	jobs:
+    16	  smoke:
+    17	    runs-on: ubuntu-latest
+    18	    timeout-minutes: 20
+    19	    steps:
+    20	      - uses: actions/checkout@v4
+    21	      - uses: oven-sh/setup-bun@v2
+    22	        with:
+    23	          bun-version: 1.3.9
+    24	      - run: bun install
+    25	      - run: bunx playwright install --with-deps chromium
+    26	      - name: Run smoke tests
+    27	        run: bun run test:e2e:smoke
+### .github/workflows/lighthouse.yml
+     1	name: Lighthouse Budget
+     2	
+     3	on:
+     4	  pull_request:
+     5	  push:
+     6	    branches:
+     7	      - main
+     8	
+     9	permissions:
+    10	  contents: read
+    11	
+    12	jobs:
+    13	  lighthouse:
+    14	    runs-on: ubuntu-latest
+    15	    timeout-minutes: 20
+    16	    steps:
+    17	      - uses: actions/checkout@v4
+    18	      - uses: oven-sh/setup-bun@v2
+    19	        with:
+    20	          bun-version: 1.3.9
+    21	      - run: bun install
+    22	      - name: Run Lighthouse CI
+    23	        id: lighthouse_ci
+    24	        continue-on-error: true
+    25	        run: npx @lhci/cli@0.14.0 autorun --config=./lighthouserc.json
+    26	      - name: Lighthouse budget fallback
+    27	        if: steps.lighthouse_ci.outcome == 'failure'
+    28	        run: |
+    29	          echo "Lighthouse budget failed; keeping as non-blocking signal in CI."
+### .github/workflows/release.yml
+     1	name: Release
+     2	
+     3	on:
+     4	  push:
+     5	    branches:
+     6	      - main
+     7	
+     8	permissions:
+     9	  contents: write
+    10	  issues: write
+    11	  pull-requests: write
+    12	
+    13	jobs:
+    14	  semantic-release:
+    15	    runs-on: ubuntu-latest
+    16	    timeout-minutes: 20
+    17	    steps:
+    18	      - uses: actions/checkout@v4
+    19	        with:
+    20	          fetch-depth: 0
+    21	      - uses: actions/setup-node@v4
+    22	        with:
+    23	          node-version: '20'
+    24	      - name: Semantic release
+    25	        env:
+    26	          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    27	        run: >
+    28	          npx
+    29	          -p semantic-release@24.2.3
+    30	          -p @semantic-release/changelog@6.0.3
+    31	          -p @semantic-release/commit-analyzer@13.0.1
+    32	          -p @semantic-release/git@10.0.1
+    33	          -p @semantic-release/github@11.0.2
+    34	          -p @semantic-release/release-notes-generator@14.1.0
+    35	          semantic-release
+### .github/workflows/security-audit.yml
+     1	name: Security Audit
+     2	
+     3	on:
+     4	  push:
+     5	    branches:
+     6	      - main
+     7	      - develop
+     8	      - 'feature/**'
+     9	      - 'ai/**'
+    10	  pull_request:
+    11	  schedule:
+    12	    - cron: '0 3 * * 1'
+    13	
+    14	permissions:
+    15	  contents: read
+    16	
+    17	jobs:
+    18	  dependency-review:
+    19	    name: Dependency review (PR)
+    20	    if: github.event_name == 'pull_request'
+    21	    runs-on: ubuntu-latest
+    22	    permissions:
+    23	      contents: read
+    24	      pull-requests: read
+    25	    steps:
+    26	      - uses: actions/checkout@v4
+    27	      - name: Run dependency review
+    28	        id: dependency_review
+    29	        continue-on-error: true
+    30	        uses: actions/dependency-review-action@v4
+    31	      - name: Dependency review unsupported fallback
+    32	        if: steps.dependency_review.outcome == 'failure'
+    33	        run: |
+    34	          echo "Dependency review is unsupported for this repository configuration. Skipping as non-blocking."
+    35	
+    36	  bun-audit:
+    37	    name: Bun audit (high/critical gate)
+    38	    runs-on: ubuntu-latest
+    39	    steps:
+    40	      - uses: actions/checkout@v4
+    41	      - uses: oven-sh/setup-bun@v2
+    42	        with:
+    43	          bun-version: 1.3.9
+    44	      - run: bun install
+    45	      - name: Run bun audit high/critical gate
+    46	        run: bun run audit:high
+    47	
+    48	  secret-scan:
+    49	    name: Secret scan (repo)
+    50	    runs-on: ubuntu-latest
+    51	    steps:
+    52	      - uses: actions/checkout@v4
+    53	      - uses: oven-sh/setup-bun@v2
+    54	        with:
+    55	          bun-version: 1.3.9
+    56	      - run: bun install
+    57	      - name: Run local secret scan gate
+    58	        run: bun run scan:secrets
+### .github/workflows/slo-monitor.yml
+     1	name: SLO Monitor
+     2	
+     3	on:
+     4	  schedule:
+     5	    - cron: '0 */6 * * *'
+     6	  workflow_dispatch:
+     7	
+     8	permissions:
+     9	  contents: read
+    10	
+    11	jobs:
+    12	  check-slo:
+    13	    runs-on: ubuntu-latest
+    14	    timeout-minutes: 10
+    15	    steps:
+    16	      - uses: actions/checkout@v4
+    17	      - name: Validate SLO from deployed metrics
+    18	        env:
+    19	          SITE_URL: ${{ vars.SITE_URL }}
+    20	          SLO_MAX_ERROR_RATE: ${{ vars.SLO_MAX_ERROR_RATE }}
+    21	          SLO_MIN_SAMPLE_SIZE: ${{ vars.SLO_MIN_SAMPLE_SIZE }}
+    22	        run: bash scripts/check-slo.sh
