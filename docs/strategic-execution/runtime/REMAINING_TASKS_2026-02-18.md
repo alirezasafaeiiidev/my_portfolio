@@ -20,30 +20,12 @@
   - Root SSH disabled
   - ArvanCloud 2FA enabled
   - Mobinhost 2FA enabled
+- زمان‌بندی بکاپ production روی VPS نصب شد (cron, Asia/Tehran).
+- اجرای واقعی backup + restore drill انجام و evidence ثبت شد.
 
 ## Backlog باقیمانده (اجرایی)
 
-1. **Production Backup Scheduling (P1)**
-   - مالک: DevOps
-   - اقدام:
-     - زمان‌بندی روزانه/هفتگی/ماهانه روی VPS (cron یا systemd timer)
-     - تولید اولین artifacts واقعی بکاپ
-     - اسکریپت آماده: `scripts/deploy/install-backup-cron.sh`
-   - خروجی مورد انتظار:
-     - لیست آرشیوها + checksum در مسیر بکاپ
-     - ثبت مسیر/زمان در evidence pack
-
-2. **Restore Drill واقعی روی VPS (P1)**
-   - مالک: DevOps
-   - اقدام:
-     - اجرای `scripts/deploy/restore-drill-onsite.sh` روی آرشیو واقعی
-     - ثبت نتیجه restore + timestamp + صحت env/db
-     - اسکریپت ترکیبی آماده: `scripts/deploy/run-governance-evidence.sh`
-   - خروجی مورد انتظار:
-     - فایل نتیجه restore drill
-     - بروزرسانی تیک‌های بخش Restore در evidence pack و governance form
-
-3. **Offsite Backup Enablement (P1)**
+1. **Offsite Backup Enablement (P1)**
    - مالک: Platform owner
    - اقدام:
      - انتخاب مقصد offsite (Object Storage)
@@ -52,7 +34,7 @@
      - حذف ریسک «onsite-only backup»
      - مستند عملیاتی offsite
 
-4. **SLO/MTTR Policy Decision (P1)**
+2. **SLO/MTTR Policy Decision (P1)**
    - مالک: Product/Platform owner
    - اقدام:
      - تعیین نهایی یکی از دو مسیر:
@@ -61,7 +43,7 @@
    - خروجی مورد انتظار:
      - فرم governance بدون mismatch
 
-5. **Alert Test Evidence Closure (P2)**
+3. **Alert Test Evidence Closure (P2)**
    - مالک: DevOps on-call
    - اقدام:
      - اجرای test سناریوی alert (Telegram + Email)
@@ -70,7 +52,7 @@
      - Alert Test Performed = Yes
      - ضمیمه evidence در runtime docs
 
-6. **Final Sign-off (P2)**
+4. **Final Sign-off (P2)**
    - مالک: Release approver
    - اقدام:
      - تکمیل `Reviewed By / Role / Digital Signature` در فرم governance
@@ -78,7 +60,6 @@
      - فرم نهایی audit-ready و بدون TODO بحرانی
 
 ## Definition of Done
-- restore drill واقعی انجام و مستند شود.
 - offsite backup برنامه‌ریزی/پیاده‌سازی شود (یا exception رسمی تاییدشده داشته باشد).
 - تصمیم SLO/MTTR رسمی ثبت شود.
 - Alert test evidence و sign-off نهایی تکمیل شود.

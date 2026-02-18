@@ -308,12 +308,12 @@ Backup Location:
 - Offsite (target): TODO (object storage not yet implemented)
 
 Restore Tested?
-- [ ] Yes
-- [x] No
-- TODO (first restore drill must be scheduled and evidenced)
+- [x] Yes
+- [ ] No
+- Evidence captured via `scripts/deploy/run-governance-evidence.sh` on VPS.
 
 Last Test Date:
-- TODO
+- 2026-02-18 (backup + restore drill evidence run; readiness check `200`)
 
 ------------------------------------------------------------------------
 
@@ -365,9 +365,8 @@ Date:
 # 1️⃣1️⃣ RISK DECLARATION & EXCEPTIONS
 
 1. Backup is currently onsite-only; offsite backup is not implemented yet.
-2. Restore drill evidence is missing (restore test still not performed/documented).
-3. Latest formal rollback incident note for current hardening cycle is still missing (`Latest rollback incident note: not-found` in evidence).
-4. SLO/MTTR mismatch remains unresolved (99.99% vs MTTR 24h).
+2. Latest formal rollback incident note for current hardening cycle is still missing (`Latest rollback incident note: not-found` in evidence).
+3. SLO/MTTR mismatch remains unresolved (99.99% vs MTTR 24h).
 
 ------------------------------------------------------------------------
 
