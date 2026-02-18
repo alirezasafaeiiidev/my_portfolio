@@ -22,42 +22,29 @@
   - Mobinhost 2FA enabled
 - زمان‌بندی بکاپ production روی VPS نصب شد (cron, Asia/Tehran).
 - اجرای واقعی backup + restore drill انجام و evidence ثبت شد.
+- offsite backup روی Arvan Object Storage فعال شد (remote + first sync + offsite cron).
 
 ## Backlog باقیمانده (اجرایی)
 
-1. **Offsite Backup Enablement (P1)**
-   - مالک: Platform owner
-   - اقدام:
-      - انتخاب مقصد offsite (Object Storage)
-      - تعریف policy انتقال/retention و restore از offsite
-      - اجرای automation آماده:
-        - `scripts/deploy/push-offsite-backup.sh`
-        - `scripts/deploy/install-offsite-sync-cron.sh`
-   - blocker فعلی:
-      - credential/remote کانفیگ نشده (`rclone.conf` ندارد)
-   - خروجی مورد انتظار:
-      - حذف ریسک «onsite-only backup»
-      - مستند عملیاتی offsite
-
-2. **SLO/MTTR Policy Decision (P1)**
+1. **SLO/MTTR Policy Decision (P1)**
    - مالک: Product/Platform owner
    - اقدام:
      - تعیین نهایی یکی از دو مسیر:
        - `99.99%` + MTTR بسیار پایین + مانیتورینگ کوتاه‌بازه
        - یا SLO واقع‌گرایانه‌تر با MTTR متناسب
    - خروجی مورد انتظار:
-     - فرم governance بدون mismatch
+      - فرم governance بدون mismatch
 
-3. **Alert Test Evidence Closure (P2)**
+2. **Alert Test Evidence Closure (P2)**
    - مالک: DevOps on-call
    - اقدام:
      - اجرای test سناریوی alert (Telegram + Email)
      - ثبت زمان رسیدن alert و ack
    - خروجی مورد انتظار:
-     - Alert Test Performed = Yes
-     - ضمیمه evidence در runtime docs
+      - Alert Test Performed = Yes
+      - ضمیمه evidence در runtime docs
 
-4. **Final Sign-off (P2)**
+3. **Final Sign-off (P2)**
    - مالک: Release approver
    - اقدام:
      - تکمیل `Reviewed By / Role / Digital Signature` در فرم governance

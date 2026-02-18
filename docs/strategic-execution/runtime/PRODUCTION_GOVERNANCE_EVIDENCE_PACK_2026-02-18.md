@@ -117,8 +117,7 @@ Attach:
 
 ## 6) Open Gaps
 
-1. Offsite backup not implemented yet.
-2. SLO/MTTR mismatch needs policy decision (99.99% vs MTTR 24h).
+1. SLO/MTTR mismatch needs policy decision (99.99% vs MTTR 24h).
 
 ## 7) Offsite Backup Enablement Plan
 
@@ -134,7 +133,19 @@ Prerequisites:
 Current VPS status (2026-02-18):
 - `rclone` installed
 - `restic` installed
-- no configured remote yet (`/root/.config/rclone/rclone.conf` not found)
+- `arvan-s3` remote configured (`s3.ir-thr-at1.arvanstorage.ir`)
+- first offsite sync executed successfully for daily production backup
+- offsite cron schedule installed under root crontab
+
+Execution evidence (VPS):
+- Offsite log:
+  - `/var/log/my-portfolio-offsite-sync.log`
+- Offsite cron block installed:
+  - `# BEGIN MY_PORTFOLIO_OFFSITE_SYNC ... # END MY_PORTFOLIO_OFFSITE_SYNC`
+- Remote object listing sample:
+  - `my-portfolio-production-daily-20260218T185554Z.tar.gz`
+  - `my-portfolio-production-daily-20260218T185554Z.tar.gz.manifest.txt`
+  - `my-portfolio-production-daily-20260218T185554Z.tar.gz.sha256`
 
 Evidence to capture:
 - first successful offsite sync log line from `/var/log/my-portfolio-offsite-sync.log`
