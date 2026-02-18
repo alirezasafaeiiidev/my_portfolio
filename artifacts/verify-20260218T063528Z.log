@@ -1,0 +1,211 @@
+$ pnpm run verify
+
+> nextjs_tailwind_shadcn_ts@0.2.0 verify /workspace/asdev-portfolio
+> bash scripts/verify.sh
+
+==========================================
+🔍 Verification Script
+==========================================
+
+🔧 STEP 1: Running linter...
+
+------------------------------------------
+Running: ESLint
+------------------------------------------
+
+> nextjs_tailwind_shadcn_ts@0.2.0 lint /workspace/asdev-portfolio
+> eslint .
+
+[0;32m✓ ESLint passed[0m
+
+📘 STEP 2: Running type check...
+
+------------------------------------------
+Running: TypeScript
+------------------------------------------
+
+> nextjs_tailwind_shadcn_ts@0.2.0 type-check /workspace/asdev-portfolio
+> tsc --noEmit
+
+[0;32m✓ TypeScript passed[0m
+
+🧪 STEP 3: Running tests...
+
+------------------------------------------
+Running: Tests
+------------------------------------------
+
+> nextjs_tailwind_shadcn_ts@0.2.0 test /workspace/asdev-portfolio
+> vitest run
+
+
+ RUN  v4.0.18 /workspace/asdev-portfolio
+
+ ✓ src/__tests__/lib/security.test.ts (36 tests) 23ms
+ ✓ src/__tests__/lib/validators.test.ts (26 tests) 24ms
+ ✓ src/__tests__/lib/i18n-translations.test.ts (2 tests) 10ms
+ ✓ src/__tests__/lib/persian-utils.test.ts (38 tests) 33ms
+ ✓ src/__tests__/lib/logger.test.ts (2 tests) 287ms
+ ✓ src/__tests__/lib/env.test.ts (2 tests) 24ms
+ ✓ src/__tests__/lib/api-security.test.ts (5 tests) 26ms
+stderr | src/__tests__/lib/rate-limit.test.ts > rate-limit > falls back to memory when redis returns non-2xx
+{"ts":"2026-02-18T06:35:59.489Z","level":"warn","message":"Redis rate limit request failed","context":{"status":500,"identifier":"redis-non-2xx"}}
+
+stderr | src/__tests__/lib/rate-limit.test.ts > rate-limit > falls back to memory when redis throws
+{"ts":"2026-02-18T06:35:59.524Z","level":"warn","message":"Redis rate limit fallback to memory","context":{"identifier":"redis-throws","error":"network"}}
+
+ ✓ src/__tests__/lib/rate-limit.test.ts (6 tests) 610ms
+     ✓ uses in-memory limiter when redis is not configured  406ms
+ ✓ src/__tests__/lib/site-config.test.ts (3 tests) 429ms
+     ✓ uses NEXT_PUBLIC_SITE_URL when provided  378ms
+ ✓ src/__tests__/lib/lead-notifier.test.ts (3 tests) 561ms
+     ✓ no-ops when webhook is not configured  498ms
+ ✓ src/__tests__/lib/admin-auth.test.ts (3 tests) 543ms
+     ✓ returns not_configured when no admin auth env exists  477ms
+{"ts":"2026-02-18T06:35:59.765Z","level":"info","message":"Infrastructure lead captured","context":{"requestId":"862762ae-df81-42cc-a724-6270a90c2d3b","organizationName":"Industrial Co","organizationType":"government_contractor","budgetRange":"60-120m-irr"}}
+stderr | src/__tests__/api/messages.integration.test.ts > public messages route auth hardening > returns 500 when database read fails
+{"ts":"2026-02-18T06:35:59.781Z","level":"error","message":"Error fetching messages","context":{"requestId":"1d9f91dc-09b0-48ea-a2a9-d1102a182bb6","error":"db"}}
+
+ ✓ src/__tests__/api/messages.integration.test.ts (5 tests) 853ms
+     ✓ returns 503 when admin auth is not configured  644ms
+ ✓ src/__tests__/api/ready.integration.test.ts (2 tests) 578ms
+     ✓ returns 200 when database check succeeds  545ms
+stderr | src/__tests__/api/leads.integration.test.ts > lead API integration > ignores honeypot submissions without storing data
+{"ts":"2026-02-18T06:35:59.871Z","level":"warn","message":"Honeypot trap triggered on lead endpoint","context":{"requestId":"7a5fe73c-8270-4364-a4ee-cfcd82f362e8","organizationName":"Industrial Co"}}
+
+ ✓ src/__tests__/api/leads.integration.test.ts (3 tests) 738ms
+     ✓ stores a valid lead request  621ms
+ ✓ src/__tests__/api/admin-auth.integration.test.ts (6 tests) 804ms
+     ✓ returns 503 when session auth is not configured  657ms
+ ✓ src/__tests__/api/admin-routes.integration.test.ts (7 tests) 880ms
+     ✓ returns 503 when admin auth is not configured  612ms
+ ✓ src/__tests__/components/web-vitals.test.ts (3 tests) 7ms
+ ✓ src/__tests__/lib/proxy-cache.test.ts (2 tests) 5ms
+ ✓ src/__tests__/seo/sitemap.test.ts (1 test) 126ms
+ ✓ src/__tests__/api/metrics.integration.test.ts (1 test) 161ms
+
+ Test Files  20 passed (20)
+      Tests  156 passed (156)
+   Start at  06:35:55
+   Duration  5.35s (transform 6.19s, setup 12.74s, import 5.63s, tests 6.72s, environment 23.08s)
+
+[0;32m✓ Tests passed[0m
+
+🏗️  STEP 4: Running build...
+
+------------------------------------------
+Running: Build
+------------------------------------------
+
+> nextjs_tailwind_shadcn_ts@0.2.0 build /workspace/asdev-portfolio
+> next build && cp -r .next/static .next/standalone/.next/ && cp -r public .next/standalone/
+
+Attention: Next.js now collects completely anonymous telemetry regarding usage.
+This information is used to shape Next.js' roadmap and prioritize features.
+You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+https://nextjs.org/telemetry
+
+▲ Next.js 16.1.6 (Turbopack)
+- Experiments (use with caution):
+  · optimizePackageImports
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 13.4s
+  Running TypeScript ...
+  Collecting page data using 16 workers ...
+⚠ Using edge runtime on a page currently disables static generation for that page
+  Generating static pages using 16 workers (0/31) ...
+  Generating static pages using 16 workers (7/31) 
+  Generating static pages using 16 workers (15/31) 
+  Generating static pages using 16 workers (23/31) 
+✓ Generating static pages using 16 workers (31/31) in 420.5ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ƒ /
+├ ƒ /_not-found
+├ ƒ /about-brand
+├ ƒ /admin
+├ ƒ /admin/login
+├ ƒ /api
+├ ƒ /api/admin/auth/login
+├ ƒ /api/admin/auth/logout
+├ ƒ /api/admin/auth/session
+├ ƒ /api/admin/leads
+├ ƒ /api/admin/messages
+├ ƒ /api/admin/projects
+├ ƒ /api/contact
+├ ƒ /api/leads
+├ ƒ /api/messages
+├ ƒ /api/metrics
+├ ƒ /api/og-image
+├ ƒ /api/ready
+├ ƒ /api/rss
+├ ƒ /case-studies
+├ ƒ /case-studies/alirezasafaeidev-portfolio
+├ ƒ /case-studies/asdev-persiantoolbox-platform
+├ ƒ /case-studies/ci-cd-governance-hardening
+├ ƒ /case-studies/infrastructure-localization-rescue
+├ ƒ /case-studies/legacy-nextjs-replatform
+├ ƒ /qualification
+├ ○ /robots.txt
+├ ƒ /services
+├ ƒ /services/infrastructure-localization
+├ ○ /sitemap.xml
+└ ƒ /thank-you
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+[0;32m✓ Build passed[0m
+
+🔒 STEP 5: Running external request scan...
+
+------------------------------------------
+Running: External Scan
+------------------------------------------
+==========================================
+🔒 External Dependencies Scan
+==========================================
+
+📁 Scanning source files for external URLs...
+------------------------------------------
+Checking runtime request patterns in src/...
+[0;32m✓ No runtime external requests found in src/[0m
+
+🏗️ Scanning build output (.next) for runtime externals...
+------------------------------------------
+[0;32m✓ No runtime external requests found in .next[0m
+Checking public/ text assets for external URLs...
+
+🔧 Scanning configuration files...
+------------------------------------------
+
+🏷️ Checking for placeholder domain...
+------------------------------------------
+
+🌐 Checking for CDN references...
+------------------------------------------
+
+📊 Checking for analytics/tracking...
+------------------------------------------
+
+🔤 Checking for Google Fonts...
+------------------------------------------
+
+==========================================
+📊 Scan Summary
+==========================================
+[0;32m✅ No external runtime dependencies found![0m
+[0;32m✓ External Scan passed[0m
+
+==========================================
+📊 Verification Summary
+==========================================
+Passed: [0;32m5[0m
+Failed: [0;31m0[0m
+[0;32m✅ All checks passed![0m
+exit_code=0

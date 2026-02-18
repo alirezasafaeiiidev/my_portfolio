@@ -1,0 +1,4 @@
+
+> nextjs_tailwind_shadcn_ts@0.2.0 type-check /workspace/asdev-portfolio
+> tsc --noEmit
+

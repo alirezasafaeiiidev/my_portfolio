@@ -1,0 +1,12 @@
+$ CHROME_PATH=/root/.cache/ms-playwright/chromium-1208/chrome-linux/chrome timeout 600 pnpm run lighthouse:ci
+
+> nextjs_tailwind_shadcn_ts@0.2.0 lighthouse:ci /workspace/asdev-portfolio
+> LHCI_BUILD_CONTEXT__CURRENT_HASH=${LHCI_BUILD_CONTEXT__CURRENT_HASH:-$(git rev-parse HEAD 2>/dev/null || echo local)} pnpm exec lhci autorun --config=./lighthouserc.json
+
+✅  .lighthouseci/ directory writable
+✅  Configuration file found
+❌  Chrome installation not found
+Healthcheck failed!
+
+ ELIFECYCLE  Command failed with exit code 1.
+exit_code=1

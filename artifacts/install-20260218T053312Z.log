@@ -1,0 +1,16 @@
+Lockfile is up to date, resolution step is skipped
+Already up to date
+
+
+> nextjs_tailwind_shadcn_ts@0.2.0 postinstall /workspace/asdev-portfolio
+> prisma generate
+
+Prisma schema loaded from prisma/schema.prisma
+
+✔ Generated Prisma Client (v6.19.2) to ./node_modules/.pnpm/@prisma+client@6.19.2_prisma@6.19.2_typescript@5.9.3__typescript@5.9.3/node_modules/@prisma/client in 165ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+Tip: Need your database queries to be 1000x faster? Accelerate offers you that and more: https://pris.ly/tip-2-accelerate
+
+Done in 5.5s
