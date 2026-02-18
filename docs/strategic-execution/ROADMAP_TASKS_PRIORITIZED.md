@@ -40,10 +40,11 @@
 - Completed: GitHub sync through PR `#38` (merged to `main`).
 - Completed: co-hosted domain verification for `persiantoolbox.ir` and `staging.persiantoolbox.ir` (`200` + valid TLS SAN).
 - Completed: production/staging admin secret rotation for `my-portfolio` with secured VPS record.
+- Completed: readiness endpoint contract closure on live edge (`/api/ready` => `200` for apex/www/staging).
 
 ## Next Executable Tasks (Auto-first)
-1. Restore readiness endpoint contract on active release (`/api/ready` must return `200`).
-2. Execute one VPS rollback drill and archive incident-style report.
-3. Validate and operationalize `scripts/deploy/recover-standalone-runtime.sh` in rollback drill.
-4. Publish single go/no-go evidence bundle for release governance.
-5. Wire monitoring ownership + restart/error alerts to on-call/escalation.
+1. Execute one VPS rollback drill and archive incident-style report.
+2. Validate and operationalize `scripts/deploy/recover-standalone-runtime.sh` in rollback drill.
+3. Publish single go/no-go evidence bundle for release governance.
+4. Wire monitoring ownership + restart/error alerts to on-call/escalation.
+5. Add scheduled health probe for `https://alirezasafaeisystems.ir/api/ready` and alert on non-200.

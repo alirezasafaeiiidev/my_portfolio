@@ -6,6 +6,9 @@ Environment: `root@185.3.124.93`
 - `https://alirezasafaeisystems.ir` -> `200`
 - `https://www.alirezasafaeisystems.ir` -> `200`
 - `https://staging.alirezasafaeisystems.ir` -> `200`
+- `https://alirezasafaeisystems.ir/api/ready` -> `200`
+- `https://www.alirezasafaeisystems.ir/api/ready` -> `200`
+- `https://staging.alirezasafaeisystems.ir/api/ready` -> `200`
 - `http://alirezasafaeisystems.ir` -> `301` to HTTPS
 - TLS:
   - CN=`alirezasafaeisystems.ir`
@@ -22,8 +25,10 @@ Environment: `root@185.3.124.93`
 ## PM2 Runtime
 - `my-portfolio-production` online on `127.0.0.1:3002`
 - `my-portfolio-staging` online on `127.0.0.1:3003`
+- restart count stable (no crash loop observed after readiness fix window)
 
 ## Notes
 - `NEXT_PUBLIC_SITE_URL` on production env updated to `https://alirezasafaeisystems.ir`
 - Secret rotation executed for admin credentials/token/session secret; secure copy stored on VPS:
   - `/root/.secrets/my-portfolio-rotated-20260218T135437Z.txt`
+- readiness endpoint contract fixed at edge level via `ops/nginx/my-portfolio.conf` and applied to VPS nginx.
