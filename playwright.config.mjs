@@ -13,7 +13,7 @@ const config = {
   timeout: 30_000,
   retries: 1,
   use: {
-    baseURL: process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:3000',
+    baseURL: process.env.PLAYWRIGHT_BASE_URL || 'http://127.0.0.1:3000',
     headless: true,
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
@@ -21,8 +21,8 @@ const config = {
     launchOptions,
   },
   webServer: {
-    command: "bash -lc 'pnpm run build && pnpm run start'",
-    url: 'http://localhost:3000',
+    command: "bash -lc 'fuser -k 3000/tcp >/dev/null 2>&1 || true; pnpm run build && PORT=3000 pnpm run start'",
+    url: 'http://127.0.0.1:3000',
     reuseExistingServer: false,
     timeout: 240_000,
   },

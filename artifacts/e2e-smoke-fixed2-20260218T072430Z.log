@@ -1,0 +1,30 @@
+$ timeout 420 pnpm run test:e2e:smoke
+
+> nextjs_tailwind_shadcn_ts@0.2.0 test:e2e:smoke /workspace/asdev-portfolio
+> npx playwright test e2e/smoke.spec.mjs --config=playwright.config.mjs
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+[2m[WebServer] [22m(node:18674) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `node --trace-warnings ...` to show where the warning was created)
+[2m[WebServer] [22m(node:18686) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `node --trace-warnings ...` to show where the warning was created)
+[2m[WebServer] [22m(node:18749) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `node --trace-warnings ...` to show where the warning was created)
+[2m[WebServer] [22m⚠ Using edge runtime on a page currently disables static generation for that page
+[2m[WebServer] [22m(node:19090) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `node --trace-warnings ...` to show where the warning was created)
+[2m[WebServer] [22m(node:19101) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `node --trace-warnings ...` to show where the warning was created)
+[2m[WebServer] [22m⚠ "next start" does not work with "output: standalone" configuration. Use "node .next/standalone/server.js" instead.
+
+Running 6 tests using 1 worker
+
+  ✓  1 e2e/smoke.spec.mjs:4:3 › smoke › skip link is keyboard reachable and targets main content (986ms)
+  ✓  2 e2e/smoke.spec.mjs:18:3 › smoke › home page renders key sections (935ms)
+  ✓  3 e2e/smoke.spec.mjs:26:3 › smoke › language switch sets english direction (1.8s)
+  ✓  4 e2e/smoke.spec.mjs:38:3 › smoke › theme toggle switches to dark mode (1.1s)
+  ✓  5 e2e/smoke.spec.mjs:44:3 › smoke › admin route redirects unauthenticated users to login (826ms)
+  ✓  6 e2e/smoke.spec.mjs:50:3 › smoke › qualification form submits and redirects to thank-you (1.2s)
+
+  6 passed (41.0s)
+exit_code=0

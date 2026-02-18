@@ -1,0 +1,19 @@
+$ bash ops/deploy/rollback.sh --env production --base-dir /var/www/my-portfolio
+[PM2] Applying action deleteProcessId on app [my-portfolio-production](ids: [ 2 ])
+[PM2] [my-portfolio-production](2) ✓
+┌────┬─────────────────────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐
+│ id │ name                    │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │
+├────┼─────────────────────────┼─────────────┼─────────┼─────────┼──────────┼────────┼──────┼───────────┼──────────┼──────────┼──────────┼──────────┤
+│ 0  │ my-portfolio-staging    │ default     │ 0.40.2  │ fork    │ 21987    │ 95s    │ 0    │ online    │ 0%       │ 94.9mb   │ root     │ disabled │
+└────┴─────────────────────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
+[PM2][WARN] Applications my-portfolio-production not running, starting...
+[PM2] App [my-portfolio-production] launched (1 instances)
+┌────┬────────────────────────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐
+│ id │ name                       │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │
+├────┼────────────────────────────┼─────────────┼─────────┼─────────┼──────────┼────────┼──────┼───────────┼──────────┼──────────┼──────────┼──────────┤
+│ 3  │ my-portfolio-production    │ default     │ 0.40.2  │ fork    │ 23995    │ 0s     │ 0    │ online    │ 0%       │ 12.3mb   │ root     │ disabled │
+│ 0  │ my-portfolio-staging       │ default     │ 0.40.2  │ fork    │ 21987    │ 96s    │ 0    │ online    │ 0%       │ 94.9mb   │ root     │ disabled │
+└────┴────────────────────────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
+[rollback] health check passed for production on port 3002
+[rollback] switched production to release 20260218T090801Z-prd5 (my-portfolio-production)
+exit_code=0

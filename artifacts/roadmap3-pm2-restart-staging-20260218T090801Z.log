@@ -1,0 +1,10 @@
+$ pm2 restart my-portfolio-staging --update-env
+[PM2] Applying action restartProcessId on app [my-portfolio-staging](ids: [ 0 ])
+[PM2] [my-portfolio-staging](0) ✓
+┌────┬────────────────────────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐
+│ id │ name                       │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │
+├────┼────────────────────────────┼─────────────┼─────────┼─────────┼──────────┼────────┼──────┼───────────┼──────────┼──────────┼──────────┼──────────┤
+│ 3  │ my-portfolio-production    │ default     │ 0.40.2  │ fork    │ 25968    │ 24s    │ 1    │ online    │ 0%       │ 84.9mb   │ root     │ disabled │
+│ 0  │ my-portfolio-staging       │ default     │ 0.40.2  │ fork    │ 26280    │ 0s     │ 1    │ online    │ 0%       │ 16.6mb   │ root     │ disabled │
+└────┴────────────────────────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
+exit_code=0
