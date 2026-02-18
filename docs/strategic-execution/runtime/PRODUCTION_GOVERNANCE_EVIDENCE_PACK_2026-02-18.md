@@ -72,6 +72,8 @@ Automation:
 - `bash scripts/deploy/backup-onsite.sh --frequency weekly --env production`
 - `bash scripts/deploy/backup-onsite.sh --frequency monthly --env production`
 - `bash scripts/deploy/restore-drill-onsite.sh --frequency daily --env production`
+- `bash scripts/deploy/install-backup-cron.sh --repo-dir /var/www/my-portfolio/current/production --env production`
+- `bash scripts/deploy/run-governance-evidence.sh --repo-dir /var/www/my-portfolio/current/production --env production --frequency daily`
 
 Mandatory scope:
 - `/etc/nginx/`
