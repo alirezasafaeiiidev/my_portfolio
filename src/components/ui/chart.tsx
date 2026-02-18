@@ -138,6 +138,7 @@ function ChartTooltipContent({
     active?: boolean
     payload?: ChartPayloadItem[]
     label?: React.ReactNode
+    labelClassName?: string
     labelFormatter?: (
       value: React.ReactNode,
       payload: ChartPayloadItem[]
