@@ -38,10 +38,12 @@
 - Completed: SSL issuance for `alirezasafaeisystems.ir`, `www.alirezasafaeisystems.ir`, `staging.alirezasafaeisystems.ir`.
 - Completed: HSTS verification on live edge responses.
 - Completed: GitHub sync through PR `#38` (merged to `main`).
+- Completed: co-hosted domain verification for `persiantoolbox.ir` and `staging.persiantoolbox.ir` (`200` + valid TLS SAN).
+- Completed: production/staging admin secret rotation for `my-portfolio` with secured VPS record.
 
 ## Next Executable Tasks (Auto-first)
-1. Run external verification bundle for `persiantoolbox.ir` (TLS/HSTS/health snapshots).
-2. Rotate production secrets and record owner/date in runtime evidence.
-3. Execute one VPS rollback drill and archive incident-style report.
-4. Add recovery automation for missing `.next/standalone/server.js` in deploy scripts.
-5. Publish single go/no-go evidence bundle for release governance.
+1. Restore readiness endpoint contract on active release (`/api/ready` must return `200`).
+2. Execute one VPS rollback drill and archive incident-style report.
+3. Validate and operationalize `scripts/deploy/recover-standalone-runtime.sh` in rollback drill.
+4. Publish single go/no-go evidence bundle for release governance.
+5. Wire monitoring ownership + restart/error alerts to on-call/escalation.
