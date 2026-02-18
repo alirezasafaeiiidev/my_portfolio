@@ -1,0 +1,64 @@
+
+> nextjs_tailwind_shadcn_ts@0.2.0 build /workspace/asdev-portfolio
+> next build && cp -r .next/static .next/standalone/.next/ && cp -r public .next/standalone/
+
+Attention: Next.js now collects completely anonymous telemetry regarding usage.
+This information is used to shape Next.js' roadmap and prioritize features.
+You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+https://nextjs.org/telemetry
+
+▲ Next.js 16.1.6 (Turbopack)
+- Experiments (use with caution):
+  · optimizePackageImports
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 15.5s
+  Running TypeScript ...
+  Collecting page data using 16 workers ...
+⚠ Using edge runtime on a page currently disables static generation for that page
+  Generating static pages using 16 workers (0/31) ...
+  Generating static pages using 16 workers (7/31) 
+  Generating static pages using 16 workers (15/31) 
+  Generating static pages using 16 workers (23/31) 
+✓ Generating static pages using 16 workers (31/31) in 462.2ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ƒ /
+├ ƒ /_not-found
+├ ƒ /about-brand
+├ ƒ /admin
+├ ƒ /admin/login
+├ ƒ /api
+├ ƒ /api/admin/auth/login
+├ ƒ /api/admin/auth/logout
+├ ƒ /api/admin/auth/session
+├ ƒ /api/admin/leads
+├ ƒ /api/admin/messages
+├ ƒ /api/admin/projects
+├ ƒ /api/contact
+├ ƒ /api/leads
+├ ƒ /api/messages
+├ ƒ /api/metrics
+├ ƒ /api/og-image
+├ ƒ /api/ready
+├ ƒ /api/rss
+├ ƒ /case-studies
+├ ƒ /case-studies/alirezasafaeidev-portfolio
+├ ƒ /case-studies/asdev-persiantoolbox-platform
+├ ƒ /case-studies/ci-cd-governance-hardening
+├ ƒ /case-studies/infrastructure-localization-rescue
+├ ƒ /case-studies/legacy-nextjs-replatform
+├ ƒ /qualification
+├ ○ /robots.txt
+├ ƒ /services
+├ ƒ /services/infrastructure-localization
+├ ○ /sitemap.xml
+└ ƒ /thank-you
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

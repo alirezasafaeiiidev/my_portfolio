@@ -1,0 +1,17 @@
+
+> nextjs_tailwind_shadcn_ts@0.2.0 test:e2e /workspace/asdev-portfolio
+> npx playwright test
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+[2m[WebServer] [22m(node:13245) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `node --trace-warnings ...` to show where the warning was created)
+[2m[WebServer] [22m(node:13257) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `node --trace-warnings ...` to show where the warning was created)
+[2m[WebServer] [22m(node:13321) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `node --trace-warnings ...` to show where the warning was created)
+[2m[WebServer] [22m⚠ Using edge runtime on a page currently disables static generation for that page
+[2m[WebServer] [22m(node:12984) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `node --trace-warnings ...` to show where the warning was created)
+Error: Process from config.webServer exited early.
+
+ ELIFECYCLE  Command failed with exit code 1.

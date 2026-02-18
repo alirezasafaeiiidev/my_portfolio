@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { checkRateLimit, createRequestId, withCommonApiHeaders } from '@/lib/api-security'
+import { notifyLeadSubmission } from '@/lib/lead-notifier'
 import { logger } from '@/lib/logger'
 import { hasSqlInjection, isLikelySpam } from '@/lib/security'
 import { isValidEmail, sanitizeInput } from '@/lib/validators'
@@ -10,6 +11,7 @@ const contactSchema = z.object({
   email: z.string().email().max(255),
   subject: z.string().max(200).optional().default(''),
   message: z.string().min(10).max(5000),
+  website: z.string().max(255).optional().default(''),
 })
 
 type ContactPayload = z.infer<typeof contactSchema>
@@ -20,6 +22,7 @@ function normalizePayload(input: ContactPayload): ContactPayload {
     email: sanitizeInput(input.email, 255).toLowerCase(),
     subject: sanitizeInput(input.subject, 200),
     message: sanitizeInput(input.message, 5000),
+    website: sanitizeInput(input.website, 255),
   }
 }
 
@@ -100,6 +103,30 @@ export async function POST(request: NextRequest) {
         limit.headers
       )
     }
+
+    if (payload.website.trim().length > 0) {
+      logger.warn('Honeypot trap triggered on contact endpoint', {
+        requestId,
+      })
+      return withCommonApiHeaders(
+        NextResponse.json({
+          success: true,
+          message: 'Message sent successfully',
+        }),
+        requestId,
+        limit.headers
+      )
+    }
+
+    await notifyLeadSubmission({
+      type: 'contact',
+      submittedAt: new Date().toISOString(),
+      requestId,
+      email: payload.email,
+      name: payload.name,
+      subject: payload.subject,
+      summary: payload.message.slice(0, 280),
+    })
 
     logger.info('Contact form submission accepted', {
       requestId,

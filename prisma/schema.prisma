@@ -72,3 +72,39 @@ model ContactMessage {
   message   String
   createdAt DateTime @default(now())
 }
+
+enum LeadStatus {
+  new
+  qualified
+  disqualified
+  archived
+}
+
+model Lead {
+  id               String     @id @default(cuid())
+  status           LeadStatus @default(new)
+  source           String     @default("qualification_form")
+
+  contactName      String
+  organizationName String
+  organizationType String
+  email            String
+  phone            String?
+
+  teamSize         String
+  currentStack     String
+  criticalRisk     String
+  timeline         String
+  budgetRange      String
+  preferredContact String
+  notes            String?
+
+  attachmentPath   String?
+
+  utmSource        String?
+  utmMedium        String?
+  utmCampaign      String?
+
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+}

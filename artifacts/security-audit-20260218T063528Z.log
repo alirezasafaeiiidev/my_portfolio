@@ -1,0 +1,7 @@
+$ pnpm run audit:high
+
+> nextjs_tailwind_shadcn_ts@0.2.0 audit:high /workspace/asdev-portfolio
+> bash scripts/audit-high-critical.sh
+
+pnpm audit summary => critical=0 high=0 moderate=0 low=0 unknown=5
+exit_code=0

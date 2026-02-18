@@ -1,0 +1,2 @@
+$ curl -sS http://602c01a2d7cb:3003/api/ready
+{"status":"ready","checks":{"database":"ok"},"timestamp":"2026-02-18T09:22:23.076Z"}exit_code=0

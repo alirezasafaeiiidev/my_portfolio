@@ -1,0 +1,12 @@
+$ bash scripts/deploy/check-hosting-sync.sh --strict
+[audit] port registry
+  - persian-tools: production=3000 (persiantoolbox.ir), staging=3001 (staging.persiantoolbox.ir)
+[audit] storage persian-tools
+  .next cache dirs: 0
+  - asdev-portfolio: production=3002 (alirezasafaeidev.ir), staging=3003 (staging.alirezasafaeidev.ir)
+[audit] storage asdev-portfolio
+  .next cache dirs: 0
+[audit] listener snapshot
+State Recv-Q Send-Q Local Address:Port Peer Address:PortProcess
+[audit] OK
+exit_code=0

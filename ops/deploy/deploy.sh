@@ -89,8 +89,12 @@ if ! command -v pm2 >/dev/null 2>&1; then
   echo "[deploy] pm2 is required but not installed" >&2
   exit 1
 fi
-if ! command -v bun >/dev/null 2>&1; then
-  echo "[deploy] bun is required but not installed" >&2
+if ! command -v node >/dev/null 2>&1; then
+  echo "[deploy] node is required but not installed" >&2
+  exit 1
+fi
+if ! command -v pnpm >/dev/null 2>&1; then
+  echo "[deploy] pnpm is required but not installed" >&2
   exit 1
 fi
 
@@ -126,8 +130,8 @@ rsync -a --delete \
   "$SOURCE_DIR/" "$RELEASE_DIR/"
 
 cd "$RELEASE_DIR"
-bun install --frozen-lockfile
-bun run db:generate
+pnpm install --frozen-lockfile
+pnpm run db:generate
 
 set -a
 # shellcheck disable=SC1090
@@ -138,7 +142,7 @@ export NODE_ENV=production
 export HOSTNAME=127.0.0.1
 export PORT
 
-bun run build
+pnpm run build
 
 cat > ecosystem.config.cjs <<ECOSYSTEM
 module.exports = {
@@ -146,9 +150,8 @@ module.exports = {
     {
       name: '$APP_NAME',
       cwd: '$RELEASE_DIR',
-      script: 'bun',
+      script: 'node',
       args: '.next/standalone/server.js',
-      interpreter: 'none',
       env_file: '$ENV_FILE',
       env: {
         NODE_ENV: 'production',
@@ -175,7 +178,7 @@ pm2 save >/dev/null 2>&1 || true
 ln -sfn "$RELEASE_DIR" "$CURRENT_LINK"
 
 for attempt in {1..20}; do
-  if curl -fsS "http://127.0.0.1:$PORT/api" >/dev/null 2>&1; then
+  if curl -fsS "http://127.0.0.1:$PORT/api/ready" >/dev/null 2>&1; then
     echo "[deploy] health check passed for $ENVIRONMENT on port $PORT"
     break
   fi

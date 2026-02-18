@@ -3,24 +3,21 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
-import { BottomNav } from "@/components/layout/bottom-nav";
 import { JsonLd } from "@/components/seo/json-ld";
-import { WebVitals } from "@/components/analytics/web-vitals";
-import { ServiceWorkerProvider } from "@/components/service-worker/client-provider";
 import { I18nProvider } from "@/lib/i18n-context";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { generatePersonSchema, generateWebSiteSchema, generateBreadcrumbSchema, generateOrganizationSchema } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/site-config";
 import { brand } from "@/lib/brand";
-import { headers } from "next/headers";
+import { cookies, headers } from "next/headers";
 
 const siteUrl = getSiteUrl();
 const ownerName = brand.ownerName;
-const primaryDescription = brand.positioningEn;
+const primaryDescription = brand.positioningFa;
 
 export const metadata: Metadata = {
   title: {
-    default: "Alireza Safaei | Production-Grade Web Systems Consultant",
+    default: "Alireza Safaei | Production-Grade Web Systems Engineer",
     template: "%s | Alireza Safaei",
   },
   description: primaryDescription,
@@ -54,19 +51,19 @@ export const metadata: Metadata = {
     alternateLocale: ['en_US'],
     url: siteUrl,
     siteName: `${brand.brandName} | ${ownerName}`,
-    title: 'Infrastructure Localization & Operational Resilience Program',
+    title: 'برنامه بومی‌سازی زیرساخت و تاب‌آوری عملیاتی',
     description: primaryDescription,
     images: [
       {
         url: '/api/og-image',
         height: 630,
-        alt: `${ownerName} - Production-Grade Web Systems Consultant`,
+        alt: `${ownerName} - Production-Grade Web Systems Engineer`,
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: `${ownerName} | Production-Grade Web Systems Consultant`,
+    title: `${ownerName} | Production-Grade Web Systems Engineer`,
     description: primaryDescription,
     images: ['/api/og-image'],
     creator: brand.twitterHandle,
@@ -93,17 +90,18 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const nonce = (await headers()).get('x-csp-nonce') || undefined;
+  const langCookie = (await cookies()).get('lang')?.value;
+  const lang = langCookie === 'en' ? 'en' : 'fa';
+  const dir = lang === 'fa' ? 'rtl' : 'ltr';
 
   return (
-    <html lang="fa" dir="rtl" suppressHydrationWarning>
+    <html lang={lang} dir={dir} suppressHydrationWarning>
       <head>
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="manifest" href="/manifest.json" />
+        <link rel="preload" href="/fonts/IRANSansX-Regular-arabic.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
         <link rel="alternate" type="application/rss+xml" title="RSS Feed (English)" href="/api/rss?lang=en" />
         <link rel="alternate" type="application/rss+xml" title="خوراک RSS (فارسی)" href="/api/rss?lang=fa" />
-        {/* Font preload for performance */}
-        <link rel="preload" href="/fonts/IRANSansX-Regular.ttf" as="font" type="font/ttf" crossOrigin="" />
       </head>
       <body
         className="antialiased bg-background text-foreground min-h-screen flex flex-col font-sans"
@@ -114,10 +112,7 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <I18nProvider>
-          <ServiceWorkerProvider />
-          <WebVitals />
-
+          <I18nProvider initialLanguage={lang as 'fa' | 'en'}>
           {/* Skip to main content link for accessibility */}
           <a
             href="#main-content"
@@ -134,7 +129,7 @@ export default async function RootLayout({
             data={{
               '@context': 'https://schema.org',
               '@type': 'Service',
-              name: 'Infrastructure Localization & Operational Resilience Program',
+              name: 'برنامه بومی‌سازی زیرساخت و تاب‌آوری عملیاتی',
               provider: {
                 '@type': 'Person',
                 name: ownerName,
@@ -164,7 +159,6 @@ export default async function RootLayout({
             {children}
           </main>
           <Footer />
-          <BottomNav />
           <Toaster />
         </I18nProvider>
       </ThemeProvider>

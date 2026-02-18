@@ -91,4 +91,83 @@ describe('admin API integration', () => {
     expect(Array.isArray(payload.details)).toBe(true)
     expect(dbMock.project.create).not.toHaveBeenCalled()
   })
+
+  it('deletes admin message with id', async () => {
+    process.env.ADMIN_API_TOKEN = 'abcdefghijklmnopqrstuvwxyz'
+    dbMock.contactMessage.delete.mockResolvedValueOnce({ id: 'msg_1' })
+
+    const { DELETE } = await import('@/app/api/admin/messages/route')
+    const request = new NextRequest('http://localhost:3000/api/admin/messages?id=msg_1', {
+      method: 'DELETE',
+      headers: { authorization: 'Bearer abcdefghijklmnopqrstuvwxyz' },
+    })
+
+    const response = await DELETE(request)
+    const payload = await response.json()
+
+    expect(response.status).toBe(200)
+    expect(payload.success).toBe(true)
+    expect(dbMock.contactMessage.delete).toHaveBeenCalledTimes(1)
+  })
+
+  it('returns 400 when deleting admin message without id', async () => {
+    process.env.ADMIN_API_TOKEN = 'abcdefghijklmnopqrstuvwxyz'
+    const { DELETE } = await import('@/app/api/admin/messages/route')
+    const request = new NextRequest('http://localhost:3000/api/admin/messages', {
+      method: 'DELETE',
+      headers: { authorization: 'Bearer abcdefghijklmnopqrstuvwxyz' },
+    })
+
+    const response = await DELETE(request)
+    expect(response.status).toBe(400)
+  })
+
+  it('returns 400 when creating project with invalid url', async () => {
+    process.env.ADMIN_API_TOKEN = 'abcdefghijklmnopqrstuvwxyz'
+    const { POST } = await import('@/app/api/admin/projects/route')
+    const request = new NextRequest('http://localhost:3000/api/admin/projects', {
+      method: 'POST',
+      headers: {
+        authorization: 'Bearer abcdefghijklmnopqrstuvwxyz',
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        title: 't',
+        description: 'd',
+        tags: ['x'],
+        githubUrl: 'not-a-url',
+      }),
+    })
+
+    const response = await POST(request)
+    const payload = await response.json()
+    expect(response.status).toBe(400)
+    expect(payload.error).toContain('Invalid URL')
+  })
+
+  it('creates admin project for valid payload', async () => {
+    process.env.ADMIN_API_TOKEN = 'abcdefghijklmnopqrstuvwxyz'
+    dbMock.project.create.mockResolvedValueOnce({ id: 'p1', title: 't' })
+
+    const { POST } = await import('@/app/api/admin/projects/route')
+    const request = new NextRequest('http://localhost:3000/api/admin/projects', {
+      method: 'POST',
+      headers: {
+        authorization: 'Bearer abcdefghijklmnopqrstuvwxyz',
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        title: 'Title',
+        description: 'Description',
+        tags: ['Next.js'],
+        featured: true,
+        order: 1,
+        githubUrl: 'https://github.com/alirezasafaeisystems/asdev-portfolio',
+      }),
+    })
+
+    const response = await POST(request)
+    expect(response.status).toBe(201)
+    expect(dbMock.project.create).toHaveBeenCalledTimes(1)
+  })
 })

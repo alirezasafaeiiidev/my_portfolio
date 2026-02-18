@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -19,12 +20,30 @@ const initialState = {
   budgetRange: '60-120m-irr',
   preferredContact: 'email',
   notes: '',
+  website: '',
 }
 
+const draftStorageKey = 'infra_lead_form_draft_v1'
+
 export function InfrastructureLeadForm() {
-  const [formData, setFormData] = useState(initialState)
+  const router = useRouter()
+  const [formData, setFormData] = useState(() => {
+    if (typeof window === 'undefined') return initialState
+    try {
+      const saved = window.localStorage.getItem(draftStorageKey)
+      if (!saved) return initialState
+      return { ...initialState, ...(JSON.parse(saved) as Partial<typeof initialState>) }
+    } catch {
+      return initialState
+    }
+  })
+  const [attachment, setAttachment] = useState<File | null>(null)
   const [submitting, setSubmitting] = useState(false)
-  const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle')
+  const [status, setStatus] = useState<'idle' | 'error'>('idle')
+
+  useEffect(() => {
+    window.localStorage.setItem(draftStorageKey, JSON.stringify(formData))
+  }, [formData])
 
   const onChange = (field: keyof typeof initialState, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
@@ -36,10 +55,27 @@ export function InfrastructureLeadForm() {
     setStatus('idle')
 
     try {
+      const payload = new FormData()
+      payload.set('contactName', formData.contactName)
+      payload.set('organizationName', formData.organizationName)
+      payload.set('organizationType', formData.organizationType)
+      payload.set('email', formData.email)
+      payload.set('phone', formData.phone)
+      payload.set('teamSize', formData.teamSize)
+      payload.set('currentStack', formData.currentStack)
+      payload.set('criticalRisk', formData.criticalRisk)
+      payload.set('timeline', formData.timeline)
+      payload.set('budgetRange', formData.budgetRange)
+      payload.set('preferredContact', formData.preferredContact)
+      payload.set('notes', formData.notes)
+      payload.set('website', formData.website)
+      if (attachment) {
+        payload.set('attachment', attachment)
+      }
+
       const response = await fetch('/api/leads', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: payload,
       })
 
       if (!response.ok) {
@@ -48,9 +84,11 @@ export function InfrastructureLeadForm() {
         return
       }
 
-      setStatus('success')
       setSubmitting(false)
       setFormData(initialState)
+      setAttachment(null)
+      window.localStorage.removeItem(draftStorageKey)
+      router.push('/thank-you?source=lead')
     } catch {
       setStatus('error')
       setSubmitting(false)
@@ -59,6 +97,18 @@ export function InfrastructureLeadForm() {
 
   return (
     <form onSubmit={onSubmit} className="space-y-4 rounded-xl border bg-card p-6">
+      <div className="hidden" aria-hidden="true">
+        <Label htmlFor="website">Website</Label>
+        <Input
+          id="website"
+          name="website"
+          tabIndex={-1}
+          autoComplete="off"
+          value={formData.website}
+          onChange={(e) => onChange('website', e.target.value)}
+        />
+      </div>
+
       <div className="grid gap-4 md:grid-cols-2">
         <div className="space-y-2">
           <Label htmlFor="contactName">نام تماس</Label>
@@ -107,6 +157,19 @@ export function InfrastructureLeadForm() {
         <Textarea id="notes" value={formData.notes} onChange={(e) => onChange('notes', e.target.value)} />
       </div>
 
+      <div className="space-y-2">
+        <Label htmlFor="attachment">فایل پیوست (اختیاری)</Label>
+        <Input
+          id="attachment"
+          type="file"
+          accept=".pdf,.doc,.docx,.txt,.png,.jpg,.jpeg"
+          onChange={(e) => setAttachment(e.target.files?.[0] ?? null)}
+        />
+        <p className="text-xs text-muted-foreground">
+          حداکثر 5MB. فرمت‌های مجاز: PDF, DOC, DOCX, TXT, PNG, JPG
+        </p>
+      </div>
+
       <div className="grid gap-4 md:grid-cols-2">
         <div className="space-y-2">
           <Label htmlFor="budgetRange">بازه بودجه</Label>
@@ -139,7 +202,6 @@ export function InfrastructureLeadForm() {
         {submitting ? 'در حال ارسال...' : 'درخواست ارزیابی ریسک زیرساخت'}
       </Button>
 
-      {status === 'success' ? <p className="text-sm text-green-600">درخواست ثبت شد. به‌زودی با شما تماس می‌گیریم.</p> : null}
       {status === 'error' ? <p className="text-sm text-red-600">ارسال ناموفق بود. لطفا مجددا تلاش کنید.</p> : null}
     </form>
   )

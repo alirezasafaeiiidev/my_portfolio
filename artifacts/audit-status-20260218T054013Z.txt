@@ -1,0 +1,39 @@
+== install ==
+pnpm install --frozen-lockfile
+exit_code=0 artifact=artifacts/install-20260218T054013Z.log
+== lint ==
+pnpm run lint
+exit_code=0 artifact=artifacts/lint-20260218T054013Z.log
+== typecheck ==
+pnpm run type-check
+exit_code=0 artifact=artifacts/typecheck-20260218T054013Z.log
+== unit-tests ==
+pnpm run test
+exit_code=0 artifact=artifacts/unit-tests-20260218T054013Z.log
+== e2e-smoke ==
+timeout 300 pnpm run test:e2e:smoke
+exit_code=1 artifact=artifacts/e2e-smoke-20260218T054013Z.log
+== e2e-full ==
+timeout 300 pnpm run test:e2e
+exit_code=1 artifact=artifacts/e2e-full-20260218T054013Z.log
+== lighthouse ==
+timeout 300 pnpm run lighthouse:ci
+exit_code=1 artifact=artifacts/lighthouse-20260218T054013Z.log
+== dependency-audit ==
+pnpm audit --audit-level=high
+exit_code=0 artifact=artifacts/dependency-audit-20260218T054013Z.log
+== osv ==
+osv-scanner --lockfile=pnpm-lock.yaml --format json
+exit_code=127 artifact=artifacts/osv-20260218T054013Z.log
+== secrets-scan ==
+pnpm run scan:secrets
+exit_code=0 artifact=artifacts/secrets-scan-20260218T054013Z.log
+== docker-build ==
+docker build -t asdev-portfolio:audit-20260218T054013Z .
+exit_code=127 artifact=artifacts/docker-build-20260218T054013Z.log
+== trivy ==
+trivy image --severity HIGH,CRITICAL asdev-portfolio:audit-20260218T054013Z
+exit_code=127 artifact=artifacts/trivy-20260218T054013Z.log
+== website-surface ==
+pnpm run scan:external
+exit_code=0 artifact=artifacts/website-surface-20260218T054013Z.log
