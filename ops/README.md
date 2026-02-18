@@ -16,7 +16,8 @@
 - `my-portfolio-staging.service`
 
 ## پیش‌نیازها
-- bun
+- node
+- pnpm
 - pm2
 - rsync
 - nginx

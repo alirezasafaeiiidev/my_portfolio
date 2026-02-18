@@ -28,6 +28,7 @@ SCAN_EXCLUDES=(
     ".next"
     "dist"
     "coverage"
+    "_ops/external"
 )
 
 build_exclude_args() {
@@ -110,7 +111,7 @@ echo "------------------------------------------"
 
 if [ ! -d ".next" ]; then
     echo -e "${RED}❌ Build output not found: .next${NC}"
-    echo "Run 'bun run build' before running this scan."
+    echo "Run 'pnpm run build' before running this scan."
     FOUND_EXTERNAL=1
 else
     BUILD_RUNTIME_FETCH=$(rg -n "fetch\\s*\\(\\s*['\\\"]https?://" .next --glob "*.{js,mjs,cjs}" || true)
@@ -132,16 +133,17 @@ else
     fi
 fi
 
-# Scan public text files only (-I ignores binary files)
-if [ -d "public" ]; then
-    echo "Checking public/ text assets for external URLs..."
-    PUB_EXTERNALS=$(grep -rInI "https\\?://" public/ --exclude="*.png" --exclude="*.jpg" --exclude="*.jpeg" --exclude="*.webp" --exclude="*.ico" --exclude="*.woff" --exclude="*.woff2" --exclude="*.ttf" --exclude="*.otf" 2>/dev/null || true)
-    if [ -n "$PUB_EXTERNALS" ]; then
-        echo -e "${YELLOW}⚠ Found external URLs in public/ text assets:${NC}"
-        echo "$PUB_EXTERNALS"
-        WARNINGS+=("External URLs in public text assets")
-    fi
-fi
+	# Scan public text files only (-I ignores binary files)
+	if [ -d "public" ]; then
+	    echo "Checking public/ text assets for external URLs..."
+	    PUB_EXTERNALS=$(grep -rInI "https\\?://" public/ --exclude="*.png" --exclude="*.jpg" --exclude="*.jpeg" --exclude="*.webp" --exclude="*.ico" --exclude="*.woff" --exclude="*.woff2" --exclude="*.ttf" --exclude="*.otf" 2>/dev/null || true)
+	    FILTERED_PUB_EXTERNALS=$(print_filtered_matches "$PUB_EXTERNALS")
+	    if [ -n "$FILTERED_PUB_EXTERNALS" ]; then
+	        echo -e "${YELLOW}⚠ Found external URLs in public/ text assets:${NC}"
+	        echo "$FILTERED_PUB_EXTERNALS"
+	        WARNINGS+=("External URLs in public text assets")
+	    fi
+	fi
 
 # Scan config files
 echo ""

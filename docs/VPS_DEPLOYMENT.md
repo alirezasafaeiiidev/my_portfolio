@@ -2,7 +2,7 @@
 
 ## پیش‌نیازها
 - Ubuntu 22.04+
-- نصب ابزارها: `bun`, `pm2`, `rsync`, `nginx`
+- نصب ابزارها: `node`, `pnpm`, `pm2`, `rsync`, `nginx`
 - دامنه و DNS برای `alirezasafaeidev.ir`
 - هم‌میزبانی با `persiantoolbox.ir` روی همان VPS (بدون تداخل پورت)
 
@@ -33,12 +33,12 @@
    - `sudo systemctl daemon-reload`
    - `sudo systemctl enable --now my-portfolio-production`
 5. پیکربندی nginx:
-   - حالت تکی portfolio:
-     - `sudo cp ops/nginx/my-portfolio.conf /etc/nginx/sites-available/`
-   - حالت co-hosting با persiantoolbox:
+   - حالت پیشنهادی (Production): co-hosting یکپارچه با TLS/HSTS:
      - `sudo cp ops/nginx/asdev-cohosting.conf /etc/nginx/sites-available/asdev-cohosting.conf`
      - `sudo ln -sfn /etc/nginx/sites-available/asdev-cohosting.conf /etc/nginx/sites-enabled/asdev-cohosting.conf`
      - `sudo nginx -t && sudo systemctl reload nginx`
+   - حالت تکی portfolio (`ops/nginx/my-portfolio.conf`) فقط HTTP است و HSTS را enforce نمی‌کند.
+     - از این فایل فقط در صورتی استفاده کنید که TLS termination در Edge خارجی انجام شود و redirect/headerها در همان لایه enforce شوند.
 
 ## سلامت
 - بررسی سلامت: `curl -fsS http://127.0.0.1:3002/api`

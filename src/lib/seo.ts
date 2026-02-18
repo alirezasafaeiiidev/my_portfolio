@@ -25,9 +25,9 @@ export function generateMetadata({
   publishDate,
   modifiedDate,
 }: SEOProps): Metadata {
-  const siteName = 'Portfolio'
+  const siteName = brand.brandName
   const siteUrl = url || getSiteUrl()
-  const defaultImage = image || '/og-image.jpg'
+  const defaultImage = image || '/api/og-image'
   const sharedOpenGraph = {
     url: siteUrl,
     title,
@@ -78,13 +78,23 @@ export function generatePersonSchema() {
     '@context': 'https://schema.org',
     '@type': 'Person',
     name: brand.ownerName,
-    jobTitle: 'Production-Grade Web Systems Consultant',
+    jobTitle: 'Production-Grade Web Systems Engineer',
     url: siteUrl,
     sameAs: [
       brand.githubUrl,
       brand.linkedinUrl,
+      brand.telegramUrl,
+      brand.instagramUrl,
+      brand.whatsappUrl,
       brand.twitterUrl,
     ],
+    email: brand.contactEmail,
+    telephone: brand.contactPhone,
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Tehran',
+      addressCountry: 'IR',
+    },
     knowsAbout: [
       'Infrastructure Localization',
       'Operational Resilience',
@@ -103,15 +113,7 @@ export function generateWebSiteSchema() {
     '@type': 'WebSite',
     name: brand.brandName,
     url: siteUrl,
-    description: brand.positioningEn,
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: {
-        '@type': 'EntryPoint',
-        urlTemplate: `${siteUrl}/search?q={search_term_string}`,
-      },
-      'query-input': 'required name=search_term_string',
-    },
+    description: brand.positioningFa,
   }
 }
 
@@ -181,7 +183,7 @@ export function generateProjectSchema({
     name,
     description,
     url: `${siteUrl}${url}`,
-    image: image || `${siteUrl}/og-image.jpg`,
+    image: image || `${siteUrl}/api/og-image`,
     author: author || brand.ownerName,
     dateCreated: dateCreated || new Date().toISOString(),
     keywords: technologies?.join(', '),
@@ -224,7 +226,7 @@ export function generateBlogPostSchema({
     '@type': 'BlogPosting',
     headline: title,
     description,
-    image: image || `${siteUrl}/og-image.jpg`,
+    image: image || `${siteUrl}/api/og-image`,
     url: `${siteUrl}${url}`,
     author: {
       '@type': 'Person',
@@ -249,16 +251,25 @@ export function generateOrganizationSchema() {
     '@type': 'Organization',
     name: brand.brandName,
     url: siteUrl,
-    logo: `${siteUrl}/logo.png`,
+    logo: `${siteUrl}/favicon.svg`,
     description: 'Consulting and architecture advisory for production-grade web systems',
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'customer service',
       email: brand.contactEmail,
+      telephone: brand.contactPhone,
+    },
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Tehran',
+      addressCountry: 'IR',
     },
     sameAs: [
       brand.githubUrl,
       brand.linkedinUrl,
+      brand.telegramUrl,
+      brand.instagramUrl,
+      brand.whatsappUrl,
       brand.twitterUrl,
     ],
   }

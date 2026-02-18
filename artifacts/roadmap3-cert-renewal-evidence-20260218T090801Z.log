@@ -1,0 +1,3 @@
+$ bash -lc 'if command -v certbot >/dev/null; then certbot --version; else echo certbot-not-installed; fi'
+certbot-not-installed
+exit_code=0

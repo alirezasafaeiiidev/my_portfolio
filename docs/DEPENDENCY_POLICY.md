@@ -6,7 +6,7 @@
 
 ## اسکن امنیتی
 - حداقل هفته‌ای یکبار audit با سطح High/Critical انجام شود.
-- برای CI: اجرای `bun audit` یا `pnpm audit` بر اساس lockfile.
+- برای CI: اجرای `pnpm audit` بر اساس `pnpm-lock.yaml`.
 
 ## مدیریت ارتقا
 - ابتدا patch، سپس minor و در نهایت major ارتقا داده شود.

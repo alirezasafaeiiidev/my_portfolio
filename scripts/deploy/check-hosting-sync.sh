@@ -59,7 +59,11 @@ for entry in "${APPS[@]}"; do
   if [[ -d "$base_dir" ]]; then
     echo "[audit] storage ${slug}"
     du -sh "$base_dir"/releases "$base_dir"/shared/logs "$base_dir"/shared/env 2>/dev/null || true
-    cache_count=$(find "$base_dir/releases" -type d -name cache -path '*/.next/cache' 2>/dev/null | wc -l | tr -d ' ')
+    if [[ -d "$base_dir/releases" ]]; then
+      cache_count=$(find "$base_dir/releases" -type d -name cache -path '*/.next/cache' 2>/dev/null | wc -l | tr -d ' ')
+    else
+      cache_count=0
+    fi
     echo "  .next cache dirs: ${cache_count}"
   else
     echo "[audit] WARN missing base dir for ${slug}: ${base_dir}" >&2

@@ -1,0 +1,37 @@
+
+> nextjs_tailwind_shadcn_ts@0.2.0 scan:external /workspace/asdev-portfolio
+> bash scripts/offline-external-scan.sh
+
+==========================================
+🔒 External Dependencies Scan
+==========================================
+
+📁 Scanning source files for external URLs...
+------------------------------------------
+Checking runtime request patterns in src/...
+[0;32m✓ No runtime external requests found in src/[0m
+
+🏗️ Scanning build output (.next) for runtime externals...
+------------------------------------------
+[0;32m✓ No runtime external requests found in .next[0m
+Checking public/ text assets for external URLs...
+
+🔧 Scanning configuration files...
+------------------------------------------
+
+🏷️ Checking for placeholder domain...
+------------------------------------------
+
+🌐 Checking for CDN references...
+------------------------------------------
+
+📊 Checking for analytics/tracking...
+------------------------------------------
+
+🔤 Checking for Google Fonts...
+------------------------------------------
+
+==========================================
+📊 Scan Summary
+==========================================
+[0;32m✅ No external runtime dependencies found![0m

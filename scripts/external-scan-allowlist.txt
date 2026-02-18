@@ -9,6 +9,7 @@ github.com
 linkedin.com
 twitter.com
 schema.org
+w3.org/2000/svg
 
 # Next.js compiled @vercel/og internals (non-app source false-positive in .next)
 fonts.googleapis.com/css2

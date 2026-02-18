@@ -21,6 +21,7 @@ export async function GET(request: NextRequest) {
       requestId
     )
   } catch (error) {
+    void error
     return withCommonApiHeaders(
       NextResponse.json(
         {
@@ -28,7 +29,7 @@ export async function GET(request: NextRequest) {
           checks: {
             database: 'error',
           },
-          error: error instanceof Error ? error.message : 'unknown',
+          error: 'database unavailable',
           timestamp: new Date().toISOString(),
         },
         { status: 503 }

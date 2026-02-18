@@ -1,0 +1,5 @@
+$ bash scripts/deploy/check-hosting-sync.sh --strict
+[audit] port registry
+  - persian-tools: production=3000 (persiantoolbox.ir), staging=3001 (staging.persiantoolbox.ir)
+[audit] storage persian-tools
+exit_code=1

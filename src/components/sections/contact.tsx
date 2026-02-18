@@ -6,9 +6,10 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
-import { motion } from 'framer-motion'
-import { Mail, MapPin, Github, Linkedin, Twitter, Send, CheckCircle } from 'lucide-react'
+import { Mail, MapPin, Github, Linkedin, Twitter, Instagram, MessageCircle, Send, CheckCircle } from 'lucide-react'
 import { brand } from '@/lib/brand'
+import Link from 'next/link'
+import { useI18n } from '@/lib/i18n-context'
 
 const contactInfo = [
   {
@@ -16,6 +17,12 @@ const contactInfo = [
     label: 'Email',
     value: brand.contactEmail,
     href: `mailto:${brand.contactEmail}`,
+  },
+  {
+    icon: MessageCircle,
+    label: 'Phone',
+    value: brand.contactPhone,
+    href: `tel:${brand.contactPhone}`,
   },
   {
     icon: MapPin,
@@ -37,25 +44,42 @@ const socialLinks = [
     icon: Linkedin,
   },
   {
+    name: 'Telegram',
+    href: brand.telegramUrl,
+    icon: Send,
+  },
+  {
+    name: 'Instagram',
+    href: brand.instagramUrl,
+    icon: Instagram,
+  },
+  {
+    name: 'WhatsApp',
+    href: brand.whatsappUrl,
+    icon: MessageCircle,
+  },
+  {
     name: 'X',
     href: brand.twitterUrl,
     icon: Twitter,
   },
-]
+].filter((social) => Boolean(social.href))
 
 export function Contact() {
+  const { language } = useI18n()
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     subject: '',
     message: '',
+    website: '',
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
-    setFormData(prev => ({ ...prev, [name]: value }))
+    setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -73,11 +97,9 @@ export function Contact() {
 
       if (response.ok) {
         setIsSubmitted(true)
-        setFormData({ name: '', email: '', subject: '', message: '' })
-      } else {
-        throw new Error('Failed to send message')
+        setFormData({ name: '', email: '', subject: '', message: '', website: '' })
       }
-    } catch {
+    } finally {
       setIsSubmitting(false)
     }
   }
@@ -91,67 +113,76 @@ export function Contact() {
     )
   }
 
-  const inputVariants = {
-    hidden: { opacity: 0, y: 10 },
-    visible: { opacity: 1, y: 0 },
+  const copy = {
+    title: language === 'en' ? 'Start a Project Conversation' : 'شروع یک گفت‌وگوی پروژه‌ای',
+    subtitle:
+      language === 'en'
+        ? 'Share your current infrastructure risk, delivery bottleneck, or migration challenge. You will receive a structured follow-up path.'
+        : 'ریسک زیرساخت، گلوگاه تحویل، یا مسئله مهاجرت را کوتاه توضیح دهید. مسیر پیگیری ساختاریافته دریافت می‌کنید.',
+    directContact: language === 'en' ? 'Direct Contact' : 'تماس مستقیم',
+    profiles: language === 'en' ? 'Professional Profiles' : 'پروفایل‌ها',
+    acceptingTitle: language === 'en' ? 'Accepting High-Impact Projects' : 'پذیرش پروژه‌های اثرگذار',
+    acceptingDesc:
+      language === 'en'
+        ? 'Discovery and qualification are open for new engagements.'
+        : 'برای Discovery و ارزیابی همکاری در دسترس هستم.',
+    qualifyCta: language === 'en' ? 'Request Qualification' : 'درخواست Qualification',
+    formTitle: language === 'en' ? 'Send Project Brief' : 'ارسال خلاصه پروژه',
+    sentTitle: language === 'en' ? 'Message Sent!' : 'پیام ارسال شد',
+    sentDesc:
+      language === 'en'
+        ? "Thank you for reaching out. I'll get back to you as soon as possible."
+        : 'ممنون از پیام شما. در سریع‌ترین زمان ممکن پاسخ می‌دهم.',
+    sendAnother: language === 'en' ? 'Send Another Message' : 'ارسال پیام دیگر',
+    name: language === 'en' ? 'Name' : 'نام',
+    email: language === 'en' ? 'Email' : 'ایمیل',
+    subject: language === 'en' ? 'Subject' : 'موضوع',
+    message: language === 'en' ? 'Message' : 'پیام',
+    subjectPh: language === 'en' ? "What's this about?" : 'موضوع پیام چیست؟',
+    messagePh:
+      language === 'en'
+        ? 'Tell me about your infrastructure challenge or project goals...'
+        : 'در مورد مسئله زیرساخت/هدف پروژه کوتاه توضیح دهید...',
+    submit: language === 'en' ? 'Send Message' : 'ارسال پیام',
+    sending: language === 'en' ? 'Sending...' : 'در حال ارسال...',
+    locationValue: language === 'en' ? 'Remote / Global' : 'ریموت / بین‌المللی',
+    phoneLabel: language === 'en' ? 'Phone' : 'تلفن',
+    namePh: language === 'en' ? 'Your name' : 'نام شما',
+    emailPh: language === 'en' ? 'your.email@example.com' : 'name@company.com',
   }
 
   return (
     <section id="contact" className="py-20 bg-muted/30 relative overflow-hidden">
-      {/* Animated Background */}
       <div className="absolute inset-0 bg-gradient-to-bl from-background via-background/50 to-muted/30 pointer-events-none" />
-      
+
       <div className="container mx-auto px-4 relative z-10">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center space-y-4 mb-12"
-        >
+        <div className="text-center space-y-4 mb-12">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold">
-            Get in{' '}
-            <span className="gradient-text">
-              Touch
-            </span>
+            {copy.title}
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Have a project in mind or want to collaborate? I'd love to hear from you.
-            Let's create something amazing together.
+            {copy.subtitle}
           </p>
-        </motion.div>
+        </div>
 
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Contact Info */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="space-y-6"
-          >
+          <div className="space-y-6">
             <Card className="glass">
               <CardHeader>
-                <CardTitle>Contact Information</CardTitle>
+                <CardTitle>{copy.directContact}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 {contactInfo.map((info) => (
-                  <motion.div
-                    key={info.label}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: info.label.length * 0.1 }}
-                    className="p-4 rounded-xl bg-card border border-border/50 card-hover"
-                  >
+                  <div key={info.label} className="p-4 rounded-xl bg-card border border-border/50">
                     <div className="flex items-start gap-4">
-                      <motion.div
-                        className="p-3 bg-gradient-to-br from-primary/20 to-primary/10 rounded-xl glow"
-                        whileHover={{ scale: 1.1, rotate: 3 }}
-                      >
+                      <div className="p-3 bg-primary/10 rounded-xl">
                         <info.icon className="h-6 w-6 text-primary" />
-                      </motion.div>
+                      </div>
                       <div className="flex-1">
                         <p className="text-sm text-muted-foreground mb-1">
-                          {info.label}
+                          {info.label === 'Location' ? (language === 'en' ? 'Location' : 'موقعیت') : null}
+                          {info.label === 'Phone' ? copy.phoneLabel : null}
+                          {info.label !== 'Location' && info.label !== 'Phone' ? info.label : null}
                         </p>
                         {info.href ? (
                           <a
@@ -163,184 +194,149 @@ export function Contact() {
                             {info.value}
                           </a>
                         ) : (
-                          <p className="text-foreground">{info.value}</p>
+                          <p className="text-foreground">{info.label === 'Location' ? copy.locationValue : info.value}</p>
                         )}
                       </div>
                     </div>
-                  </motion.div>
+                  </div>
                 ))}
               </CardContent>
             </Card>
 
-            {/* Social Links */}
             <Card className="glass">
               <CardHeader>
-                <CardTitle>Connect on Social</CardTitle>
+                <CardTitle>{copy.profiles}</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="flex gap-3">
                   {socialLinks.map((social) => (
-                    <motion.a
+                    <a
                       key={social.name}
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: social.name.length * 0.1 }}
                       href={social.href}
                       target="_blank"
                       rel="noopener noreferrer"
+                      aria-label={social.name}
+                      title={social.name}
                       className="flex-1"
                     >
-                      <motion.div
-                        className="p-3 bg-gradient-to-br from-primary/20 to-primary/10 rounded-xl glow"
-                        whileHover={{ scale: 1.1, rotate: 3 }}
-                      >
+                      <div className="p-3 bg-primary/10 rounded-xl hover:bg-primary/15 transition-colors">
                         <social.icon className="h-6 w-6 text-primary" />
-                      </motion.div>
-                    </motion.a>
+                      </div>
+                    </a>
                   ))}
                 </div>
               </CardContent>
             </Card>
 
-            {/* Availability Card */}
-            <Card className="bg-primary/5 border-primary/20 card-hover">
+            <Card className="bg-primary/5 border-primary/20">
               <CardContent className="p-6 text-center space-y-4">
-                <motion.div
-                  className="p-4 bg-gradient-to-r from-primary to-primary/70 rounded-xl glow"
-                  animate={{
-                    scale: [1, 1.05, 1],
-                    transition: { duration: 3, repeat: Infinity },
-                  }}
-                >
+                <div className="inline-flex p-4 bg-primary rounded-xl">
                   <CheckCircle className="h-12 w-12 text-primary-foreground" />
-                </motion.div>
+                </div>
                 <div>
-                  <h4 className="font-semibold mb-2">Available for Projects</h4>
-                  <p className="text-sm text-primary-foreground">
-                    I'm currently available for freelance work and new opportunities.
-                    Feel free to reach out to discuss your project.
+                  <h3 className="font-semibold mb-2">{copy.acceptingTitle}</h3>
+                  <p className="text-sm text-muted-foreground">
+                    {copy.acceptingDesc}
                   </p>
                 </div>
+                <Button asChild variant="outline" className="w-full">
+                  <Link href="/qualification">{copy.qualifyCta}</Link>
+                </Button>
               </CardContent>
             </Card>
-          </motion.div>
+          </div>
 
-          {/* Contact Form */}
           <Card className="glass">
             <CardHeader>
-              <CardTitle>Send a Message</CardTitle>
+              <CardTitle>{copy.formTitle}</CardTitle>
             </CardHeader>
             <CardContent>
               {isSubmitted ? (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="text-center py-12 space-y-4"
-                >
-                  <motion.div
-                    animate={{
-                      scale: [1, 1.2, 1],
-                      transition: { duration: 3, repeat: Infinity },
-                    }}
-                    className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 text-primary-foreground mb-6"
-                  >
+                <div className="text-center py-12 space-y-4">
+                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 text-primary">
                     <CheckCircle className="h-8 w-8" />
-                  </motion.div>
-                  <h3 className="text-2xl font-bold mb-2 gradient-text">Message Sent!</h3>
+                  </div>
+                  <h3 className="text-2xl font-bold mb-2 gradient-text">{copy.sentTitle}</h3>
                   <p className="text-muted-foreground">
-                    Thank you for reaching out. I'll get back to you as soon as possible.
+                    {copy.sentDesc}
                   </p>
-                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                    <Button
-                      onClick={() => setIsSubmitted(false)}
-                      variant="outline"
-                    >
-                      Send Another Message
-                    </Button>
-                  </motion.div>
-                </motion.div>
+                  <Button onClick={() => setIsSubmitted(false)} variant="outline">
+                    {copy.sendAnother}
+                  </Button>
+                </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="name">Name *</Label>
-                    <motion.div variants={inputVariants}>
-                      <Input
-                        id="name"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        placeholder="Your name"
-                        required
-                        className="transition-all focus:ring-2 focus:ring-primary/20"
-                      />
-                    </motion.div>
+                  <div className="hidden" aria-hidden="true">
+                    <Label htmlFor="website">Website</Label>
+                    <Input
+                      id="website"
+                      name="website"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      value={formData.website}
+                      onChange={handleChange}
+                    />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="email">Email *</Label>
-                    <motion.div variants={inputVariants}>
-                      <Input
-                        id="email"
-                        name="email"
-                        type="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        placeholder="your.email@example.com"
-                        required
-                        className="transition-all focus:ring-2 focus:ring-primary/20"
-                      />
-                    </motion.div>
+                    <Label htmlFor="name">{copy.name} *</Label>
+                    <Input
+                      id="name"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      placeholder={copy.namePh}
+                      required
+                    />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="subject">Subject</Label>
-                    <motion.div variants={inputVariants}>
-                      <Input
-                        id="subject"
-                        name="subject"
-                        value={formData.subject}
-                        onChange={handleChange}
-                        placeholder="What's this about?"
-                        className="transition-all focus:ring-2 focus:ring-primary/20"
-                      />
-                    </motion.div>
+                    <Label htmlFor="email">{copy.email} *</Label>
+                    <Input
+                      id="email"
+                      name="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      placeholder={copy.emailPh}
+                      required
+                    />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="message">Message *</Label>
-                    <motion.div variants={inputVariants}>
-                      <Textarea
-                        id="message"
-                        name="message"
-                        value={formData.message}
-                        onChange={handleChange}
-                        placeholder="Tell me about your project or inquiry..."
-                        rows={6}
-                        required
-                        className="transition-all focus:ring-2 focus:ring-primary/20 resize-none"
-                      />
-                    </motion.div>
+                    <Label htmlFor="subject">{copy.subject}</Label>
+                    <Input
+                      id="subject"
+                      name="subject"
+                      value={formData.subject}
+                      onChange={handleChange}
+                      placeholder={copy.subjectPh}
+                    />
                   </div>
 
-                  <Button
-                    type="submit"
-                    size="lg"
-                    className="w-full gap-2 shine-effect relative overflow-hidden"
-                    disabled={isSubmitting || !validateForm()}
-                  >
+                  <div className="space-y-2">
+                    <Label htmlFor="message">{copy.message} *</Label>
+                    <Textarea
+                      id="message"
+                      name="message"
+                      value={formData.message}
+                      onChange={handleChange}
+                      placeholder={copy.messagePh}
+                      rows={5}
+                      required
+                    />
+                  </div>
+
+                  <Button type="submit" className="w-full gap-2" disabled={isSubmitting || !validateForm()}>
                     {isSubmitting ? (
-                      <>Sending...</>
+                      copy.sending
                     ) : (
                       <>
                         <Send className="h-4 w-4" />
-                        Send Message
+                        {copy.submit}
                       </>
                     )}
                   </Button>
-
-                  <p className="text-xs text-muted-foreground text-center">
-                    Fields marked with * are required
-                  </p>
                 </form>
               )}
             </CardContent>

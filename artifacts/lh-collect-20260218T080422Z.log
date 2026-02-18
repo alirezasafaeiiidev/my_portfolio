@@ -1,0 +1,12 @@
+Error: Command exited with code 1
+    at ChildProcess.exitListener (/workspace/asdev-portfolio/node_modules/.pnpm/@lhci+utils@0.15.1/node_modules/@lhci/utils/src/child-process-helper.js:51:19)
+    at ChildProcess.emit (node:events:524:28)
+    at ChildProcess._handle.onexit (node:internal/child_process:293:12)
+
+> nextjs_tailwind_shadcn_ts@0.2.0 build /workspace/asdev-portfolio
+> next build && cp -r .next/static .next/standalone/.next/ && cp -r public .next/standalone/
+
+  Suggestion: If you intended to restart next build, terminate the other process, and then try again.
+ ELIFECYCLE  Command failed with exit code 1.
+
+⨯ Unable to acquire lock at /workspace/asdev-portfolio/.next/lock, is another instance of next build running?

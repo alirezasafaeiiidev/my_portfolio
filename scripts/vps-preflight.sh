@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-REQUIRED=(bun pm2 rsync nginx)
+REQUIRED=(node pnpm pm2 rsync nginx)
 missing=0
 for c in "${REQUIRED[@]}"; do
   if ! command -v "$c" >/dev/null 2>&1; then

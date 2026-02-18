@@ -11,17 +11,39 @@ interface I18nContextType {
 
 const I18nContext = React.createContext<I18nContextType | undefined>(undefined)
 
-export function I18nProvider({ children }: { children: ReactNode }) {
+function setLangCookie(lang: Language) {
+  // One-year, Lax; keeps SSR and CSR in sync. No external deps.
+  document.cookie = `lang=${lang}; Path=/; Max-Age=31536000; SameSite=Lax`
+}
+
+function hasLangCookie(): boolean {
+  return typeof document !== 'undefined' && document.cookie.split(';').some((c) => c.trim().startsWith('lang='))
+}
+
+export function I18nProvider({ children, initialLanguage = 'fa' }: { children: ReactNode; initialLanguage?: Language }) {
   const [language, setLanguage] = useState<Language>(() => {
-    if (typeof window !== 'undefined') {
-      try {
-        const saved = localStorage.getItem('language') as Language
-        return (saved === 'en' || saved === 'fa') ? saved : 'fa'
-      } catch {
-        return 'fa'
-      }
+    if (typeof document === 'undefined') return initialLanguage
+
+    const cookieLang = document.cookie
+      .split(';')
+      .map((c) => c.trim())
+      .find((c) => c.startsWith('lang='))
+      ?.split('=')[1]
+
+    if (cookieLang === 'en' || cookieLang === 'fa') {
+      return cookieLang
     }
-    return 'fa'
+
+    try {
+      const saved = localStorage.getItem('language') as Language | null
+      if (saved === 'en' || saved === 'fa') {
+        return saved
+      }
+    } catch {
+      // ignore
+    }
+
+    return initialLanguage
   })
 
   // Set initial language and direction
@@ -30,10 +52,22 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     document.documentElement.dir = language === 'fa' ? 'rtl' : 'ltr'
   }, [language])
 
+  // Ensure persistence without triggering re-renders.
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    try {
+      if (!hasLangCookie()) setLangCookie(language)
+      localStorage.setItem('language', language)
+    } catch {
+      // ignore
+    }
+  }, [language])
+
   const changeLanguage = (lang: Language) => {
     setLanguage(lang)
     if (typeof window !== 'undefined') {
       localStorage.setItem('language', lang)
+      setLangCookie(lang)
     }
   }
 
