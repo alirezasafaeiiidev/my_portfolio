@@ -1,58 +1,87 @@
-# Remaining Tasks — 2026-02-18 (Post Domain Cutover)
+# Remaining Tasks — 2026-02-18 (Governance Refresh)
 
 ## هدف
-لیست به‌روز کارهای باقی‌مانده بعد از اجرای واقعی cutover دامنه روی VPS و sync کامل با GitHub.
+لیست اجراییِ کارهای باقیمانده پس از:
+- merge شدن به‌روزرسانی‌های dependency/security
+- merge شدن اصلاح CODEOWNERS
+- merge شدن automation بکاپ/restore و اسناد governance
 
-## کارهای انجام‌شده در این اجرا
-- دامنه production به `alirezasafaeisystems.ir` منتقل شد (DNS/NGINX/ENV).
-- گواهی SSL واقعی صادر شد:
-  - `alirezasafaeisystems.ir`
-  - `www.alirezasafaeisystems.ir`
-  - `staging.alirezasafaeisystems.ir`
-- HSTS روی edge فعال و با `curl -I` تایید شد.
-- `my-portfolio-production` و `my-portfolio-staging` روی PM2 با پورت‌های `3002/3003` پایدار شدند.
-- تغییرات کد/ops/documentation با PR #38 روی `main` merge شد.
+## کارهای انجام‌شده تا این لحظه
+- دامنه production/staging، TLS و readiness روی VPS پایدار است.
+- governance فنی در GitHub به‌روز است (approvals=1, CODEOWNERS required, dismiss stale approvals=true).
+- فرم governance نسخه‌دار داخل ریپو ثبت شده:
+  - `docs/strategic-execution/runtime/PRODUCTION_GOVERNANCE_MASTER_FORM_2026-02-18.md`
+- evidence pack اضافه شده:
+  - `docs/strategic-execution/runtime/PRODUCTION_GOVERNANCE_EVIDENCE_PACK_2026-02-18.md`
+- automation بکاپ/restore اضافه شده:
+  - `scripts/deploy/backup-onsite.sh`
+  - `scripts/deploy/restore-drill-onsite.sh`
+- تایید اپراتوری ثبت شده:
+  - Root SSH disabled
+  - ArvanCloud 2FA enabled
+  - Mobinhost 2FA enabled
 
-## باقیمانده‌های P0 (Blocker)
-- مورد باز P0 وجود ندارد.
+## Backlog باقیمانده (اجرایی)
 
-## باقیمانده‌های P1
-1. **Rollback Drill رسمی با Incident Note**
+1. **Production Backup Scheduling (P1)**
    - مالک: DevOps
-   - کار اجرایی: rollback واقعی روی VPS با release-id مبدا/مقصد + زمان‌بندی + post-check
-   - اتوماسیون آماده: `scripts/deploy/run-rollback-drill.sh`
-   - خروجی: گزارش incident-style قابل ممیزی.
+   - اقدام:
+     - زمان‌بندی روزانه/هفتگی/ماهانه روی VPS (cron یا systemd timer)
+     - تولید اولین artifacts واقعی بکاپ
+   - خروجی مورد انتظار:
+     - لیست آرشیوها + checksum در مسیر بکاپ
+     - ثبت مسیر/زمان در evidence pack
 
-2. **Evidence Bundle نهایی Go/No-Go**
+2. **Restore Drill واقعی روی VPS (P1)**
+   - مالک: DevOps
+   - اقدام:
+     - اجرای `scripts/deploy/restore-drill-onsite.sh` روی آرشیو واقعی
+     - ثبت نتیجه restore + timestamp + صحت env/db
+   - خروجی مورد انتظار:
+     - فایل نتیجه restore drill
+     - بروزرسانی تیک‌های بخش Restore در evidence pack و governance form
+
+3. **Offsite Backup Enablement (P1)**
    - مالک: Platform owner
-   - کار اجرایی: تجمیع واحد evidence شامل TLS/cert/headers/health/smoke/lighthouse/rollback
-   - اتوماسیون آماده: `scripts/release/generate-go-no-go-evidence.sh`
-   - گیت governance: `scripts/release/validate-ownership.sh` باید PASS باشد.
-   - خروجی: سند single-source برای تصمیم release.
+   - اقدام:
+     - انتخاب مقصد offsite (Object Storage)
+     - تعریف policy انتقال/retention و restore از offsite
+   - خروجی مورد انتظار:
+     - حذف ریسک «onsite-only backup»
+     - مستند عملیاتی offsite
 
-## باقیمانده‌های P2 (Hardening)
-3. **Monitoring + Alert ownership**
-   - owner: DevOps
-   - کار اجرایی: تعریف on-call و escalation برای process down / high restart count.
-   - baseline آماده:
-     - `.github/workflows/slo-monitor.yml` (issue auto-create on breach)
-     - `docs/ONCALL_ESCALATION.md` (ownership matrix)
+4. **SLO/MTTR Policy Decision (P1)**
+   - مالک: Product/Platform owner
+   - اقدام:
+     - تعیین نهایی یکی از دو مسیر:
+       - `99.99%` + MTTR بسیار پایین + مانیتورینگ کوتاه‌بازه
+       - یا SLO واقع‌گرایانه‌تر با MTTR متناسب
+   - خروجی مورد انتظار:
+     - فرم governance بدون mismatch
 
-## Definition of Done (نهایی)
-- P0 باز نماند.
-- rollback drill رسمی با گزارش incident-style ثبت شود.
-- evidence bundle نهایی منتشر شود.
+5. **Alert Test Evidence Closure (P2)**
+   - مالک: DevOps on-call
+   - اقدام:
+     - اجرای test سناریوی alert (Telegram + Email)
+     - ثبت زمان رسیدن alert و ack
+   - خروجی مورد انتظار:
+     - Alert Test Performed = Yes
+     - ضمیمه evidence در runtime docs
 
-## شواهد مرجع
-- `docs/DOMAIN_CUTOVER_ALIREZASAFAEISYSTEMS_IR.md`
-- `docs/strategic-execution/runtime/DOMAIN_HEALTH_2026-02-18_VPS.md`
-- `scripts/deploy/recover-standalone-runtime.sh`
-- `ops/nginx/my-portfolio.conf`
+6. **Final Sign-off (P2)**
+   - مالک: Release approver
+   - اقدام:
+     - تکمیل `Reviewed By / Role / Digital Signature` در فرم governance
+   - خروجی مورد انتظار:
+     - فرم نهایی audit-ready و بدون TODO بحرانی
+
+## Definition of Done
+- restore drill واقعی انجام و مستند شود.
+- offsite backup برنامه‌ریزی/پیاده‌سازی شود (یا exception رسمی تاییدشده داشته باشد).
+- تصمیم SLO/MTTR رسمی ثبت شود.
+- Alert test evidence و sign-off نهایی تکمیل شود.
+
+## اسناد مرجع
 - `docs/strategic-execution/ROADMAP_TASKS_PRIORITIZED.md`
-
-## Update 2026-02-18
-- readiness contract روی edge بسته شد:
-  - `https://alirezasafaeisystems.ir/api/ready` -> `200`
-  - `https://www.alirezasafaeisystems.ir/api/ready` -> `200`
-  - `https://staging.alirezasafaeisystems.ir/api/ready` -> `200`
-- پیاده‌سازی از طریق `nginx` (`location = /api/ready`) انجام شد تا preflight/deploy contract پایدار بماند.
+- `docs/strategic-execution/runtime/PRODUCTION_GOVERNANCE_MASTER_FORM_2026-02-18.md`
+- `docs/strategic-execution/runtime/PRODUCTION_GOVERNANCE_EVIDENCE_PACK_2026-02-18.md`
