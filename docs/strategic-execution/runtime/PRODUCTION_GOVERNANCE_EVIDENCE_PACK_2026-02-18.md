@@ -136,7 +136,7 @@ Attach:
 
 ## 6) Open Gaps
 
-1. Firewall/Fail2Ban final status needs root-level verification (`sudo`) from operator session.
+No critical governance gap remains from the post-signoff backlog.
 
 ## 7) Offsite Backup Enablement Plan
 
@@ -173,6 +173,7 @@ Execution evidence (VPS):
   - `sha256sum -c` result: `OK`
   - Readiness check: `https://alirezasafaeisystems.ir/api/ready` returned `200`
 
-Evidence to capture:
-- root-level snapshot for `ufw status verbose`
-- root-level snapshot for `fail2ban-client status` and `fail2ban-client status sshd`
+Firewall/Fail2Ban verification evidence (VPS):
+- `/var/www/my-portfolio/shared/logs/governance/firewall-fail2ban-verify-production-20260218T224147Z.log`
+- `ufw`: active (`ENABLED=yes`, OpenSSH/80/443 allow rules)
+- `fail2ban`: active with `sshd` jail

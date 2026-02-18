@@ -191,14 +191,14 @@ Password Authentication Disabled?
 - Enforced on VPS (`PasswordAuthentication no`) during hardening run on 2026-02-18.
 
 Firewall Enabled?
-- [ ] Yes
+- [x] Yes
 - [ ] No
-- Verification pending: SSH access from this workstation is now key-only and root login is disabled; firewall state must be re-checked after non-root key access validation.
+- Verified on VPS (`ufw status verbose`: active, OpenSSH/80/443 allow rules) on 2026-02-18.
 
 Fail2Ban / Rate Limiting?
-- [ ] Yes
+- [x] Yes
 - [ ] No
-- Verification pending with same access constraint as firewall check.
+- Verified on VPS (`fail2ban-client status` + `status sshd`) on 2026-02-18.
 
 ------------------------------------------------------------------------
 
@@ -372,7 +372,6 @@ Date:
 # 1️⃣1️⃣ RISK DECLARATION & EXCEPTIONS
 
 1. Latest formal rollback incident note for current hardening cycle is still missing (`Latest rollback incident note: not-found` in evidence).
-2. Firewall/Fail2Ban control status requires root-level verification snapshot after SSH hardening transition.
 
 ------------------------------------------------------------------------
 
