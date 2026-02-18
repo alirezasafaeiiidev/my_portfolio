@@ -1,6 +1,6 @@
 # Prioritized Roadmap Tasks - asdev-portfolio
 
-- Generated: 2026-02-15
+- Generated: 2026-02-18
 - Source: docs/DEPLOYMENT_ROADMAP.md + docs/DEPLOYMENT_PRECHECKLIST.md + _ops/roadmap/roadmap_master.md + docs/strategic-execution/runtime/2026-02-16_asdev-portfolio_operational_upgrade_v1.1.md
 - Rule: P0 (production blockers), P1 (stability rollout), P2 (hardening)
 
@@ -41,10 +41,14 @@
 - Completed: co-hosted domain verification for `persiantoolbox.ir` and `staging.persiantoolbox.ir` (`200` + valid TLS SAN).
 - Completed: production/staging admin secret rotation for `my-portfolio` with secured VPS record.
 - Completed: readiness endpoint contract closure on live edge (`/api/ready` => `200` for apex/www/staging).
+- Completed: dependency/security backlog merged (`#32`, `#33`, `#35`, `#43`, `#44`, `#46`).
+- Completed: CODEOWNERS canonical handle alignment (`#47`).
+- Completed: production governance automation (onsite backup + restore drill scripts + evidence pack + versioned governance form) (`#48`).
+- Completed: operator-confirmed hardening updates in governance docs (Root SSH disabled, ArvanCloud/Mobinhost 2FA enabled).
 
 ## Next Executable Tasks (Auto-first)
-1. Execute one VPS rollback drill and archive incident-style report.
-2. Validate and operationalize `scripts/deploy/recover-standalone-runtime.sh` in rollback drill.
-3. Publish single go/no-go evidence bundle for release governance.
-4. Wire monitoring ownership + restart/error alerts to on-call/escalation.
-5. Add scheduled health probe for `https://alirezasafaeisystems.ir/api/ready` and alert on non-200.
+1. Run `scripts/deploy/backup-onsite.sh` on VPS via cron/systemd timers and capture first production artifacts.
+2. Execute one real VPS restore drill with `scripts/deploy/restore-drill-onsite.sh` and attach evidence.
+3. Decide and lock SLO/MTTR policy (either 99.99% + fast MTTR/monitoring, or adjust to realistic target).
+4. Implement offsite backup target (object storage) and document retention/restore workflow.
+5. Complete governance sign-off block (Reviewed By/Role/Signature) after evidence closure.
