@@ -53,6 +53,10 @@ prompt
 server.log
 # Skills directory
 /skills/
+
+.env
+.env.*
+!.env.example
 _ops/
 backups/
 --hostname
