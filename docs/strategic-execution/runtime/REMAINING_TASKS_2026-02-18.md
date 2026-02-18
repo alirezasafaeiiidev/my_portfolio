@@ -26,6 +26,7 @@
 - offsite restore drill از Arvan Object Storage اجرا شد (sha256 + extract + readiness 200).
 - cadence چرخش secrets در فرم governance نهایی شد (هر 90 روز).
 - دیپلوی نهایی production روی release `20260218T225147Z` انجام شد و smoke/healthcheck پاس شد (`POST_DEPLOY_VALIDATION_2026-02-19.md`).
+- canonical production homepage روی `https://alirezasafaeisystems.ir/?v=12345` قفل شد و cleanup release قدیمی انجام شد (`CANONICAL_VERSION_HOTFIX_2026-02-19.md`).
 
 ## Backlog باقیمانده (اجرایی)
 
