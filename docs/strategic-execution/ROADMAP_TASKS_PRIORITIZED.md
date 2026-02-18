@@ -32,3 +32,16 @@
 3. Add notification path for lead submissions (email/panel webhook) with retry-safe logging.
 4. Ensure each key page has exactly one primary CTA and 2-click path from Home to request form.
 5. Complete 3 fully structured case studies (Problem/Solution/Result/Role/Tradeoffs/Proof).
+
+## Execution Update (2026-02-18)
+- Completed: production domain cutover to `alirezasafaeisystems.ir` (DNS + nginx + cert + env + PM2).
+- Completed: SSL issuance for `alirezasafaeisystems.ir`, `www.alirezasafaeisystems.ir`, `staging.alirezasafaeisystems.ir`.
+- Completed: HSTS verification on live edge responses.
+- Completed: GitHub sync through PR `#38` (merged to `main`).
+
+## Next Executable Tasks (Auto-first)
+1. Run external verification bundle for `persiantoolbox.ir` (TLS/HSTS/health snapshots).
+2. Rotate production secrets and record owner/date in runtime evidence.
+3. Execute one VPS rollback drill and archive incident-style report.
+4. Add recovery automation for missing `.next/standalone/server.js` in deploy scripts.
+5. Publish single go/no-go evidence bundle for release governance.
