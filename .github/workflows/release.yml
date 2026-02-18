@@ -11,7 +11,42 @@ permissions:
   pull-requests: write
 
 jobs:
+  release-readiness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+          cache-dependency-path: pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+      - name: Validate on-call ownership matrix
+        run: pnpm run release:validate-ownership
+      - name: Generate go/no-go evidence snapshot
+        env:
+          SITE_URL: ${{ vars.SITE_URL }}
+          STAGING_URL: ${{ vars.STAGING_URL }}
+          RUN_VERIFY: '0'
+          RUN_SMOKE: '0'
+          RUN_LIGHTHOUSE: '0'
+          VALIDATE_OWNERSHIP: '1'
+        run: pnpm run release:evidence
+      - name: Upload go/no-go evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: go-no-go-evidence
+          path: |
+            docs/strategic-execution/runtime/GoNoGo_Evidence/
+            artifacts/go-no-go-*.summary.txt
+            artifacts/go-no-go-*.ownership.log
+
   semantic-release:
+    needs: release-readiness
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:

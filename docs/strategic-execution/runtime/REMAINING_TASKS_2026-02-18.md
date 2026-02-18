@@ -20,17 +20,23 @@
 1. **Rollback Drill رسمی با Incident Note**
    - مالک: DevOps
    - کار اجرایی: rollback واقعی روی VPS با release-id مبدا/مقصد + زمان‌بندی + post-check
+   - اتوماسیون آماده: `scripts/deploy/run-rollback-drill.sh`
    - خروجی: گزارش incident-style قابل ممیزی.
 
 2. **Evidence Bundle نهایی Go/No-Go**
    - مالک: Platform owner
    - کار اجرایی: تجمیع واحد evidence شامل TLS/cert/headers/health/smoke/lighthouse/rollback
+   - اتوماسیون آماده: `scripts/release/generate-go-no-go-evidence.sh`
+   - گیت governance: `scripts/release/validate-ownership.sh` باید PASS باشد.
    - خروجی: سند single-source برای تصمیم release.
 
 ## باقیمانده‌های P2 (Hardening)
 3. **Monitoring + Alert ownership**
    - owner: DevOps
    - کار اجرایی: تعریف on-call و escalation برای process down / high restart count.
+   - baseline آماده:
+     - `.github/workflows/slo-monitor.yml` (issue auto-create on breach)
+     - `docs/ONCALL_ESCALATION.md` (ownership matrix)
 
 ## Definition of Done (نهایی)
 - P0 باز نماند.
