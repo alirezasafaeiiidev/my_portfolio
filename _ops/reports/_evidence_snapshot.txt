@@ -1,0 +1,843 @@
+### package.json
+     1	{
+     2	  "name": "nextjs_tailwind_shadcn_ts",
+     3	  "version": "0.2.0",
+     4	  "private": true,
+     5	  "packageManager": "bun@1.3.9",
+     6	  "engines": {
+     7	    "node": ">=20 <23",
+     8	    "bun": "1.3.9"
+     9	  },
+    10	  "scripts": {
+    11	    "dev": "next dev -p 3000 2>&1 | tee dev.log",
+    12	    "build": "next build && cp -r .next/static .next/standalone/.next/ && cp -r public .next/standalone/",
+    13	    "start": "NODE_ENV=production bun .next/standalone/server.js 2>&1 | tee server.log",
+    14	    "lint": "eslint .",
+    15	    "type-check": "tsc --noEmit",
+    16	    "test": "vitest run",
+    17	    "test:integration": "vitest run src/__tests__/api",
+    18	    "test:watch": "vitest watch",
+    19	    "test:ui": "vitest --ui",
+    20	    "test:coverage": "vitest run --coverage",
+    21	    "test:e2e": "npx playwright test",
+    22	    "test:e2e:smoke": "npx playwright test e2e/smoke.spec.mjs --config=playwright.config.mjs",
+    23	    "lighthouse:ci": "npx @lhci/cli autorun --config=./lighthouserc.json",
+    24	    "db:push": "prisma db push",
+    25	    "db:generate": "prisma generate",
+    26	    "db:migrate": "prisma migrate dev",
+    27	    "db:reset": "prisma migrate reset",
+    28	    "verify": "bash scripts/verify.sh",
+    29	    "scan:external": "bash scripts/offline-external-scan.sh",
+    30	    "audit:high": "bash scripts/audit-high-critical.sh",
+    31	    "scan:secrets": "bash scripts/scan-secrets.sh"
+    32	  },
+    33	  "dependencies": {
+    34	    "@dnd-kit/core": "^6.3.1",
+    35	    "@dnd-kit/sortable": "^10.0.0",
+    36	    "@dnd-kit/utilities": "^3.2.2",
+    37	    "@hookform/resolvers": "^5.2.2",
+    38	    "@mdxeditor/editor": "^3.52.3",
+    39	    "@prisma/client": "^6.19.2",
+    40	    "@radix-ui/react-accordion": "^1.2.12",
+    41	    "@radix-ui/react-alert-dialog": "^1.1.15",
+    42	    "@radix-ui/react-aspect-ratio": "^1.1.8",
+    43	    "@radix-ui/react-avatar": "^1.1.11",
+    44	    "@radix-ui/react-checkbox": "^1.3.3",
+    45	    "@radix-ui/react-collapsible": "^1.1.12",
+    46	    "@radix-ui/react-context-menu": "^2.2.16",
+    47	    "@radix-ui/react-dialog": "^1.1.15",
+    48	    "@radix-ui/react-dropdown-menu": "^2.1.16",
+    49	    "@radix-ui/react-hover-card": "^1.1.15",
+    50	    "@radix-ui/react-label": "^2.1.8",
+    51	    "@radix-ui/react-menubar": "^1.1.16",
+    52	    "@radix-ui/react-navigation-menu": "^1.2.14",
+    53	    "@radix-ui/react-popover": "^1.1.15",
+    54	    "@radix-ui/react-progress": "^1.1.8",
+    55	    "@radix-ui/react-radio-group": "^1.3.8",
+    56	    "@radix-ui/react-scroll-area": "^1.2.10",
+    57	    "@radix-ui/react-select": "^2.2.6",
+    58	    "@radix-ui/react-separator": "^1.1.8",
+    59	    "@radix-ui/react-slider": "^1.3.6",
+    60	    "@radix-ui/react-slot": "^1.2.4",
+    61	    "@radix-ui/react-switch": "^1.2.6",
+    62	    "@radix-ui/react-tabs": "^1.1.13",
+    63	    "@radix-ui/react-toast": "^1.2.15",
+    64	    "@radix-ui/react-toggle": "^1.1.10",
+    65	    "@radix-ui/react-toggle-group": "^1.1.11",
+    66	    "@radix-ui/react-tooltip": "^1.2.8",
+    67	    "@reactuses/core": "^6.1.11",
+    68	    "@tanstack/react-query": "^5.90.21",
+    69	    "@tanstack/react-table": "^8.21.3",
+    70	    "class-variance-authority": "^0.7.1",
+    71	    "clsx": "^2.1.1",
+    72	    "cmdk": "^1.1.1",
+    73	    "date-fns": "^4.1.0",
+    74	    "embla-carousel-react": "^8.6.0",
+    75	    "framer-motion": "^12.34.0",
+    76	    "input-otp": "^1.4.2",
+    77	    "lucide-react": "^0.525.0",
+    78	    "next": "^16.1.6",
+    79	    "next-auth": "^4.24.13",
+    80	    "next-intl": "^4.8.2",
+    81	    "next-themes": "^0.4.6",
+    82	    "prisma": "^6.19.2",
+    83	    "react": "^19.2.4",
+    84	    "react-day-picker": "^9.13.2",
+    85	    "react-dom": "^19.2.4",
+    86	    "react-hook-form": "^7.71.1",
+    87	    "react-markdown": "^10.1.0",
+    88	    "react-resizable-panels": "^3.0.6",
+    89	    "react-syntax-highlighter": "^15.6.6",
+    90	    "recharts": "^2.15.4",
+    91	    "sharp": "^0.34.5",
+    92	    "socket.io-client": "^4.8.3",
+    93	    "sonner": "^2.0.7",
+    94	    "tailwind-merge": "^3.4.0",
+    95	    "tailwindcss-animate": "^1.0.7",
+    96	    "uuid": "^11.1.0",
+    97	    "vaul": "^1.1.2",
+    98	    "z-ai-web-dev-sdk": "^0.0.16",
+    99	    "zod": "^4.3.6",
+   100	    "zustand": "^5.0.11"
+   101	  },
+   102	  "devDependencies": {
+   103	    "@playwright/test": "1.58.2",
+   104	    "@tailwindcss/postcss": "^4.1.18",
+   105	    "@testing-library/jest-dom": "^6.9.1",
+   106	    "@testing-library/react": "^16.3.2",
+   107	    "@types/react": "^19.2.14",
+   108	    "@types/react-dom": "^19.2.3",
+   109	    "@vitest/coverage-v8": "^4.0.18",
+   110	    "@vitest/ui": "^4.0.18",
+   111	    "bun-types": "^1.3.9",
+   112	    "eslint": "^9.39.2",
+   113	    "eslint-config-next": "^16.1.6",
+   114	    "happy-dom": "^20.6.1",
+   115	    "jsdom": "^28.0.0",
+   116	    "socket.io": "^4.8.3",
+   117	    "tailwindcss": "^4.1.18",
+   118	    "tw-animate-css": "^1.4.0",
+   119	    "typescript": "^5.9.3",
+   120	    "vitest": "^4.0.18"
+   121	  },
+   122	  "overrides": {
+   123	    "diff": "5.2.2",
+   124	    "lodash": "4.17.23",
+   125	    "lodash-es": "4.17.23",
+   126	    "prismjs": "1.30.0"
+   127	  }
+   128	}
+### Dockerfile
+     1	FROM oven/bun:1.3.9 AS deps
+     2	WORKDIR /app
+     3	COPY package.json bun.lock ./
+     4	RUN bun install
+     5	
+     6	FROM deps AS builder
+     7	WORKDIR /app
+     8	COPY . .
+     9	RUN bun run db:generate && bun run build
+    10	
+    11	FROM oven/bun:1.3.9 AS runner
+    12	WORKDIR /app
+    13	ENV NODE_ENV=production
+    14	ENV PORT=3000
+    15	ENV HOSTNAME=0.0.0.0
+    16	
+    17	RUN (groupadd --system --gid 1001 nodejs || addgroup -g 1001 -S nodejs) \
+    18	  && (useradd --system --uid 1001 --gid 1001 nextjs || adduser -S -D -u 1001 -G nodejs nextjs)
+    19	
+    20	COPY --from=builder /app/.next/standalone ./
+    21	COPY --from=builder /app/.next/static ./.next/static
+    22	COPY --from=builder /app/public ./public
+    23	COPY --from=builder /app/prisma ./prisma
+    24	COPY --from=builder /app/db ./db
+    25	
+    26	RUN chown -R nextjs:nodejs /app
+    27	USER nextjs
+    28	
+    29	EXPOSE 3000
+    30	
+    31	HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=5 \
+    32	  CMD bun -e "fetch('http://127.0.0.1:3000/api').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"
+    33	
+    34	CMD ["bun", "server.js"]
+### docker-compose.yml
+     1	services:
+     2	  web:
+     3	    build:
+     4	      context: .
+     5	      dockerfile: Dockerfile
+     6	    image: asdev-portfolio:local
+     7	    ports:
+     8	      - "3000:3000"
+     9	    env_file:
+    10	      - .env.example
+    11	    environment:
+    12	      NODE_ENV: production
+    13	      PORT: 3000
+    14	    restart: unless-stopped
+    15	    healthcheck:
+    16	      test: ["CMD", "bun", "-e", "fetch('http://127.0.0.1:3000/api').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+    17	      interval: 30s
+    18	      timeout: 5s
+    19	      retries: 5
+    20	      start_period: 20s
+### .nvmrc
+     1	20
+### .github/workflows/ci.yml
+     1	name: CI
+     2	
+     3	on:
+     4	  push:
+     5	    branches:
+     6	      - main
+     7	      - develop
+     8	      - 'feature/**'
+     9	      - 'ai/**'
+    10	  pull_request:
+    11	
+    12	permissions:
+    13	  contents: read
+    14	
+    15	jobs:
+    16	  install:
+    17	    name: Install dependencies
+    18	    runs-on: ubuntu-latest
+    19	    steps:
+    20	      - uses: actions/checkout@v4
+    21	      - uses: oven-sh/setup-bun@v2
+    22	        with:
+    23	          bun-version: 1.3.9
+    24	      - name: bun install
+    25	        run: bun install
+    26	
+    27	  lint:
+    28	    name: Lint
+    29	    runs-on: ubuntu-latest
+    30	    steps:
+    31	      - uses: actions/checkout@v4
+    32	      - uses: oven-sh/setup-bun@v2
+    33	        with:
+    34	          bun-version: 1.3.9
+    35	      - run: bun install
+    36	      - name: bun run lint
+    37	        run: bun run lint
+    38	
+    39	  type-check:
+    40	    name: Type check
+    41	    runs-on: ubuntu-latest
+    42	    steps:
+    43	      - uses: actions/checkout@v4
+    44	      - uses: oven-sh/setup-bun@v2
+    45	        with:
+    46	          bun-version: 1.3.9
+    47	      - run: bun install
+    48	      - name: bun run type-check
+    49	        run: bun run type-check
+    50	
+    51	  test:
+    52	    name: Test
+    53	    runs-on: ubuntu-latest
+    54	    steps:
+    55	      - uses: actions/checkout@v4
+    56	      - uses: oven-sh/setup-bun@v2
+    57	        with:
+    58	          bun-version: 1.3.9
+    59	      - run: bun install
+    60	      - name: bun run test
+    61	        run: bun run test
+    62	
+    63	  test-coverage:
+    64	    name: Test coverage
+    65	    runs-on: ubuntu-latest
+    66	    steps:
+    67	      - uses: actions/checkout@v4
+    68	      - uses: oven-sh/setup-bun@v2
+    69	        with:
+    70	          bun-version: 1.3.9
+    71	      - run: bun install
+    72	      - name: bun run test:coverage
+    73	        run: bun run test:coverage
+    74	
+    75	  build:
+    76	    name: Build
+    77	    runs-on: ubuntu-latest
+    78	    steps:
+    79	      - uses: actions/checkout@v4
+    80	      - uses: oven-sh/setup-bun@v2
+    81	        with:
+    82	          bun-version: 1.3.9
+    83	      - run: bun install
+    84	      - name: bun run build
+    85	        run: bun run build
+    86	
+    87	  verification-scripts:
+    88	    name: Verification scripts
+    89	    runs-on: ubuntu-latest
+    90	    steps:
+    91	      - uses: actions/checkout@v4
+    92	      - uses: oven-sh/setup-bun@v2
+    93	        with:
+    94	          bun-version: 1.3.9
+    95	      - run: bun install
+    96	      - name: scripts/verify.sh
+    97	        run: bash scripts/verify.sh
+    98	      - name: scripts/offline-external-scan.sh
+    99	        run: bash scripts/offline-external-scan.sh
+### .github/workflows/security-audit.yml
+     1	name: Security Audit
+     2	
+     3	on:
+     4	  push:
+     5	    branches:
+     6	      - main
+     7	      - develop
+     8	      - 'feature/**'
+     9	      - 'ai/**'
+    10	  pull_request:
+    11	  schedule:
+    12	    - cron: '0 3 * * 1'
+    13	
+    14	permissions:
+    15	  contents: read
+    16	
+    17	jobs:
+    18	  dependency-review:
+    19	    name: Dependency review (PR)
+    20	    if: github.event_name == 'pull_request'
+    21	    runs-on: ubuntu-latest
+    22	    permissions:
+    23	      contents: read
+    24	      pull-requests: read
+    25	    steps:
+    26	      - uses: actions/checkout@v4
+    27	      - name: Run dependency review
+    28	        id: dependency_review
+    29	        continue-on-error: true
+    30	        uses: actions/dependency-review-action@v4
+    31	      - name: Dependency review unsupported fallback
+    32	        if: steps.dependency_review.outcome == 'failure'
+    33	        run: |
+    34	          echo "Dependency review is unsupported for this repository configuration. Skipping as non-blocking."
+    35	
+    36	  bun-audit:
+    37	    name: Bun audit (high/critical gate)
+    38	    runs-on: ubuntu-latest
+    39	    steps:
+    40	      - uses: actions/checkout@v4
+    41	      - uses: oven-sh/setup-bun@v2
+    42	        with:
+    43	          bun-version: 1.3.9
+    44	      - run: bun install
+    45	      - name: Run bun audit high/critical gate
+    46	        run: bun run audit:high
+    47	
+    48	  secret-scan:
+    49	    name: Secret scan (repo)
+    50	    runs-on: ubuntu-latest
+    51	    steps:
+    52	      - uses: actions/checkout@v4
+    53	      - uses: oven-sh/setup-bun@v2
+    54	        with:
+    55	          bun-version: 1.3.9
+    56	      - run: bun install
+    57	      - name: Run local secret scan gate
+    58	        run: bun run scan:secrets
+### .github/workflows/e2e-smoke.yml
+     1	name: E2E Smoke
+     2	
+     3	on:
+     4	  pull_request:
+     5	  push:
+     6	    branches:
+     7	      - main
+     8	      - develop
+     9	      - 'feature/**'
+    10	      - 'ai/**'
+    11	
+    12	permissions:
+    13	  contents: read
+    14	
+    15	jobs:
+    16	  smoke:
+    17	    runs-on: ubuntu-latest
+    18	    timeout-minutes: 20
+    19	    steps:
+    20	      - uses: actions/checkout@v4
+    21	      - uses: oven-sh/setup-bun@v2
+    22	        with:
+    23	          bun-version: 1.3.9
+    24	      - run: bun install
+    25	      - run: bunx playwright install --with-deps chromium
+    26	      - name: Run smoke tests
+    27	        run: bun run test:e2e:smoke
+### .github/workflows/lighthouse.yml
+     1	name: Lighthouse Budget
+     2	
+     3	on:
+     4	  pull_request:
+     5	  push:
+     6	    branches:
+     7	      - main
+     8	
+     9	permissions:
+    10	  contents: read
+    11	
+    12	jobs:
+    13	  lighthouse:
+    14	    runs-on: ubuntu-latest
+    15	    timeout-minutes: 20
+    16	    steps:
+    17	      - uses: actions/checkout@v4
+    18	      - uses: oven-sh/setup-bun@v2
+    19	        with:
+    20	          bun-version: 1.3.9
+    21	      - run: bun install
+    22	      - name: Run Lighthouse CI
+    23	        id: lighthouse_ci
+    24	        continue-on-error: true
+    25	        run: npx @lhci/cli@0.14.0 autorun --config=./lighthouserc.json
+    26	      - name: Lighthouse budget fallback
+    27	        if: steps.lighthouse_ci.outcome == 'failure'
+    28	        run: |
+    29	          echo "Lighthouse budget failed; keeping as non-blocking signal in CI."
+### src/app/api/messages/route.ts
+     1	import { NextRequest, NextResponse } from 'next/server'
+     2	import { checkRateLimit, createRequestId, enforceAdminAccess, withCommonApiHeaders } from '@/lib/api-security'
+     3	import { db } from '@/lib/db'
+     4	import { logger } from '@/lib/logger'
+     5	
+     6	// GET /api/messages - Fetch all messages
+     7	export async function GET(_request: NextRequest) {
+     8	  const requestId = createRequestId(_request)
+     9	  const unauthorized = await enforceAdminAccess(_request, requestId)
+    10	  if (unauthorized) {
+    11	    return unauthorized
+    12	  }
+    13	  const limit = await checkRateLimit(_request, 'messages:get')
+    14	  if (!limit.allowed) {
+    15	    return withCommonApiHeaders(
+    16	      NextResponse.json({ error: 'Too many requests', retryAt: limit.retryAt }, { status: 429 }),
+    17	      requestId,
+    18	      limit.headers
+    19	    )
+    20	  }
+    21	
+    22	  try {
+    23	    const messages = await db.contactMessage.findMany({
+    24	      orderBy: {
+    25	        createdAt: 'desc',
+    26	      },
+    27	    })
+    28	
+    29	    return withCommonApiHeaders(NextResponse.json({ messages }), requestId, limit.headers)
+    30	  } catch (error) {
+    31	    logger.error('Error fetching messages', {
+    32	      requestId,
+    33	      error: error instanceof Error ? error.message : 'unknown',
+    34	    })
+    35	    return withCommonApiHeaders(
+    36	      NextResponse.json(
+    37	      { error: 'Failed to fetch messages' },
+    38	      { status: 500 }
+    39	      ),
+    40	      requestId,
+    41	      limit.headers
+    42	    )
+    43	  }
+    44	}
+    45	
+    46	// DELETE /api/messages - Delete a message
+    47	export async function DELETE(request: NextRequest) {
+    48	  const requestId = createRequestId(request)
+    49	  const unauthorized = await enforceAdminAccess(request, requestId)
+    50	  if (unauthorized) {
+    51	    return unauthorized
+    52	  }
+    53	  const limit = await checkRateLimit(request, 'messages:delete')
+    54	  if (!limit.allowed) {
+    55	    return withCommonApiHeaders(
+    56	      NextResponse.json({ error: 'Too many requests', retryAt: limit.retryAt }, { status: 429 }),
+    57	      requestId,
+    58	      limit.headers
+    59	    )
+    60	  }
+    61	
+    62	  try {
+    63	    const { searchParams } = new URL(request.url)
+    64	    const id = searchParams.get('id')
+    65	
+    66	    if (!id) {
+    67	      return withCommonApiHeaders(
+    68	        NextResponse.json(
+    69	        { error: 'Message ID is required' },
+    70	        { status: 400 }
+    71	        ),
+    72	        requestId,
+    73	        limit.headers
+    74	      )
+    75	    }
+    76	
+    77	    await db.contactMessage.delete({
+    78	      where: { id },
+    79	    })
+    80	
+    81	    return withCommonApiHeaders(NextResponse.json({ success: true }), requestId, limit.headers)
+    82	  } catch (error) {
+    83	    logger.error('Error deleting message', {
+    84	      requestId,
+    85	      error: error instanceof Error ? error.message : 'unknown',
+    86	    })
+    87	    return withCommonApiHeaders(
+    88	      NextResponse.json(
+    89	      { error: 'Failed to delete message' },
+    90	      { status: 500 }
+    91	      ),
+    92	      requestId,
+    93	      limit.headers
+    94	    )
+    95	  }
+    96	}
+### src/app/api/ready/route.ts
+     1	import { NextRequest, NextResponse } from 'next/server'
+     2	import { createRequestId, withCommonApiHeaders } from '@/lib/api-security'
+     3	import { db } from '@/lib/db'
+     4	
+     5	export async function GET(request: NextRequest) {
+     6	  const requestId = createRequestId(request)
+     7	
+     8	  try {
+     9	    await db.$queryRaw`SELECT 1`
+    10	    return withCommonApiHeaders(
+    11	      NextResponse.json(
+    12	        {
+    13	          status: 'ready',
+    14	          checks: {
+    15	            database: 'ok',
+    16	          },
+    17	          timestamp: new Date().toISOString(),
+    18	        },
+    19	        { status: 200 }
+    20	      ),
+    21	      requestId
+    22	    )
+    23	  } catch (error) {
+    24	    return withCommonApiHeaders(
+    25	      NextResponse.json(
+    26	        {
+    27	          status: 'not_ready',
+    28	          checks: {
+    29	            database: 'error',
+    30	          },
+    31	          error: error instanceof Error ? error.message : 'unknown',
+    32	          timestamp: new Date().toISOString(),
+    33	        },
+    34	        { status: 503 }
+    35	      ),
+    36	      requestId
+    37	    )
+    38	  }
+    39	}
+### src/app/error.tsx
+     1	'use client'
+     2	
+     3	import { useEffect } from 'react'
+     4	
+     5	export default function GlobalError({
+     6	  error,
+     7	  reset,
+     8	}: {
+     9	  error: Error & { digest?: string }
+    10	  reset: () => void
+    11	}) {
+    12	  useEffect(() => {
+    13	    console.error('Unhandled app error', {
+    14	      message: error.message,
+    15	      digest: error.digest,
+    16	    })
+    17	  }, [error])
+    18	
+    19	  return (
+    20	    <html lang="fa" dir="rtl">
+    21	      <body className="min-h-screen flex items-center justify-center p-6 bg-background text-foreground">
+    22	        <div className="max-w-xl text-center space-y-4">
+    23	          <h1 className="text-2xl font-bold">خطای غیرمنتظره رخ داد</h1>
+    24	          <p className="text-sm opacity-80">
+    25	            درخواست شما با خطا مواجه شد. لطفا دوباره تلاش کنید یا با مدیر سامانه تماس بگیرید.
+    26	          </p>
+    27	          <button
+    28	            type="button"
+    29	            onClick={reset}
+    30	            className="inline-flex items-center justify-center rounded-md bg-primary text-primary-foreground px-4 py-2 text-sm"
+    31	          >
+    32	            تلاش مجدد
+    33	          </button>
+    34	        </div>
+    35	      </body>
+    36	    </html>
+    37	  )
+    38	}
+### src/lib/security.ts
+     1	// Security utilities and functions
+     2	
+     3	/**
+     4	 * Generates a simple math CAPTCHA question and answer
+     5	 */
+     6	export function generateMathCaptcha(): { question: string; answer: number } {
+     7	  const operators = ['+', '-', '*']
+     8	  const operator = operators[Math.floor(Math.random() * operators.length)]
+     9	
+    10	  let num1: number
+    11	  let num2: number
+    12	
+    13	  if (operator === '-') {
+    14	    num1 = Math.floor(Math.random() * 20) + 10
+    15	    num2 = Math.floor(Math.random() * num1)
+    16	  } else if (operator === '*') {
+    17	    num1 = Math.floor(Math.random() * 5) + 2
+    18	    num2 = Math.floor(Math.random() * 5) + 2
+    19	  } else {
+    20	    num1 = Math.floor(Math.random() * 20) + 1
+    21	    num2 = Math.floor(Math.random() * 20) + 1
+    22	  }
+    23	
+    24	  let answer: number
+    25	  if (operator === '+') {
+    26	    answer = num1 + num2
+    27	  } else if (operator === '-') {
+    28	    answer = num1 - num2
+    29	  } else {
+    30	    answer = num1 * num2
+    31	  }
+    32	
+    33	  return {
+    34	    question: `${num1} ${operator} ${num2} = ?`,
+    35	    answer,
+    36	  }
+    37	}
+    38	
+    39	/**
+    40	 * Escapes HTML entities to prevent XSS
+    41	 */
+    42	export function escapeHtml(unsafe: string): string {
+    43	  return unsafe
+    44	    .replace(/&/g, '&amp;')
+    45	    .replace(/</g, '&lt;')
+    46	    .replace(/>/g, '&gt;')
+    47	    .replace(/"/g, '&quot;')
+    48	    .replace(/'/g, '&#039;')
+    49	}
+    50	
+    51	/**
+    52	 * Validates and sanitizes HTML content
+    53	 */
+    54	export function sanitizeHtml(input: string): string {
+    55	  // Remove script tags
+    56	  let sanitized = input.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+    57	
+    58	  // Remove dangerous event handlers
+    59	  sanitized = sanitized.replace(/on\w+="[^"]*"/gi, '')
+    60	
+    61	  // Remove javascript: protocol
+    62	  sanitized = sanitized.replace(/javascript:/gi, '')
+    63	
+    64	  return escapeHtml(sanitized)
+    65	}
+    66	
+    67	/**
+    68	 * Checks if a string contains potential SQL injection patterns
+    69	 */
+    70	export function hasSqlInjection(input: string): boolean {
+    71	  const sqlPatterns = [
+    72	    /(\bOR\b|\bAND\b|\bNOT\b)/i,
+    73	    /(;|--|\||\|)/,
+    74	    /(\bDROP\b|\bDELETE\b|\bINSERT\b|\bUPDATE\b)/i,
+    75	    /(\bUNION\b|\bSELECT\b)/i,
+    76	    /(\bEXEC\b|\bEXECUTE\b)/i,
+    77	    /(\bxp_cmdshell\b|\bcmd\b)/i,
+    78	  ]
+    79	
+    80	  return sqlPatterns.some((pattern) => pattern.test(input))
+    81	}
+    82	
+    83	/**
+    84	 * Checks if a string looks like a bot or spam
+    85	 */
+    86	export function isLikelySpam(input: string): boolean {
+    87	  const spamIndicators = [
+    88	    'viagra',
+    89	    'cialis',
+    90	    'lottery',
+    91	    'winner',
+    92	    'congratulations',
+    93	    'click here',
+    94	    'free money',
+    95	    'earn money',
+    96	    'investment opportunity',
+    97	  ]
+    98	
+    99	  const lowerInput = input.toLowerCase()
+   100	  return spamIndicators.some((indicator) => lowerInput.includes(indicator))
+   101	}
+   102	
+   103	/**
+   104	 * Generates a secure random token
+   105	 */
+   106	export function generateSecureToken(length: number = 32): string {
+   107	  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*'
+   108	  let result = ''
+   109	  const array = new Uint32Array(length)
+   110	  crypto.getRandomValues(array)
+   111	  for (let i = 0; i < length; i++) {
+   112	    result += chars[array[i] % chars.length]
+   113	  }
+   114	
+   115	  return result
+   116	}
+   117	
+   118	/**
+   119	 * Compares two strings in a timing-attack resistant way
+   120	 */
+   121	export function timingSafeCompare(a: string, b: string): boolean {
+   122	  if (a.length !== b.length) {
+   123	    return false
+   124	  }
+   125	
+   126	  let result = 0
+   127	  for (let i = 0; i < a.length; i++) {
+   128	    result |= a.charCodeAt(i) ^ b.charCodeAt(i)
+   129	  }
+   130	
+   131	  return result === 0
+   132	}
+   133	
+   134	/**
+   135	 * Validates that a request is coming from a trusted origin
+   136	 */
+   137	export function isTrustedOrigin(origin: string | null, allowedOrigins: string[]): boolean {
+   138	  if (!origin) {
+   139	    return false
+   140	  }
+   141	
+   142	  return allowedOrigins.some((allowed) => {
+   143	    try {
+   144	      const allowedUrl = new URL(allowed)
+   145	      const originUrl = new URL(origin)
+   146	      return originUrl.origin === allowedUrl.origin
+   147	    } catch {
+   148	      return false
+   149	    }
+   150	  })
+   151	}
+   152	
+   153	/**
+   154	 * Masks sensitive data for logging
+   155	 */
+   156	export function maskSensitiveData(
+   157	  data: string,
+   158	  visibleChars: number = 4,
+   159	  maskChar: string = '*'
+   160	): string {
+   161	  if (data.length <= visibleChars) {
+   162	    return data
+   163	  }
+   164	
+   165	  return data.substring(0, visibleChars) + maskChar.repeat(data.length - visibleChars)
+   166	}
+   167	
+   168	/**
+   169	 * Rate limiting types
+   170	 */
+   171	export type RateLimitWindow = 'minute' | 'hour' | 'day'
+   172	
+   173	export const RATE_LIMIT_WINDOWS: Record<RateLimitWindow, number> = {
+   174	  minute: 60 * 1000,
+   175	  hour: 60 * 60 * 1000,
+   176	  day: 24 * 60 * 60 * 1000,
+   177	}
+### src/lib/logger.ts
+     1	type LogLevel = 'debug' | 'info' | 'warn' | 'error'
+     2	
+     3	const REDACT_KEYS = ['password', 'token', 'secret', 'authorization', 'cookie', 'email']
+     4	
+     5	function redactValue(key: string, value: unknown): unknown {
+     6	  if (REDACT_KEYS.some((item) => key.toLowerCase().includes(item))) {
+     7	    return '[REDACTED]'
+     8	  }
+     9	  return value
+    10	}
+    11	
+    12	function sanitizeContext(context: Record<string, unknown> = {}): Record<string, unknown> {
+    13	  return Object.fromEntries(Object.entries(context).map(([key, value]) => [key, redactValue(key, value)]))
+    14	}
+    15	
+    16	function write(level: LogLevel, message: string, context?: Record<string, unknown>) {
+    17	  const payload = {
+    18	    ts: new Date().toISOString(),
+    19	    level,
+    20	    message,
+    21	    context: sanitizeContext(context),
+    22	  }
+    23	
+    24	  if (level === 'error') {
+    25	    console.error(JSON.stringify(payload))
+    26	    return
+    27	  }
+    28	  if (level === 'warn') {
+    29	    console.warn(JSON.stringify(payload))
+    30	    return
+    31	  }
+    32	  console.log(JSON.stringify(payload))
+    33	}
+    34	
+    35	export const logger = {
+    36	  debug: (message: string, context?: Record<string, unknown>) => write('debug', message, context),
+    37	  info: (message: string, context?: Record<string, unknown>) => write('info', message, context),
+    38	  warn: (message: string, context?: Record<string, unknown>) => write('warn', message, context),
+    39	  error: (message: string, context?: Record<string, unknown>) => write('error', message, context),
+    40	}
+### src/lib/db.ts
+     1	import { PrismaClient } from '@prisma/client'
+     2	
+     3	const globalForPrisma = globalThis as unknown as {
+     4	  prisma: PrismaClient | undefined
+     5	}
+     6	
+     7	export const db =
+     8	  globalForPrisma.prisma ??
+     9	  new PrismaClient({
+    10	    log: process.env.NODE_ENV === 'development' ? ['query', 'warn', 'error'] : ['warn', 'error'],
+    11	  })
+    12	
+    13	if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = db
+### scripts/scan-secrets.sh
+     1	#!/usr/bin/env bash
+     2	set -euo pipefail
+     3	
+     4	ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+     5	cd "$ROOT_DIR"
+     6	
+     7	TMP_OUT="$(mktemp)"
+     8	trap 'rm -f "$TMP_OUT"' EXIT
+     9	
+    10	PATTERN='(AKIA[0-9A-Z]{16}|ASIA[0-9A-Z]{16}|ghp_[A-Za-z0-9]{36}|xox[baprs]-[A-Za-z0-9-]{10,}|AIza[0-9A-Za-z_-]{35}|-----BEGIN (RSA|EC|OPENSSH|PGP) PRIVATE KEY-----|(?i)(api[_-]?key|token|secret|password)\s*[:=]\s*["'"'"'`][^"'"'"'`]{8,}["'"'"'`])'
+    11	
+    12	if rg -n --hidden \
+    13	  --glob '!.git/**' \
+    14	  --glob '!node_modules/**' \
+    15	  --glob '!.next/**' \
+    16	  --glob '!coverage/**' \
+    17	  --glob '!_ops/**' \
+    18	  --glob '!src/**/__tests__/**' \
+    19	  --glob '!**/*.test.ts' \
+    20	  --glob '!**/*.test.tsx' \
+    21	  --glob '!**/*.spec.ts' \
+    22	  --glob '!**/*.spec.tsx' \
+    23	  -P "$PATTERN" . >"$TMP_OUT"; then
+    24	  echo "Potential secrets detected:"
+    25	  cat "$TMP_OUT"
+    26	  exit 1
+    27	fi
+    28	
+    29	echo "Secret scan passed."
