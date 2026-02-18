@@ -14,29 +14,26 @@
 - تغییرات کد/ops/documentation با PR #38 روی `main` merge شد.
 
 ## باقیمانده‌های P0 (Blocker)
-1. **Recover readiness endpoint contract on active production release**
-   - مالک: DevOps
-   - کار اجرایی: مسیر `/api/ready` روی دامنه فعال `200` برگرداند (اکنون `404`)
-   - دلیل: بخشی از preflight/deploy checks و معیار go/no-go به readiness endpoint وابسته است.
+- مورد باز P0 وجود ندارد.
 
 ## باقیمانده‌های P1
-2. **Rollback Drill رسمی با Incident Note**
+1. **Rollback Drill رسمی با Incident Note**
    - مالک: DevOps
    - کار اجرایی: rollback واقعی روی VPS با release-id مبدا/مقصد + زمان‌بندی + post-check
    - خروجی: گزارش incident-style قابل ممیزی.
 
-3. **Evidence Bundle نهایی Go/No-Go**
+2. **Evidence Bundle نهایی Go/No-Go**
    - مالک: Platform owner
    - کار اجرایی: تجمیع واحد evidence شامل TLS/cert/headers/health/smoke/lighthouse/rollback
    - خروجی: سند single-source برای تصمیم release.
 
 ## باقیمانده‌های P2 (Hardening)
-4. **Monitoring + Alert ownership**
+3. **Monitoring + Alert ownership**
    - owner: DevOps
    - کار اجرایی: تعریف on-call و escalation برای process down / high restart count.
 
 ## Definition of Done (نهایی)
-- P0ها بسته شوند (به‌خصوص readiness endpoint و rollout hardening).
+- P0 باز نماند.
 - rollback drill رسمی با گزارش incident-style ثبت شود.
 - evidence bundle نهایی منتشر شود.
 
@@ -46,3 +43,10 @@
 - `scripts/deploy/recover-standalone-runtime.sh`
 - `ops/nginx/my-portfolio.conf`
 - `docs/strategic-execution/ROADMAP_TASKS_PRIORITIZED.md`
+
+## Update 2026-02-18
+- readiness contract روی edge بسته شد:
+  - `https://alirezasafaeisystems.ir/api/ready` -> `200`
+  - `https://www.alirezasafaeisystems.ir/api/ready` -> `200`
+  - `https://staging.alirezasafaeisystems.ir/api/ready` -> `200`
+- پیاده‌سازی از طریق `nginx` (`location = /api/ready`) انجام شد تا preflight/deploy contract پایدار بماند.
