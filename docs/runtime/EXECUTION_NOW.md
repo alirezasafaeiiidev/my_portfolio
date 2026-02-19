@@ -20,7 +20,9 @@ Updated: 2026-02-19
   - `docs/runtime/Incidents/2026-02_monthly_incident_noise_review.md`
 - [ ] Re-run edge-header verification from VPS/trusted network (local network timed out).
 - [ ] Confirm GitHub org 2FA enforcement status in governance records.
+  - Blocker: current GitHub token lacks `admin:org` scope.
 - [ ] Confirm secure storage location/process for 2FA recovery codes.
+  - Blocker: owner/security confirmation required (non-local input).
 
 ## Phase P2 (Owner Inputs, Required for 10/10)
 - [ ] Final CTA decision (single primary CTA).
