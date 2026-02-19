@@ -12,6 +12,8 @@ Updated: 2026-02-19
 - [x] Ignore generated artifacts in git (`artifacts/`).
 
 ## Phase P1 (Operational, Partially Blocked)
+- [x] Perform direct VPS access and runtime health check:
+  - `docs/runtime/VPS_ACCESS_CHECK_2026-02-19.md`
 - [x] Prepare edge-header verification evidence file:
   - `docs/runtime/EDGE_HEADER_VERIFICATION_2026-02-19.md`
 - [x] Generate fresh go/no-go runtime evidence bundle:
