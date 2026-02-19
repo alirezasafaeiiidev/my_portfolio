@@ -6,6 +6,7 @@ import { Footer } from "@/components/layout/footer";
 import { JsonLd } from "@/components/seo/json-ld";
 import { I18nProvider } from "@/lib/i18n-context";
 import { ThemeProvider } from "@/components/theme/theme-provider";
+import { FontCdnLoader } from "@/components/layout/font-cdn-loader";
 import { generatePersonSchema, generateWebSiteSchema, generateBreadcrumbSchema, generateOrganizationSchema } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/site-config";
 import { brand } from "@/lib/brand";
@@ -103,41 +104,6 @@ export default async function RootLayout({
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="manifest" href="/manifest.json" />
         <link rel="preload" href="/fonts/IRANSansX-Regular-arabic.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
-        {fontCdnEnabled && fontCdnUrl ? (
-          <script
-            nonce={nonce}
-            dangerouslySetInnerHTML={{
-              __html: `
-                (function () {
-                  var html = document.documentElement;
-                  html.setAttribute('data-font-source', 'local');
-                  var link = document.createElement('link');
-                  var done = false;
-                  link.rel = 'stylesheet';
-                  link.href = ${JSON.stringify(fontCdnUrl)};
-                  link.crossOrigin = 'anonymous';
-
-                  var fail = function () {
-                    if (done) return;
-                    done = true;
-                    html.setAttribute('data-font-source', 'local');
-                  };
-
-                  var succeed = function () {
-                    if (done) return;
-                    done = true;
-                    html.setAttribute('data-font-source', 'cdn');
-                  };
-
-                  var timeout = setTimeout(fail, 1800);
-                  link.onload = function () { clearTimeout(timeout); succeed(); };
-                  link.onerror = function () { clearTimeout(timeout); fail(); };
-                  document.head.appendChild(link);
-                })();
-              `,
-            }}
-          />
-        ) : null}
         <link rel="alternate" type="application/rss+xml" title="RSS Feed (English)" href="/api/rss?lang=en" />
         <link rel="alternate" type="application/rss+xml" title="خوراک RSS (فارسی)" href="/api/rss?lang=fa" />
       </head>
@@ -193,6 +159,7 @@ export default async function RootLayout({
           ])} nonce={nonce} />
 
           <Header />
+          <FontCdnLoader enabled={fontCdnEnabled} href={fontCdnUrl} />
           <main id="main-content" className="flex-1 pb-20 md:pb-0">
             {children}
           </main>

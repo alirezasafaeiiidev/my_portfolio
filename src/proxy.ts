@@ -59,6 +59,7 @@ function buildCsp(nonce: string): string {
     "img-src 'self' data: blob:",
     `font-src ${fontSources.join(' ')}`,
     `style-src ${styleSources.join(' ')}`,
+    "style-src-attr 'unsafe-inline'",
     `script-src ${scriptSources.join(' ')}`,
     `connect-src ${connectSources.join(' ')}`,
   ].join('; ')
