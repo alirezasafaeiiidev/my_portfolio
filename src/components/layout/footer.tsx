@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { Github, Linkedin, Twitter, Mail, Heart, Instagram, Send, MessageCircle } from 'lucide-react'
+import { Linkedin, Mail, Heart, Instagram, Send } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useI18n } from '@/lib/i18n-context'
 import { brand } from '@/lib/brand'
@@ -19,11 +19,6 @@ export function Footer() {
   const currentYear = new Date().getFullYear()
   const socialLinks = [
     {
-      name: 'GitHub',
-      href: brand.githubUrl,
-      icon: Github,
-    },
-    {
       name: 'LinkedIn',
       href: brand.linkedinUrl,
       icon: Linkedin,
@@ -37,21 +32,6 @@ export function Footer() {
       name: 'Instagram',
       href: brand.instagramUrl,
       icon: Instagram,
-    },
-    {
-      name: 'WhatsApp',
-      href: brand.whatsappUrl,
-      icon: MessageCircle,
-    },
-    {
-      name: 'Twitter',
-      href: brand.twitterUrl,
-      icon: Twitter,
-    },
-    {
-      name: 'Email',
-      href: `mailto:${brand.contactEmail}`,
-      icon: Mail,
     },
   ].filter((social) => social.href)
 
@@ -91,23 +71,23 @@ export function Footer() {
 
           {/* Social Links */}
           <div className="space-y-4">
-            <h3 className="font-semibold">{t('footer.social')}</h3>
-            <div className="flex gap-2">
+            <h3 className="font-semibold leading-snug">{t('footer.social')}</h3>
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3 max-w-full">
               {socialLinks.map((social) => (
                 <div key={social.name}>
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="rounded-full hover:bg-primary/10 h-12 w-12 card-hover relative overflow-hidden group"
+                    className="rounded-full hover:bg-primary/10 h-10 w-10 sm:h-12 sm:w-12 card-hover relative overflow-hidden group"
                     asChild
                   >
                     <Link
                       href={social.href}
-                      target={social.href.startsWith('mailto') ? undefined : '_blank'}
-                      rel={social.href.startsWith('mailto') ? undefined : 'noopener noreferrer'}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       aria-label={social.name}
                     >
-                      <social.icon className="h-5 w-5" />
+                      <social.icon className="h-4 w-4 sm:h-5 sm:w-5" />
                     </Link>
                   </Button>
                 </div>
