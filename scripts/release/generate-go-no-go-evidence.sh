@@ -3,7 +3,7 @@ set -euo pipefail
 
 SITE_URL="${SITE_URL:-}"
 STAGING_URL="${STAGING_URL:-}"
-OUT_DIR="${OUT_DIR:-docs/strategic-execution/runtime/GoNoGo_Evidence}"
+OUT_DIR="${OUT_DIR:-docs/runtime/GoNoGo_Evidence}"
 RUN_VERIFY="${RUN_VERIFY:-1}"
 RUN_SMOKE="${RUN_SMOKE:-1}"
 RUN_LIGHTHOUSE="${RUN_LIGHTHOUSE:-0}"
@@ -73,13 +73,42 @@ if [[ "$VALIDATE_OWNERSHIP" == "1" ]]; then
   fi
 fi
 
-live_code="$(curl -s -o /dev/null -w "%{http_code}" "${SITE_URL%/}/")"
-ready_code="$(curl -s -o /dev/null -w "%{http_code}" "${SITE_URL%/}/api/ready")"
-hsts_value="$(curl -sI "${SITE_URL%/}/" | awk 'BEGIN{IGNORECASE=1} /^strict-transport-security:/ {sub(/\r$/,""); print; exit}')"
+safe_http_code() {
+  local url="$1"
+  local code
+  code="$(curl -s --connect-timeout 5 --max-time 15 -o /dev/null -w "%{http_code}" "${url}" || true)"
+  if [[ -z "$code" || "$code" == "000" ]]; then
+    echo "unreachable"
+  else
+    echo "$code"
+  fi
+}
+
+safe_header() {
+  local url="$1"
+  local header_name="$2"
+  local headers
+  headers="$(curl -sI --connect-timeout 5 --max-time 15 "${url}" || true)"
+  if [[ -z "$headers" ]]; then
+    echo "missing"
+    return
+  fi
+  local value
+  value="$(printf '%s' "$headers" | awk -v h="$header_name" 'BEGIN{IGNORECASE=1} $0 ~ "^" h ":" {sub(/\r$/,""); print; exit}')"
+  if [[ -z "$value" ]]; then
+    echo "missing"
+  else
+    echo "$value"
+  fi
+}
+
+live_code="$(safe_http_code "${SITE_URL%/}/")"
+ready_code="$(safe_http_code "${SITE_URL%/}/api/ready")"
+hsts_value="$(safe_header "${SITE_URL%/}/" "strict-transport-security")"
 
 staging_code="n/a"
 if [[ -n "$STAGING_URL" ]]; then
-  staging_code="$(curl -s -o /dev/null -w "%{http_code}" "${STAGING_URL%/}/api/ready")"
+  staging_code="$(safe_http_code "${STAGING_URL%/}/api/ready")"
 fi
 
 extract_value() {
@@ -102,7 +131,7 @@ oncall_primary="$(extract_value "Primary on-call")"
 oncall_backup="$(extract_value "Backup on-call")"
 incident_commander="$(extract_value "Incident commander \\(P1/P0\\)")"
 
-LATEST_INCIDENT="$(ls -1t docs/strategic-execution/runtime/Incidents/*_rollback-drill-*.md 2>/dev/null | head -n 1 || true)"
+LATEST_INCIDENT="$(ls -1t docs/runtime/Incidents/*_rollback-drill-*.md 2>/dev/null | head -n 1 || true)"
 if [[ -z "$LATEST_INCIDENT" ]]; then
   LATEST_INCIDENT="not-found"
 fi

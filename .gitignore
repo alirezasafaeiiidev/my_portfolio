@@ -15,6 +15,7 @@ node_modules
 /test-results
 /playwright-report
 /.lighthouseci
+/artifacts
 
 # next.js
 /.next/

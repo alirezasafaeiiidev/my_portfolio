@@ -1,0 +1,20 @@
+# Documentation Index
+
+This file is the entry point for project documentation.
+
+## Product and Architecture
+- `docs/ARCHITECTURE.md`: high-level runtime architecture
+- `docs/BRAND_IDENTITY.md`: brand direction and positioning
+
+## Deployment and Operations
+- `docs/DEPLOYMENT_PRECHECKLIST.md`: reusable pre/deploy/post-deploy checklist
+- `docs/VPS_DEPLOYMENT.md`: VPS deployment details
+- `docs/ONCALL_ESCALATION.md`: incident ownership and escalation
+
+## 10/10 Program
+- `docs/10_10_CHECKLIST.md`: master action checklist to reach all-around 10/10 quality.
+
+## Runtime Evidence
+- `docs/runtime/README.md`: runtime evidence policy and folder map
+- `docs/runtime/GoNoGo_Evidence/`: release go/no-go evidence snapshots
+- `docs/runtime/Incidents/`: rollback drill and incident notes

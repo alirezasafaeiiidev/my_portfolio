@@ -1,3 +1,0 @@
-$ bash scripts/vps-preflight.sh
-preflight ok
-exit_code=0

@@ -23,7 +23,7 @@ Define who responds to production incidents and how escalation works for `asdev-
 ## Communication Channels
 - Primary channel: `telegram:@asdev_ops_alerts`
 - Backup channel: `email:ops-backup@alirezasafaeisystems.ir`
-- Incident log location: `docs/strategic-execution/runtime/Incidents/`
+- Incident log location: `docs/runtime/Incidents/`
 
 ## Approval Gates
 - Production deploy requires:

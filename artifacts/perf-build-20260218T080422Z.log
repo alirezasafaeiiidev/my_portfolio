@@ -1,9 +1,0 @@
-
-> nextjs_tailwind_shadcn_ts@0.2.0 build /workspace/asdev-portfolio
-> next build && cp -r .next/static .next/standalone/.next/ && cp -r public .next/standalone/
-
-▲ Next.js 16.1.6 (Turbopack)
-- Experiments (use with caution):
-  · optimizePackageImports
-
-  Creating an optimized production build ...

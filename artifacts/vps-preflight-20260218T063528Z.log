@@ -1,5 +1,0 @@
-$ bash scripts/vps-preflight.sh
-missing: pm2
-missing: nginx
-preflight failed
-exit_code=1

@@ -1,21 +1,29 @@
 # Deployment Prechecklist
 
-## Execution Snapshot (2026-02-15, local workspace)
-- `pnpm run verify`: PASS
-- `bash scripts/deploy/validate-cohosting-config.sh`: PASS
-- `bash scripts/deploy/check-hosting-sync.sh --strict`: FAIL (missing VPS paths `/var/www/persian-tools`, `/var/www/my-portfolio`)
-- `bash scripts/vps-preflight.sh`: FAIL (`pm2` missing in current environment)
-- Interpretation: deploy contract is valid in repo, but production server preflight remains pending.
+## Latest Verified Snapshot (2026-02-19)
+- Active production release: `20260218T225147Z`
+- Post-deploy validation: PASS (`/api/ready` local and edge = `200`)
+- Production smoke checks from VPS: PASS
+- TLS/cert checks on edge: PASS
+- Rollback/governance drills: recorded in runtime evidence
+
+Evidence:
+- `docs/runtime/` (deployment evidence snapshots)
+
+## How to Use This Checklist
+- Use this document as the template for the next release cycle.
+- For each deployment window, copy this file into `docs/runtime/` with a date suffix and mark items.
+- "Unchecked" items below are not currently broken; they are required re-validation gates for the next release.
 
 ## Before Deploy
-- [ ] Co-hosting dependency order confirmed: deploy latest `asdev-persiantoolbox` on target VPS first, then deploy `asdev-portfolio`.
+- [ ] Co-hosting dependency order confirmed for this release window.
 - [ ] `pnpm run verify` passed on the release commit.
 - [ ] `pnpm run test:e2e:smoke` passed on the release commit.
 - [ ] Production `.env` exists at `/var/www/my-portfolio/shared/env/production.env`.
 - [ ] No placeholder secrets remain (`replace-with-*`).
 - [ ] Server has required binaries: `node`, `pnpm`, `pm2`, `rsync`, `curl`.
 - [ ] Target directories writable by deploy user.
-- [ ] TLS termination path confirmed (edge or nginx) and certificate is valid.
+- [ ] TLS termination path confirmed and certificate validity checked.
 - [ ] Co-hosting topology validated: `bash scripts/deploy/check-hosting-sync.sh --strict`
 - [ ] Unified nginx contract validated: `bash scripts/deploy/validate-cohosting-config.sh`
 

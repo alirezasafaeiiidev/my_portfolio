@@ -1,7 +1,0 @@
-$ curl -I http://127.0.0.1:3000/
-
-$ curl -I http://127.0.0.1:3000/admin
-
-$ curl -I http://127.0.0.1:3000/services
-
-$ curl -s http://127.0.0.1:3000/robots.txt
