@@ -80,7 +80,7 @@ fi
 TIMESTAMP="$(date -u +%Y%m%dT%H%M%SZ)"
 mkdir -p "$OUTPUT_DIR"
 LOG_FILE="$OUTPUT_DIR/rollback-drill-${ENVIRONMENT}-${TIMESTAMP}.log"
-INCIDENT_DIR="docs/strategic-execution/runtime/Incidents"
+INCIDENT_DIR="docs/runtime/Incidents"
 mkdir -p "$INCIDENT_DIR"
 INCIDENT_FILE="$INCIDENT_DIR/${TIMESTAMP}_rollback-drill-${ENVIRONMENT}.md"
 

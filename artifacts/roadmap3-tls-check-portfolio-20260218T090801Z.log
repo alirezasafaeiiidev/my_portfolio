@@ -1,15 +1,0 @@
-$ curl -k -I --max-time 20 https://alirezasafaeidev.ir
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0    22    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0    22    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
-HTTP/1.1 200 OK
-date: Wed, 18 Feb 2026 09:19:49 GMT
-server: envoy
-
-HTTP/1.1 503 Service Unavailable
-content-length: 22
-content-type: text/plain
-date: Wed, 18 Feb 2026 09:19:49 GMT
-server: envoy
-
-exit_code=0

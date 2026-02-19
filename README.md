@@ -1,0 +1,53 @@
+# asdev-portfolio
+
+Portfolio and lead-generation platform for ASDEV, built with Next.js App Router and a production-focused ops/governance workflow.
+
+## Tech Stack
+- Next.js 16 (App Router, TypeScript)
+- Tailwind CSS + shadcn/ui
+- Prisma + SQLite (upgrade path to Postgres via `DATABASE_URL`)
+- Vitest + Playwright + Lighthouse CI
+- PM2/Nginx VPS deployment scripts and governance automation
+
+## Prerequisites
+- Node.js `>=20 <23` (recommended: Node 20)
+- pnpm `>=9 <11`
+
+## Quick Start
+```bash
+pnpm install --frozen-lockfile
+cp .env.example .env
+pnpm run db:generate
+pnpm run db:push
+pnpm run dev
+```
+
+## Quality Gates
+```bash
+pnpm run verify
+pnpm run test:e2e:smoke
+pnpm run lighthouse:ci
+```
+
+## Key Scripts
+- `pnpm run verify`: lint + type-check + tests + build + external scan
+- `pnpm run test:e2e:smoke`: release smoke tests
+- `pnpm run lighthouse:ci`: performance/SEO/a11y budgets
+- `pnpm run audit:high`: dependency high/critical audit gate
+- `pnpm run scan:secrets`: local secret scanning
+
+## Repository Structure
+- `src/`: app, API routes, components, libs, tests
+- `docs/`: architecture, operations, runtime checklist and incident docs
+- `scripts/`: verification, security scans, deploy and release helpers
+- `ops/`: deployment/runtime service and edge configs
+
+## Documentation Entry Points
+- `docs/README.md` (documentation index)
+- `docs/ARCHITECTURE.md`
+- `docs/DEPLOYMENT_PRECHECKLIST.md`
+- `docs/10_10_CHECKLIST.md`
+- `docs/runtime/README.md`
+
+## Current Operational Status
+- Use `docs/runtime/` as the canonical location for go/no-go, incident, and deployment validation evidence.

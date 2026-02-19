@@ -88,7 +88,7 @@ Define who responds to production incidents and how escalation works for \`asdev
 ## Communication Channels
 - Primary channel: \`${PRIMARY_CHANNEL}\`
 - Backup channel: \`${BACKUP_CHANNEL}\`
-- Incident log location: \`docs/strategic-execution/runtime/Incidents/\`
+- Incident log location: \`docs/runtime/Incidents/\`
 
 ## Approval Gates
 - Production deploy requires:

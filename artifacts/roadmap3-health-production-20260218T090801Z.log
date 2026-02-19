@@ -1,2 +1,0 @@
-$ curl -sS http://127.0.0.1:3002/api/ready
-{"status":"ready","checks":{"database":"ok"},"timestamp":"2026-02-18T09:23:34.940Z"}exit_code=0

@@ -41,7 +41,7 @@ jobs:
         with:
           name: go-no-go-evidence
           path: |
-            docs/strategic-execution/runtime/GoNoGo_Evidence/
+            docs/runtime/GoNoGo_Evidence/
             artifacts/go-no-go-*.summary.txt
             artifacts/go-no-go-*.ownership.log
 

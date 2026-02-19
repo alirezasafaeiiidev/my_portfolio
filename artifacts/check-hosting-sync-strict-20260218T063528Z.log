@@ -1,9 +1,0 @@
-$ bash scripts/deploy/check-hosting-sync.sh --strict
-[audit] port registry
-  - persian-tools: production=3000 (persiantoolbox.ir), staging=3001 (staging.persiantoolbox.ir)
-[audit] WARN missing base dir for persian-tools: /var/www/persian-tools
-  - asdev-portfolio: production=3002 (alirezasafaeidev.ir), staging=3003 (staging.alirezasafaeidev.ir)
-[audit] WARN missing base dir for asdev-portfolio: /var/www/my-portfolio
-[audit] WARN ss command not found
-[audit] FAILED
-exit_code=1
