@@ -120,9 +120,10 @@ jobs:
             BASE_URL="https://staging.alirezasafaeisystems.ir"
           fi
 
-          curl -fIsS "$BASE_URL/api/ready" >/dev/null
-          curl -fIsS "$BASE_URL/" >/dev/null
-          curl -fIsS "$BASE_URL/services" >/dev/null
+          # Keep smoke checks deterministic in CI networks.
+          curl --connect-timeout 10 --max-time 30 --retry 2 --retry-delay 2 --retry-connrefused -fIsS "$BASE_URL/api/ready" >/dev/null
+          curl --connect-timeout 10 --max-time 30 --retry 2 --retry-delay 2 --retry-connrefused -fIsS "$BASE_URL/" >/dev/null
+          curl --connect-timeout 10 --max-time 30 --retry 2 --retry-delay 2 --retry-connrefused -fIsS "$BASE_URL/services" >/dev/null
 
       - name: Output deployment summary
         run: |
