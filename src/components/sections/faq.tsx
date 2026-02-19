@@ -47,7 +47,7 @@ const faqs: FAQ[] = [
   },
   {
     question: 'What is your pricing structure?',
-    answer: 'I offer flexible pricing based on project complexity and scope: simple projects start at $2,000, mid-size projects at $5,000+, and large projects at $10,000+. Consulting is $150/hour. All prices include a detailed scope and deliverables document.',
+    answer: 'Pricing is private and finalized after scope qualification. Every engagement starts with a structured assessment, then a clear proposal with deliverables, timeline, and commercial terms.',
     category: 'Pricing',
   },
   {

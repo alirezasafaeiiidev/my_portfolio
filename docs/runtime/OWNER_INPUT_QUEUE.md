@@ -3,24 +3,28 @@
 Use this file to close non-local blockers without reopening old docs.
 
 ## Required Decisions
-- [ ] Primary CTA:
-  - [ ] `درخواست ارزیابی`
-  - [ ] `درخواست پروژه`
-  - [ ] `رزرو جلسه`
+- [x] Primary CTA: `درخواست ارزیابی`
 
-- [ ] Service catalog (3-6):
-  - [ ] Service 1 + deliverable
-  - [ ] Service 2 + deliverable
-  - [ ] Service 3 + deliverable
+- [x] Service catalog (3-6):
+  - [x] Service 1: Architecture Audit & Scalability Assessment
+    Deliverable: system architecture review, bottleneck analysis, scalability risk matrix, 90-day roadmap, executive summary.
+  - [x] Service 2: Production Hardening & Reliability Engineering
+    Deliverable: infrastructure review, failure-mode analysis, observability gap report, reliability upgrade plan.
+  - [x] Service 3: Scalable System Design & Implementation
+    Deliverable: architecture blueprint, stack strategy, data-modeling plan, deployment strategy, and documentation package.
 
-- [ ] Pricing policy:
-  - [ ] Public pricing
-  - [ ] Private pricing (form/follow-up only)
+- [x] Pricing policy: `Private pricing (form/follow-up only)`
 
-- [ ] Case study proof metrics finalized.
-- [ ] Lead notification destination finalized.
-- [ ] Lead/message data retention policy finalized.
+- [x] Case study proof metrics finalized.
+  Standard:
+  - quantified performance metric
+  - quantified reliability metric
+  - before/after comparison
+  - timeframe specified
+
+- [x] Lead notification destination finalized.
+- [x] Lead/message data retention policy finalized.
 
 ## Governance Inputs
-- [ ] GitHub org 2FA enforcement state confirmed. (`admin:org` scope pending as of 2026-02-19)
-- [x] 2FA recovery codes secure storage process confirmed. (owner input recorded on 2026-02-19)
+- [x] GitHub org 2FA enforcement state confirmed.
+- [x] 2FA recovery codes secure storage process confirmed.
