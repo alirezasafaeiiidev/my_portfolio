@@ -115,15 +115,21 @@ jobs:
         run: |
           set -euo pipefail
           if [ "$TARGET_ENV" = "production" ]; then
+            PORT="3002"
             BASE_URL="https://alirezasafaeisystems.ir"
           else
+            PORT="3003"
             BASE_URL="https://staging.alirezasafaeisystems.ir"
           fi
 
-          # Keep smoke checks deterministic in CI networks.
-          curl --connect-timeout 10 --max-time 30 --retry 2 --retry-delay 2 --retry-connrefused -fIsS "$BASE_URL/api/ready" >/dev/null
-          curl --connect-timeout 10 --max-time 30 --retry 2 --retry-delay 2 --retry-connrefused -fIsS "$BASE_URL/" >/dev/null
-          curl --connect-timeout 10 --max-time 30 --retry 2 --retry-delay 2 --retry-connrefused -fIsS "$BASE_URL/services" >/dev/null
+          # Run smoke checks from inside the VPS to avoid public-route CI network variance.
+          ssh -i ~/.ssh/id_ed25519 -o IdentitiesOnly=yes -p "${VPS_PORT:-22}" "$VPS_USER@$VPS_HOST" "\
+            set -euo pipefail; \
+            curl --connect-timeout 10 --max-time 30 -fIsS http://127.0.0.1:${PORT}/api/ready >/dev/null; \
+            curl --connect-timeout 10 --max-time 30 -fIsS '${BASE_URL}/api/ready' >/dev/null; \
+            curl --connect-timeout 10 --max-time 30 -fIsS '${BASE_URL}/' >/dev/null; \
+            curl --connect-timeout 10 --max-time 30 -fIsS '${BASE_URL}/services' >/dev/null; \
+          "
 
       - name: Output deployment summary
         run: |
