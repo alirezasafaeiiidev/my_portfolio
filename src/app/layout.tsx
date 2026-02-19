@@ -6,14 +6,18 @@ import { Footer } from "@/components/layout/footer";
 import { JsonLd } from "@/components/seo/json-ld";
 import { I18nProvider } from "@/lib/i18n-context";
 import { ThemeProvider } from "@/components/theme/theme-provider";
+import { FontCdnLoader } from "@/components/layout/font-cdn-loader";
 import { generatePersonSchema, generateWebSiteSchema, generateBreadcrumbSchema, generateOrganizationSchema } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/site-config";
 import { brand } from "@/lib/brand";
+import { env } from "@/lib/env";
 import { cookies, headers } from "next/headers";
 
 const siteUrl = getSiteUrl();
 const ownerName = brand.ownerName;
 const primaryDescription = brand.positioningFa;
+const fontCdnEnabled = env.NEXT_PUBLIC_FONT_CDN_ENABLED === 'true' && Boolean(env.NEXT_PUBLIC_FONT_CDN_URL);
+const fontCdnUrl = env.NEXT_PUBLIC_FONT_CDN_URL;
 
 export const metadata: Metadata = {
   title: {
@@ -155,6 +159,7 @@ export default async function RootLayout({
           ])} nonce={nonce} />
 
           <Header />
+          <FontCdnLoader enabled={fontCdnEnabled} href={fontCdnUrl} />
           <main id="main-content" className="flex-1 pb-20 md:pb-0">
             {children}
           </main>

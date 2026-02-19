@@ -36,6 +36,12 @@ pnpm run lighthouse:ci
 - `pnpm run audit:high`: dependency high/critical audit gate
 - `pnpm run scan:secrets`: local secret scanning
 
+## Optional Font CDN Fallback
+- Keep local fonts as default and enable CDN only when needed:
+  - `NEXT_PUBLIC_FONT_CDN_ENABLED=true`
+  - `NEXT_PUBLIC_FONT_CDN_URL=https://your-cdn-domain/fonts/persian.css`
+- If CDN is unavailable, the app automatically falls back to local `IRANSansX`.
+
 ## Repository Structure
 - `src/`: app, API routes, components, libs, tests
 - `docs/`: architecture, operations, runtime checklist and incident docs

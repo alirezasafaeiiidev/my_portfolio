@@ -8,6 +8,8 @@ describe('env', () => {
       NEXT_PUBLIC_SITE_URL: undefined,
       NEXT_PUBLIC_ENABLE_ANALYTICS: undefined,
       NEXT_PUBLIC_ENABLE_WEB_VITALS: undefined,
+      NEXT_PUBLIC_FONT_CDN_ENABLED: undefined,
+      NEXT_PUBLIC_FONT_CDN_URL: undefined,
       ADMIN_API_TOKEN: undefined,
       ADMIN_USERNAME: undefined,
       ADMIN_PASSWORD: undefined,
@@ -22,6 +24,7 @@ describe('env', () => {
     expect(parsed.NODE_ENV).toBe('development')
     expect(parsed.NEXT_PUBLIC_ENABLE_ANALYTICS).toBe('false')
     expect(parsed.NEXT_PUBLIC_ENABLE_WEB_VITALS).toBe('false')
+    expect(parsed.NEXT_PUBLIC_FONT_CDN_ENABLED).toBe('false')
     expect(parsed.ADMIN_SESSION_MAX_AGE_SECONDS).toBe(60 * 60 * 8)
     expect(parsed.API_RATE_LIMIT_WINDOW_MS).toBe(15 * 60 * 1000)
     expect(parsed.API_RATE_LIMIT_MAX_REQUESTS).toBe(5)
@@ -33,6 +36,8 @@ describe('env', () => {
       NEXT_PUBLIC_SITE_URL: 'https://example.com',
       NEXT_PUBLIC_ENABLE_ANALYTICS: 'true',
       NEXT_PUBLIC_ENABLE_WEB_VITALS: 'true',
+      NEXT_PUBLIC_FONT_CDN_ENABLED: 'true',
+      NEXT_PUBLIC_FONT_CDN_URL: 'https://assets.example.com/fonts/persian.css',
       ADMIN_API_TOKEN: 'abcdefghijklmnopqrstuvwxyz',
       ADMIN_USERNAME: 'admin',
       ADMIN_PASSWORD: 'supersecurepassword',
@@ -48,6 +53,8 @@ describe('env', () => {
     expect(parsed.NEXT_PUBLIC_SITE_URL).toBe('https://example.com')
     expect(parsed.NEXT_PUBLIC_ENABLE_ANALYTICS).toBe('true')
     expect(parsed.NEXT_PUBLIC_ENABLE_WEB_VITALS).toBe('true')
+    expect(parsed.NEXT_PUBLIC_FONT_CDN_ENABLED).toBe('true')
+    expect(parsed.NEXT_PUBLIC_FONT_CDN_URL).toBe('https://assets.example.com/fonts/persian.css')
     expect(parsed.ADMIN_SESSION_MAX_AGE_SECONDS).toBe(1800)
     expect(parsed.REDIS_REST_URL).toBe('https://redis.example.com')
     expect(parsed.API_RATE_LIMIT_WINDOW_MS).toBe(60000)
