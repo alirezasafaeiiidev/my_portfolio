@@ -17,9 +17,15 @@ Executed changes (VPS):
 Stability remediation:
 - After old release cleanup, staging process referenced a removed release and returned `500`.
 - Staging was redeployed and recovered:
-  - new staging release: `/var/www/my-portfolio/releases/staging/20260218T233833Z`
+  - new staging release: `/var/www/my-portfolio/releases/staging/20260219T042813Z`
   - `https://staging.alirezasafaeisystems.ir/` -> `200`
   - `https://staging.alirezasafaeisystems.ir/api/ready` -> `200`
+
+Rollback drill evidence:
+- Incident note generated:
+  - `docs/strategic-execution/runtime/Incidents/20260219T042807Z_rollback-drill-staging.md`
+- Drill status in that run: failed (`at least two releases are required` at that moment).
+- Follow-up completed: staging release inventory was rebuilt and service restored on latest release.
 
 Validation snapshot:
 - Production:

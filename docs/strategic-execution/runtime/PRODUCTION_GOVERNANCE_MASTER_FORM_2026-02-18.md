@@ -371,7 +371,7 @@ Date:
 
 # 1️⃣1️⃣ RISK DECLARATION & EXCEPTIONS
 
-1. Latest formal rollback incident note for current hardening cycle is still missing (`Latest rollback incident note: not-found` in evidence).
+1. Latest rollback incident note exists at `docs/strategic-execution/runtime/Incidents/20260219T042807Z_rollback-drill-staging.md` (staging drill).
 
 ------------------------------------------------------------------------
 
