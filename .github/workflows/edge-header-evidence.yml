@@ -1,0 +1,64 @@
+name: Edge Header Evidence
+
+on:
+  workflow_dispatch:
+    inputs:
+      apex_url:
+        description: Apex URL
+        required: true
+        default: https://alirezasafaeisystems.ir
+      www_url:
+        description: WWW URL
+        required: true
+        default: https://www.alirezasafaeisystems.ir
+      staging_url:
+        description: Staging URL
+        required: true
+        default: https://staging.alirezasafaeisystems.ir
+
+permissions:
+  contents: read
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Collect edge headers
+        run: |
+          set -euo pipefail
+          ts="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          out="edge-header-evidence-${ts}.md"
+          {
+            echo "# Edge Header Evidence"
+            echo
+            echo "- Generated: ${ts}"
+            echo
+            for u in "${{ github.event.inputs.apex_url }}" "${{ github.event.inputs.www_url }}" "${{ github.event.inputs.staging_url }}"; do
+              echo "## ${u}"
+              hdr="$(curl -sSI --connect-timeout 8 --max-time 20 "${u}" || true)"
+              if [ -z "${hdr}" ]; then
+                echo "- status: UNREACHABLE"
+              else
+                code="$(printf '%s' "${hdr}" | awk 'NR==1{print $2}')"
+                hsts="$(printf '%s' "${hdr}" | awk 'BEGIN{IGNORECASE=1} /^strict-transport-security:/{sub(/\r$/,"",$0);print;exit}')"
+                csp="$(printf '%s' "${hdr}" | awk 'BEGIN{IGNORECASE=1} /^content-security-policy:/{sub(/\r$/,"",$0);print;exit}')"
+                xfo="$(printf '%s' "${hdr}" | awk 'BEGIN{IGNORECASE=1} /^x-frame-options:/{sub(/\r$/,"",$0);print;exit}')"
+                rp="$(printf '%s' "${hdr}" | awk 'BEGIN{IGNORECASE=1} /^referrer-policy:/{sub(/\r$/,"",$0);print;exit}')"
+                echo "- http: ${code:-unknown}"
+                echo "- ${hsts:-strict-transport-security: missing}"
+                echo "- ${csp:-content-security-policy: missing}"
+                echo "- ${xfo:-x-frame-options: missing}"
+                echo "- ${rp:-referrer-policy: missing}"
+              fi
+              echo
+            done
+          } > "${out}"
+          echo "REPORT_FILE=${out}" >> "$GITHUB_ENV"
+      - name: Upload edge header evidence artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: edge-header-evidence
+          path: ${{ env.REPORT_FILE }}
+
