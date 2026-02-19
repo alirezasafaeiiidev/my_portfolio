@@ -7,9 +7,15 @@
 - Local quality gate passed (`pnpm run verify`).
 - Go/No-Go runtime evidence generated:
   - `docs/runtime/GoNoGo_Evidence/go-no-go-20260219T110218Z.md`
+- External edge-header workflow added:
+  - `.github/workflows/edge-header-evidence.yml`
 
 ## Active Blockers
-- Edge header evidence from trusted network/VPS.
-- GitHub org 2FA enforcement check needs `admin:org` scope.
+- Edge header evidence from trusted network/VPS (or run new workflow after merge to `main`).
+- GitHub org 2FA enforcement check needs `admin:org` scope (device flow requires manual browser approval).
 - 2FA recovery code storage confirmation needs owner/security input.
 
+## Account Switch Attempt
+- Switched to secondary account `parsairaniiidev` for fallback checks.
+- Result: same missing `admin:org` scope and no branch-protection read access on target repo.
+- Active account switched back to `alirezasafaeisystems`.

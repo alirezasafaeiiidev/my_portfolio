@@ -18,9 +18,12 @@ Updated: 2026-02-19
   - `docs/runtime/GoNoGo_Evidence/go-no-go-20260219T110218Z.md`
 - [x] Publish monthly incident/noise review:
   - `docs/runtime/Incidents/2026-02_monthly_incident_noise_review.md`
+- [x] Add GitHub Actions workflow for external edge-header collection:
+  - `.github/workflows/edge-header-evidence.yml`
 - [ ] Re-run edge-header verification from VPS/trusted network (local network timed out).
+  - Blocker: workflow run requires merge to `main` before manual dispatch.
 - [ ] Confirm GitHub org 2FA enforcement status in governance records.
-  - Blocker: current GitHub token lacks `admin:org` scope.
+  - Blocker: `admin:org` scope requires manual device approval in browser.
 - [ ] Confirm secure storage location/process for 2FA recovery codes.
   - Blocker: owner/security confirmation required (non-local input).
 
