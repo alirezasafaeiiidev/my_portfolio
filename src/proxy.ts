@@ -35,6 +35,15 @@ export function getCacheControl(pathname: string): string {
 function buildCsp(nonce: string): string {
   const scriptSources = [`'self'`, `'nonce-${nonce}'`]
   const styleSources = [`'self'`, `'nonce-${nonce}'`]
+  const fontSources = [`'self'`, 'data:']
+  const connectSources = [`'self'`]
+  const fontCdnOrigin = getFontCdnOrigin()
+
+  if (fontCdnOrigin) {
+    styleSources.push(fontCdnOrigin)
+    fontSources.push(fontCdnOrigin)
+    connectSources.push(fontCdnOrigin)
+  }
 
   if (env.NODE_ENV !== 'production') {
     scriptSources.push("'unsafe-eval'")
@@ -48,11 +57,24 @@ function buildCsp(nonce: string): string {
     "frame-ancestors 'none'",
     "object-src 'none'",
     "img-src 'self' data: blob:",
-    "font-src 'self' data:",
+    `font-src ${fontSources.join(' ')}`,
     `style-src ${styleSources.join(' ')}`,
     `script-src ${scriptSources.join(' ')}`,
-    "connect-src 'self'",
+    `connect-src ${connectSources.join(' ')}`,
   ].join('; ')
+}
+
+function getFontCdnOrigin(): string | null {
+  if (env.NEXT_PUBLIC_FONT_CDN_ENABLED !== 'true' || !env.NEXT_PUBLIC_FONT_CDN_URL) {
+    return null
+  }
+
+  try {
+    const parsed = new URL(env.NEXT_PUBLIC_FONT_CDN_URL)
+    return parsed.origin
+  } catch {
+    return null
+  }
 }
 
 function withSecurityHeaders(response: NextResponse, pathname: string, nonce: string): NextResponse {
