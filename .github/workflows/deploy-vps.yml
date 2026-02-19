@@ -1,0 +1,137 @@
+name: Deploy VPS
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Target environment
+        required: true
+        type: choice
+        options:
+          - staging
+          - production
+      ref:
+        description: Git ref to deploy (branch/tag/sha)
+        required: true
+        default: main
+      confirmation:
+        description: Type DEPLOY to continue
+        required: true
+        default: ""
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-vps-${{ inputs.environment }}
+  cancel-in-progress: false
+
+jobs:
+  quality-gate:
+    name: Quality gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    if: ${{ inputs.confirmation == 'DEPLOY' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+      - name: Install
+        run: pnpm install --frozen-lockfile
+      - name: Verify
+        run: pnpm run verify
+
+  deploy:
+    name: Deploy to VPS
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    needs: quality-gate
+    if: ${{ inputs.confirmation == 'DEPLOY' }}
+    environment: ${{ inputs.environment }}
+    env:
+      TARGET_ENV: ${{ inputs.environment }}
+      TARGET_REF: ${{ inputs.ref }}
+      VPS_HOST: ${{ secrets.VPS_HOST }}
+      VPS_USER: ${{ secrets.VPS_USER }}
+      VPS_PORT: ${{ secrets.VPS_PORT }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: Install SSH key
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          printf '%s\n' "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -p "${VPS_PORT:-22}" -H "$VPS_HOST" >> ~/.ssh/known_hosts
+
+      - name: Upload release source
+        run: |
+          set -euo pipefail
+          RELEASE_ID="$(date -u +%Y%m%dT%H%M%SZ)"
+          REMOTE_TMP="/tmp/asdev-portfolio-${RELEASE_ID}"
+          echo "RELEASE_ID=$RELEASE_ID" >> "$GITHUB_ENV"
+          echo "REMOTE_TMP=$REMOTE_TMP" >> "$GITHUB_ENV"
+
+          ssh -i ~/.ssh/id_ed25519 -o IdentitiesOnly=yes -p "${VPS_PORT:-22}" "$VPS_USER@$VPS_HOST" "mkdir -p '$REMOTE_TMP'"
+
+          rsync -az --delete \
+            -e "ssh -i ~/.ssh/id_ed25519 -o IdentitiesOnly=yes -p ${VPS_PORT:-22}" \
+            --exclude '.git' \
+            --exclude '.github' \
+            --exclude 'node_modules' \
+            --exclude '.next' \
+            --exclude 'coverage' \
+            --exclude 'playwright-report' \
+            --exclude 'test-results' \
+            ./ "$VPS_USER@$VPS_HOST:$REMOTE_TMP/"
+
+      - name: Execute remote deploy
+        run: |
+          set -euo pipefail
+          ssh -i ~/.ssh/id_ed25519 -o IdentitiesOnly=yes -p "${VPS_PORT:-22}" "$VPS_USER@$VPS_HOST" \
+            "cd '$REMOTE_TMP' && bash ops/deploy/deploy.sh --env '$TARGET_ENV' --source-dir '$REMOTE_TMP' --release-id '$RELEASE_ID' --keep-releases 3"
+
+      - name: Post-deploy smoke check
+        run: |
+          set -euo pipefail
+          if [ "$TARGET_ENV" = "production" ]; then
+            BASE_URL="https://alirezasafaeisystems.ir"
+          else
+            BASE_URL="https://staging.alirezasafaeisystems.ir"
+          fi
+
+          curl -fIsS "$BASE_URL/api/ready" >/dev/null
+          curl -fIsS "$BASE_URL/" >/dev/null
+          curl -fIsS "$BASE_URL/services" >/dev/null
+
+      - name: Output deployment summary
+        run: |
+          if [ "$TARGET_ENV" = "production" ]; then
+            BASE_URL="https://alirezasafaeisystems.ir"
+          else
+            BASE_URL="https://staging.alirezasafaeisystems.ir"
+          fi
+          echo "Deployed ref: $TARGET_REF"
+          echo "Environment: $TARGET_ENV"
+          echo "Release ID: $RELEASE_ID"
+          echo "URL: $BASE_URL"
