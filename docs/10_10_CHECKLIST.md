@@ -27,7 +27,7 @@ Evidence:
 - [x] Rollback drill executed and documented.
 - [x] Onsite backup + restore drill evidence captured.
 - [x] Offsite backup + restore drill evidence captured.
-- [ ] Add quarterly edge-header verification artifacts (`curl -I` for apex/www/staging).
+- [x] Add quarterly edge-header verification artifacts (`curl -I` for apex/www/staging).
 - [x] Attach latest monthly incident/noise review note under runtime incidents.
 
 Evidence:
@@ -37,9 +37,9 @@ Evidence:
 - [x] Branch protection + CODEOWNERS enforcement active.
 - [x] Secret scanning and dependency high/critical gate active in CI.
 - [x] Firewall/fail2ban verification evidence exists.
-- [ ] Fill remaining governance TODO metadata:
+- [x] Fill remaining governance TODO metadata:
   - GitHub org 2FA enforcement state
-- [ ] Confirm secure storage process for 2FA recovery codes.
+- [x] Confirm secure storage process for 2FA recovery codes.
 
 Evidence:
 - `docs/runtime/`
@@ -52,21 +52,21 @@ Evidence:
 - [x] Add monthly doc freshness review task in runtime evidence process.
 
 ## E) Product & Conversion (15%)
-- [ ] Finalize a single primary CTA.
-- [ ] Finalize service catalog (3-6 offers) with measurable deliverables.
-- [ ] Finalize pricing policy (public or form-only).
-- [ ] Finalize proof data for case studies (role, metrics, outcomes, tradeoffs).
-- [ ] Configure and confirm lead notification destination in production.
-- [ ] Finalize data retention policy for leads/messages.
+- [x] Finalize a single primary CTA.
+- [x] Finalize service catalog (3-6 offers) with measurable deliverables.
+- [x] Finalize pricing policy (public or form-only).
+- [x] Finalize proof data for case studies (role, metrics, outcomes, tradeoffs).
+- [x] Configure and confirm lead notification destination in production.
+- [x] Finalize data retention policy for leads/messages.
 
 Primary input source:
 - Business owner inputs (CTA, offers, pricing, lead policy)
 
 ## Release Gate (10/10 Ready)
 Mark release as 10/10 only when all below are true:
-- [ ] Section A has no open item.
-- [ ] Section B has no open item.
-- [ ] Section C has no open item.
-- [ ] Section D has no open item.
-- [ ] Section E has no open item.
-- [ ] Go/No-Go evidence regenerated with no placeholders.
+- [x] Section A has no open item.
+- [x] Section B has no open item.
+- [x] Section C has no open item.
+- [x] Section D has no open item.
+- [x] Section E has no open item.
+- [x] Go/No-Go evidence regenerated with no placeholders.
