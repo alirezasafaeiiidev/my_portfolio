@@ -22,6 +22,5 @@ Use this file to close non-local blockers without reopening old docs.
 - [ ] Lead/message data retention policy finalized.
 
 ## Governance Inputs
-- [ ] GitHub org 2FA enforcement state confirmed.
-- [ ] 2FA recovery codes secure storage process confirmed.
-
+- [ ] GitHub org 2FA enforcement state confirmed. (`admin:org` scope pending as of 2026-02-19)
+- [x] 2FA recovery codes secure storage process confirmed. (owner input recorded on 2026-02-19)
