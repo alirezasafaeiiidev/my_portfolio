@@ -34,3 +34,10 @@ Validation snapshot:
 - Runtime:
   - PM2 `my-portfolio-production` -> `online`, restarts `0`
   - PM2 `my-portfolio-staging` -> `online`, restarts `0`
+
+Cache warmup (post-canonical):
+- Warmup log:
+  - `/var/www/my-portfolio/shared/logs/deploy/cache-warmup-20260219T044610Z.log`
+- Results:
+  - canonical production endpoints returned expected `302`/`200`
+  - content check confirms `new_brand=yes`, `legacy_text=no`
