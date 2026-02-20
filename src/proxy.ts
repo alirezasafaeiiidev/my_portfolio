@@ -7,6 +7,8 @@ import {
 import { env } from '@/lib/env'
 
 const ADMIN_LOGIN_PATH = '/admin/login'
+const PUBLIC_FILE = /\.(.*)$/
+const SUPPORTED_LOCALES = new Set(['fa', 'en'])
 
 const BASE_SECURITY_HEADERS = {
   'X-Frame-Options': 'DENY',
@@ -101,6 +103,53 @@ export async function proxy(request: NextRequest) {
   requestHeaders.set('x-request-id', correlationId)
   requestHeaders.set('x-correlation-id', correlationId)
   requestHeaders.set('x-csp-nonce', nonce)
+
+  const isLocalizedCandidate =
+    !pathname.startsWith('/api') &&
+    !pathname.startsWith('/admin') &&
+    pathname !== '/robots.txt' &&
+    pathname !== '/sitemap.xml' &&
+    pathname !== '/manifest.json' &&
+    pathname !== '/favicon.ico' &&
+    pathname !== '/favicon.svg' &&
+    !PUBLIC_FILE.test(pathname)
+
+  const [, maybeLocale] = pathname.split('/')
+  const hasLocalePrefix = SUPPORTED_LOCALES.has(maybeLocale ?? '')
+
+  if (isLocalizedCandidate && !hasLocalePrefix) {
+    const cookieLang = request.cookies.get('lang')?.value
+    const locale = cookieLang === 'en' ? 'en' : 'fa'
+    const redirectUrl = request.nextUrl.clone()
+    redirectUrl.pathname = `/${locale}${pathname}`
+    const response = NextResponse.redirect(redirectUrl)
+    response.headers.set('X-Request-ID', correlationId)
+    response.headers.set('X-Correlation-ID', correlationId)
+    response.headers.set('x-csp-nonce', nonce)
+    return withSecurityHeaders(response, pathname, nonce)
+  }
+
+  if (isLocalizedCandidate && hasLocalePrefix) {
+    const locale = maybeLocale as 'fa' | 'en'
+    const internalPath = pathname.replace(/^\/(fa|en)(?=\/|$)/, '') || '/'
+    const rewriteUrl = request.nextUrl.clone()
+    rewriteUrl.pathname = internalPath
+    const localizedHeaders = new Headers(requestHeaders)
+    localizedHeaders.set('x-asdev-locale', locale)
+    localizedHeaders.set('x-asdev-pathname', pathname)
+    const response = NextResponse.rewrite(rewriteUrl, {
+      request: { headers: localizedHeaders },
+    })
+    response.cookies.set('lang', locale, {
+      path: '/',
+      sameSite: 'lax',
+      maxAge: 60 * 60 * 24 * 365,
+    })
+    response.headers.set('X-Request-ID', correlationId)
+    response.headers.set('X-Correlation-ID', correlationId)
+    response.headers.set('x-csp-nonce', nonce)
+    return withSecurityHeaders(response, pathname, nonce)
+  }
 
   if (pathname.startsWith('/admin') && pathname !== ADMIN_LOGIN_PATH) {
     if (!isAdminAuthConfigured()) {

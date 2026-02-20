@@ -16,6 +16,7 @@ export const metadata: Metadata = {
 
 export default async function PortfolioCaseStudyPage() {
   const lang = await getRequestLanguage()
+  const withLocale = (path: string) => `/${lang}${path}`
   const copy = {
     breadcrumbHome: lang === 'en' ? 'Home' : 'خانه',
     breadcrumbCases: lang === 'en' ? 'Case Studies' : 'مطالعات موردی',
@@ -84,7 +85,7 @@ export default async function PortfolioCaseStudyPage() {
   })
 
   return (
-    <main className="container mx-auto px-4 py-28">
+    <main className="container mx-auto px-4 py-28 subtle-grid">
       <JsonLd
         data={generateBreadcrumbSchema([
           { name: copy.breadcrumbHome, url: siteUrl },
@@ -96,18 +97,18 @@ export default async function PortfolioCaseStudyPage() {
       <JsonLd data={{ ...articleSchema, url: pageUrl }} />
 
       <article className="mx-auto max-w-4xl space-y-6">
-        <header className="space-y-3">
+        <header className="space-y-3 section-surface aurora-shell p-6 md:p-8">
           <p className="text-sm font-semibold text-primary">{copy.eyebrow}</p>
-          <h1 className="text-3xl font-bold md:text-5xl">{copy.title}</h1>
-          <p className="text-muted-foreground">{copy.intro}</p>
+          <h1 className="headline-tight text-3xl font-bold md:text-5xl">{copy.title}</h1>
+          <p className="text-muted-foreground leading-8">{copy.intro}</p>
         </header>
 
-        <section className="rounded-xl border bg-card p-6 space-y-2">
+        <section className="rounded-xl border bg-card p-6 space-y-2 card-hover">
           <h2 className="text-xl font-semibold">{copy.hProblem}</h2>
           <p className="text-sm text-muted-foreground">{copy.pProblem}</p>
         </section>
 
-        <section className="rounded-xl border bg-card p-6 space-y-2">
+        <section className="rounded-xl border bg-card p-6 space-y-2 card-hover">
           <h2 className="text-xl font-semibold">{copy.hSolution}</h2>
           <ul className="list-disc ps-5 text-sm text-muted-foreground space-y-1">
             {copy.solutionItems.map((item) => (
@@ -116,24 +117,24 @@ export default async function PortfolioCaseStudyPage() {
           </ul>
         </section>
 
-        <section className="rounded-xl border bg-card p-6 space-y-2">
+        <section className="rounded-xl border bg-card p-6 space-y-2 card-hover">
           <h2 className="text-xl font-semibold">{copy.hResult}</h2>
           <p className="text-sm text-muted-foreground">{copy.pResult}</p>
         </section>
 
         <section className="grid gap-4 md:grid-cols-2">
-          <div className="rounded-xl border bg-card p-6 space-y-2">
+          <div className="rounded-xl border bg-card p-6 space-y-2 card-hover">
             <h3 className="font-semibold">{copy.hRole}</h3>
             <p className="text-sm text-muted-foreground">{copy.pRole}</p>
           </div>
-          <div className="rounded-xl border bg-card p-6 space-y-2">
+          <div className="rounded-xl border bg-card p-6 space-y-2 card-hover">
             <h3 className="font-semibold">{copy.hProof}</h3>
             <p className="text-sm text-muted-foreground">{copy.pProof}</p>
           </div>
         </section>
 
         <footer>
-          <Link href="/case-studies" className="underline text-sm text-muted-foreground">
+          <Link href={withLocale('/case-studies')} className="underline text-sm text-muted-foreground">
             {copy.back}
           </Link>
         </footer>

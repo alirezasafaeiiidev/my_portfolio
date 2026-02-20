@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react'
 import { env } from '@/lib/env'
+import { useI18n } from '@/lib/i18n-context'
 
 export function isAnalyticsEnabled(config: {
   NEXT_PUBLIC_ENABLE_ANALYTICS?: string
@@ -14,6 +15,8 @@ export function isAnalyticsEnabled(config: {
 }
 
 export function WebVitals() {
+  const { language } = useI18n()
+
   useEffect(() => {
     const isEnabled = isAnalyticsEnabled(env)
     if (!isEnabled) {
@@ -23,31 +26,53 @@ export function WebVitals() {
     if (typeof window !== 'undefined' && 'performance' in window) {
       const reportWebVitals = async () => {
         const vitals = {
-          LCP: await getLCP(),
-          FID: await getFID(),
-          CLS: await getCLS(),
-          FCP: await getFCP(),
-          TTFB: await getTTFB(),
+          LCP: await withTimeout(getLCP(), 2500),
+          FID: await withTimeout(getFID(), 2500),
+          CLS: await withTimeout(getCLS(), 2500),
+          FCP: await withTimeout(getFCP(), 2500),
+          TTFB: await withTimeout(getTTFB(), 2500),
         }
-        void vitals
 
-        // Send to your analytics service
-        // await fetch('/api/analytics/web-vitals', {
-        //   method: 'POST',
-        //   body: JSON.stringify(vitals),
-        // })
+        await fetch('/api/analytics/web-vitals', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({
+            ...vitals,
+            locale: language,
+            path: window.location.pathname,
+          }),
+          keepalive: true,
+        })
       }
 
       // Report vitals after page load
-      window.addEventListener('load', reportWebVitals)
+      const onLoad = () => {
+        void reportWebVitals()
+      }
+      window.addEventListener('load', onLoad)
 
       return () => {
-        window.removeEventListener('load', reportWebVitals)
+        window.removeEventListener('load', onLoad)
       }
     }
-  }, [])
+  }, [language])
 
   return null
+}
+
+async function withTimeout(promise: Promise<number>, timeoutMs: number): Promise<number> {
+  return new Promise((resolve) => {
+    const timeout = window.setTimeout(() => resolve(0), timeoutMs)
+    promise
+      .then((value) => {
+        window.clearTimeout(timeout)
+        resolve(value)
+      })
+      .catch(() => {
+        window.clearTimeout(timeout)
+        resolve(0)
+      })
+  })
 }
 
 async function getLCP() {

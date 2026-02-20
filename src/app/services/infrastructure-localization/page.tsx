@@ -67,6 +67,7 @@ function getWeeklyPlan(lang: 'fa' | 'en') {
 export default async function InfrastructureLocalizationServicePage() {
   const lang = await getRequestLanguage()
   const weeklyPlan = getWeeklyPlan(lang)
+  const withLocale = (path: string) => `/${lang}${path}`
   const copy = {
     eyebrow: lang === 'en' ? 'Flagship Consulting Offer' : 'پیشنهاد اصلی',
     title: lang === 'en' ? 'Infrastructure Localization & Operational Resilience Program' : 'برنامه بومی‌سازی زیرساخت و تاب‌آوری عملیاتی',
@@ -93,20 +94,20 @@ export default async function InfrastructureLocalizationServicePage() {
   }
 
   return (
-    <main className="container mx-auto px-4 py-28">
+    <main className="container mx-auto px-4 py-28 subtle-grid">
       <div className="mx-auto max-w-5xl space-y-12">
-        <section className="space-y-4">
+        <section className="section-surface aurora-shell p-6 md:p-8 space-y-4">
           <p className="text-sm font-semibold text-primary">{copy.eyebrow}</p>
-          <h1 className="text-3xl font-bold md:text-5xl">{copy.title}</h1>
-          <p className="text-lg text-muted-foreground">{copy.intro}</p>
-          <div className="rounded-lg border bg-muted/40 p-4 text-sm">
+          <h1 className="headline-tight text-3xl font-bold md:text-5xl">{copy.title}</h1>
+          <p className="text-lg text-muted-foreground leading-8">{copy.intro}</p>
+          <div className="rounded-lg border bg-muted/40 p-4 text-sm card-hover">
             {copy.investment}
           </div>
         </section>
 
         <section className="grid gap-4 md:grid-cols-2">
-          {weeklyPlan.map((week) => (
-            <article key={week.title} className="rounded-xl border bg-card p-6">
+          {weeklyPlan.map((week, index) => (
+            <article key={week.title} className="rounded-xl border bg-card p-6 card-hover reveal-up" style={{ animationDelay: `${index * 80}ms` }}>
               <h2 className="text-xl font-semibold">{week.title}</h2>
               <ul className="mt-4 list-disc space-y-1 ps-5 text-sm text-muted-foreground">
                 {week.items.map((item) => (
@@ -117,7 +118,7 @@ export default async function InfrastructureLocalizationServicePage() {
           ))}
         </section>
 
-        <section className="space-y-4 rounded-xl border bg-card p-6">
+        <section className="space-y-4 rounded-xl border bg-card p-6 card-hover">
           <h2 className="text-2xl font-semibold">{copy.deliverablesTitle}</h2>
           <ul className="list-disc space-y-1 ps-5 text-sm text-muted-foreground">
             {copy.deliverables.map((item) => (
@@ -129,7 +130,7 @@ export default async function InfrastructureLocalizationServicePage() {
           </p>
         </section>
 
-        <section id="assessment" className="space-y-4">
+        <section id="assessment" className="space-y-4 section-surface p-5 md:p-6">
           <h2 className="text-2xl font-semibold">{copy.assessmentTitle}</h2>
           <p className="text-sm text-muted-foreground">
             {copy.assessmentDesc}
@@ -138,7 +139,7 @@ export default async function InfrastructureLocalizationServicePage() {
         </section>
 
         <section className="text-sm text-muted-foreground">
-          <Link className="underline" href="/">
+          <Link className="underline" href={withLocale('/')}>
             {copy.backHome}
           </Link>
         </section>

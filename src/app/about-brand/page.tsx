@@ -17,6 +17,7 @@ export const metadata: Metadata = {
 
 export default async function AboutBrandPage() {
   const lang = await getRequestLanguage()
+  const withLocale = (path: string) => `/${lang}${path}`
   const copy = {
     eyebrow: lang === 'en' ? 'Brand Profile' : 'پروفایل برند',
     title: `${brand.ownerName} (${brand.brandName})`,
@@ -49,21 +50,21 @@ export default async function AboutBrandPage() {
   }
 
   return (
-    <main className="container mx-auto px-4 py-24 max-w-4xl space-y-10">
-      <header className="space-y-3">
+    <main className="container mx-auto px-4 py-24 max-w-4xl space-y-10 subtle-grid">
+      <header className="space-y-3 section-surface aurora-shell p-6 md:p-8">
         <p className="text-sm font-semibold text-primary">{copy.eyebrow}</p>
-        <h1 className="text-3xl md:text-4xl font-bold">
+        <h1 className="headline-tight text-3xl md:text-4xl font-bold">
           {copy.title}
         </h1>
-        <p className="text-muted-foreground">{copy.positioning}</p>
+        <p className="text-muted-foreground leading-8">{copy.positioning}</p>
       </header>
 
-      <section className="space-y-3">
+      <section className="space-y-3 rounded-xl border bg-card p-6 card-hover">
         <h2 className="text-2xl font-semibold">{copy.missionTitle}</h2>
-        <p className="text-muted-foreground">{copy.missionBody}</p>
+        <p className="text-muted-foreground leading-8">{copy.missionBody}</p>
       </section>
 
-      <section className="space-y-3">
+      <section className="space-y-3 rounded-xl border bg-card p-6 card-hover">
         <h2 className="text-2xl font-semibold">{copy.principlesTitle}</h2>
         <ul className="list-disc pl-5 text-muted-foreground space-y-2">
           {copy.principles.map((item) => (
@@ -72,11 +73,11 @@ export default async function AboutBrandPage() {
         </ul>
       </section>
 
-      <section className="space-y-3">
+      <section className="space-y-3 rounded-xl border bg-card p-6 card-hover">
         <h2 className="text-2xl font-semibold">{copy.workTitle}</h2>
-        <p className="text-muted-foreground">{copy.workBody}</p>
-        <Button asChild>
-          <Link href="/services/infrastructure-localization#assessment">
+        <p className="text-muted-foreground leading-8">{copy.workBody}</p>
+        <Button asChild className="shine-effect">
+          <Link href={withLocale('/services/infrastructure-localization#assessment')}>
             {copy.cta}
           </Link>
         </Button>

@@ -9,6 +9,7 @@
   },
   "scripts": {
     "dev": "next dev -p 3000 2>&1 | tee dev.log",
+    "prebuild": "node scripts/generate-sitemap-manifest.mjs",
     "build": "next build && cp -r .next/static .next/standalone/.next/ && cp -r public .next/standalone/",
     "start": "NODE_ENV=production node .next/standalone/server.js 2>&1 | tee server.log",
     "postinstall": "prisma generate",
@@ -20,6 +21,7 @@
     "test:ui": "vitest --ui",
     "test:coverage": "vitest run --coverage",
     "test:e2e": "npx playwright test",
+    "test:e2e:a11y": "npx playwright test e2e/a11y.spec.ts --config=playwright.config.mjs",
     "test:e2e:smoke": "npx playwright test e2e/smoke.spec.mjs --config=playwright.config.mjs",
     "test:full": "pnpm run verify && pnpm run test:e2e:smoke && pnpm run lighthouse:ci && pnpm run audit:high && pnpm run scan:secrets",
     "lighthouse:ci": "LHCI_BUILD_CONTEXT__CURRENT_HASH=${LHCI_BUILD_CONTEXT__CURRENT_HASH:-$(git rev-parse HEAD 2>/dev/null || echo local)} pnpm exec lhci autorun --config=./lighthouserc.json",
@@ -89,6 +91,7 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.11.0",
     "@lhci/cli": "^0.15.1",
     "@playwright/test": "1.58.2",
     "@tailwindcss/postcss": "^4.2.0",

@@ -86,6 +86,7 @@ function getCases(lang: 'fa' | 'en') {
 export default async function CaseStudiesPage() {
   const lang = await getRequestLanguage()
   const cases = getCases(lang)
+  const withLocale = (path: string) => `/${lang}${path}`
 
   const copy = {
     breadcrumbHome: lang === 'en' ? 'Home' : 'خانه',
@@ -114,22 +115,22 @@ export default async function CaseStudiesPage() {
   }
 
   return (
-    <main className="container mx-auto px-4 py-28">
+    <main className="container mx-auto px-4 py-28 subtle-grid">
       <JsonLd data={generateBreadcrumbSchema([
         { name: copy.breadcrumbHome, url: siteUrl },
         { name: copy.breadcrumbCases, url: `${siteUrl}/case-studies` },
       ])} />
       <JsonLd data={collectionSchema} />
-      <section className="mx-auto max-w-5xl space-y-8 section-surface p-6 md:p-8">
+      <section className="mx-auto max-w-5xl space-y-8 section-surface aurora-shell p-6 md:p-8">
         <header className="space-y-3">
           <p className="text-sm font-semibold text-primary">{copy.eyebrow}</p>
-          <h1 className="text-3xl font-bold md:text-5xl">{copy.title}</h1>
-          <p className="text-muted-foreground">{copy.desc}</p>
+          <h1 className="headline-tight text-3xl font-bold md:text-5xl">{copy.title}</h1>
+          <p className="text-muted-foreground leading-8">{copy.desc}</p>
         </header>
 
         <div className="grid gap-4 md:grid-cols-2">
           {cases.map((item, index) => (
-            <article key={item.title} className="rounded-xl border bg-card p-6">
+            <article key={item.title} className="rounded-xl border bg-card p-6 card-hover reveal-up" style={{ animationDelay: `${index * 70}ms` }}>
               <div className="flex items-center justify-between gap-3">
                 <p className="text-xs font-medium text-primary">{item.sector}</p>
                 {index === 0 ? (
@@ -140,7 +141,7 @@ export default async function CaseStudiesPage() {
               </div>
               <h2 className="mt-2 text-xl font-semibold">{item.title}</h2>
               <p className="mt-2 text-sm text-muted-foreground">{item.outcome}</p>
-              <Link href={item.href} className="mt-4 inline-flex rounded-md border px-4 py-2 text-sm hover:bg-muted">
+              <Link href={withLocale(item.href)} className="mt-4 inline-flex rounded-md border px-4 py-2 text-sm hover:bg-muted card-hover">
                 {copy.open}
               </Link>
             </article>
