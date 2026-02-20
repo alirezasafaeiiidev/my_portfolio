@@ -31,6 +31,7 @@ function getOutcomes(lang: 'fa' | 'en') {
 
 export default async function InfrastructureLocalizationRescueCaseStudyPage() {
   const lang = await getRequestLanguage()
+  const withLocale = (path: string) => `/${lang}${path}`
   const outcomes = getOutcomes(lang)
   const copy = {
     breadcrumbHome: lang === 'en' ? 'Home' : 'خانه',
@@ -96,7 +97,7 @@ export default async function InfrastructureLocalizationRescueCaseStudyPage() {
   })
 
   return (
-    <main className="container mx-auto px-4 py-28">
+    <main className="container mx-auto px-4 py-28 subtle-grid">
       <JsonLd data={generateBreadcrumbSchema([
         { name: copy.breadcrumbHome, url: siteUrl },
         { name: copy.breadcrumbCases, url: `${siteUrl}/case-studies` },
@@ -105,18 +106,18 @@ export default async function InfrastructureLocalizationRescueCaseStudyPage() {
       <JsonLd data={projectSchema} />
       <JsonLd data={{ ...articleSchema, url: pageUrl }} />
       <article className="mx-auto max-w-4xl space-y-8">
-        <header className="space-y-3">
+        <header className="space-y-3 section-surface aurora-shell p-6 md:p-8">
           <p className="text-sm font-semibold text-primary">{copy.eyebrow}</p>
-          <h1 className="text-3xl font-bold md:text-5xl">{copy.title}</h1>
-          <p className="text-muted-foreground">{copy.context}</p>
+          <h1 className="headline-tight text-3xl font-bold md:text-5xl">{copy.title}</h1>
+          <p className="text-muted-foreground leading-8">{copy.context}</p>
         </header>
 
-        <section className="space-y-3 rounded-xl border bg-card p-6">
+        <section className="space-y-3 rounded-xl border bg-card p-6 card-hover">
           <h2 className="text-xl font-semibold">{copy.hProblem}</h2>
           <p className="text-sm text-muted-foreground">{copy.pProblem}</p>
         </section>
 
-        <section className="space-y-3 rounded-xl border bg-card p-6">
+        <section className="space-y-3 rounded-xl border bg-card p-6 card-hover">
           <h2 className="text-xl font-semibold">{copy.hSolution}</h2>
           <ul className="list-disc space-y-1 ps-5 text-sm text-muted-foreground">
             {copy.solutionItems.map((item) => (
@@ -125,7 +126,7 @@ export default async function InfrastructureLocalizationRescueCaseStudyPage() {
           </ul>
         </section>
 
-        <section className="space-y-3 rounded-xl border bg-card p-6">
+        <section className="space-y-3 rounded-xl border bg-card p-6 card-hover">
           <h2 className="text-xl font-semibold">{copy.hOutcomes}</h2>
           <ul className="list-disc space-y-1 ps-5 text-sm text-muted-foreground">
             {outcomes.map((item) => (
@@ -135,28 +136,28 @@ export default async function InfrastructureLocalizationRescueCaseStudyPage() {
         </section>
 
         <section className="grid gap-4 md:grid-cols-2">
-          <div className="space-y-3 rounded-xl border bg-card p-6">
+          <div className="space-y-3 rounded-xl border bg-card p-6 card-hover">
             <h2 className="text-xl font-semibold">{copy.hRole}</h2>
             <p className="text-sm text-muted-foreground">{copy.pRole}</p>
           </div>
-          <div className="space-y-3 rounded-xl border bg-card p-6">
+          <div className="space-y-3 rounded-xl border bg-card p-6 card-hover">
             <h2 className="text-xl font-semibold">{copy.hStack}</h2>
             <p className="text-sm text-muted-foreground">{copy.pStack}</p>
           </div>
         </section>
 
-        <section className="space-y-3 rounded-xl border bg-card p-6">
+        <section className="space-y-3 rounded-xl border bg-card p-6 card-hover">
           <h2 className="text-xl font-semibold">{copy.hProof}</h2>
           <p className="text-sm text-muted-foreground">{copy.pProof}</p>
         </section>
 
-        <section className="space-y-3 rounded-xl border bg-card p-6">
+        <section className="space-y-3 rounded-xl border bg-card p-6 card-hover">
           <h2 className="text-xl font-semibold">{copy.hLessons}</h2>
           <p className="text-sm text-muted-foreground">{copy.pLessons}</p>
         </section>
 
         <footer className="text-sm text-muted-foreground">
-          <Link href="/case-studies" className="underline">
+          <Link href={withLocale('/case-studies')} className="underline">
             {copy.back}
           </Link>
         </footer>

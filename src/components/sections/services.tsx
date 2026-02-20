@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { ArrowRight, ShieldCheck, Workflow, FileText } from 'lucide-react'
 import { getRequestLanguage } from '@/lib/i18n/server'
+import { Reveal } from '@/components/ui/reveal'
 
 function getProgramWeeks(lang: 'fa' | 'en') {
   if (lang === 'en') {
@@ -54,6 +55,10 @@ function getProgramWeeks(lang: 'fa' | 'en') {
   ]
 }
 
+function withLocale(path: string, lang: 'fa' | 'en') {
+  return `/${lang}${path}`
+}
+
 export async function Services() {
   const lang = await getRequestLanguage()
   const programWeeks = getProgramWeeks(lang)
@@ -70,42 +75,48 @@ export async function Services() {
   const ctaAssessment = lang === 'en' ? 'Request Infrastructure Risk Assessment' : 'درخواست ارزیابی ریسک زیرساخت'
 
   return (
-    <section id="services" className="py-20 bg-muted/30 relative overflow-hidden">
+    <section id="services" className="py-20 bg-muted/30 relative overflow-hidden subtle-grid">
       <div className="absolute inset-0 bg-gradient-to-bl from-background via-background/60 to-muted/20 pointer-events-none" />
 
       <div className="container mx-auto px-4 relative z-10">
-        <div className="section-surface p-6 md:p-8">
+        <div className="section-surface aurora-shell p-6 md:p-8">
           <div className="mx-auto max-w-3xl text-center space-y-4 mb-10">
-            <h2 className="text-3xl md:text-4xl font-bold">{title}</h2>
-            <p className="text-muted-foreground">{subtitle}</p>
-            <div className="inline-flex rounded-full border bg-card px-4 py-2 text-sm font-semibold">
+            <h2 className="headline-tight text-3xl md:text-4xl font-bold">{title}</h2>
+            <p className="text-muted-foreground leading-8">{subtitle}</p>
+            <div className="inline-flex rounded-full border bg-card px-4 py-2 text-sm font-semibold card-hover">
               {investment}
             </div>
           </div>
 
           <div className="grid gap-4 md:grid-cols-2">
-            {programWeeks.map((week) => (
-              <Card key={week.title} className="h-full">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-lg">
-                    <week.icon className="h-5 w-5 text-primary" />
-                    {week.title}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="text-sm text-muted-foreground">{week.detail}</CardContent>
-              </Card>
+            {programWeeks.map((week, index) => (
+              <Reveal key={week.title} delayMs={index * 80}>
+                <Card className="h-full card-hover relative overflow-hidden border-border/70">
+                  <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-primary/80 via-accent/80 to-primary/60" />
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-3 text-lg">
+                      <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-primary/12 text-xs font-semibold text-primary">
+                        {index + 1}
+                      </span>
+                      <week.icon className="h-5 w-5 text-primary" />
+                      {week.title}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="text-sm text-muted-foreground leading-7">{week.detail}</CardContent>
+                </Card>
+              </Reveal>
             ))}
           </div>
 
           <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-            <Button asChild size="lg" className="gap-2">
-              <Link href="/services/infrastructure-localization">
+            <Button asChild size="lg" className="gap-2 shine-effect">
+              <Link href={withLocale('/services/infrastructure-localization', lang)}>
                 {ctaProgram}
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>
-            <Button asChild size="lg" variant="outline" className="gap-2">
-              <Link href="/services/infrastructure-localization#assessment">
+            <Button asChild size="lg" variant="outline" className="gap-2 card-hover">
+              <Link href={withLocale('/services/infrastructure-localization#assessment', lang)}>
                 {ctaAssessment}
               </Link>
             </Button>

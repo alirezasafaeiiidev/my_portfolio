@@ -208,6 +208,7 @@ export function generateBlogPostSchema({
   modifiedDate,
   tags,
   readTime,
+  language,
 }: {
   title: string
   description: string
@@ -218,8 +219,10 @@ export function generateBlogPostSchema({
   modifiedDate?: string
   tags?: string[]
   readTime?: number
+  language?: 'fa-IR' | 'en-US'
 }) {
   const siteUrl = getSiteUrl()
+  const inferredLanguage = language || (url.startsWith('/en') ? 'en-US' : 'fa-IR')
 
   return {
     '@context': 'https://schema.org',
@@ -238,7 +241,7 @@ export function generateBlogPostSchema({
     articleSection: 'Technology',
     wordCount: readTime ? readTime * 200 : undefined,
     timeRequired: readTime ? `PT${readTime}M` : undefined,
-    inLanguage: 'en-US',
+    inLanguage: inferredLanguage,
     isAccessibleForFree: true,
   }
 }

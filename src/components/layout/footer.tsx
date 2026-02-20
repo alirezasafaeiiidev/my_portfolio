@@ -7,12 +7,17 @@ import { useI18n } from '@/lib/i18n-context'
 import { brand } from '@/lib/brand'
 
 const quickLinks = [
-  { key: 'quickHome', href: '#home' },
-  { key: 'quickServices', href: '#services' },
-  { key: 'quickCaseStudies', href: '#case-studies' },
+  { key: 'quickHome', href: '/' },
+  { key: 'quickServices', href: '/services' },
+  { key: 'quickCaseStudies', href: '/case-studies' },
   { key: 'quickBrand', href: '/about-brand' },
-  { key: 'quickContact', href: '#contact' },
+  { key: 'quickContact', href: '/qualification' },
 ]
+
+function withLocale(path: string, language: 'fa' | 'en'): string {
+  const normalized = path.startsWith('/') ? path : `/${path}`
+  return `/${language}${normalized === '/' ? '/' : normalized}`
+}
 
 export function Footer() {
   const { t, language } = useI18n()
@@ -47,6 +52,9 @@ export function Footer() {
             <p className="text-sm text-muted-foreground">
               {language === 'fa' ? brand.positioningFa : brand.positioningEn}
             </p>
+            <p className="text-xs text-muted-foreground">
+              {language === 'fa' ? 'تهران — همکاری حضوری/ریموت در سراسر ایران' : 'Tehran — on-site/remote collaboration across Iran'}
+            </p>
           </div>
 
           {/* Quick Links */}
@@ -56,7 +64,7 @@ export function Footer() {
               {quickLinks.map((link) => (
                 <li key={link.key}>
                   <Link
-                    href={link.href}
+                    href={withLocale(link.href, language)}
                     className="text-sm text-muted-foreground hover:text-primary transition-colors inline-flex items-center gap-1 group"
                   >
                     {t(`footer.${link.key}`)}
@@ -121,7 +129,7 @@ export function Footer() {
           </p>
           <p className="text-sm text-muted-foreground flex items-center gap-1 text-center md:text-right flex-wrap justify-center md:justify-end">
             {t('ui.builtBy')}
-            <Link href="/about-brand" className="font-semibold hover:text-primary transition-colors">
+            <Link href={withLocale('/about-brand', language)} className="font-semibold hover:text-primary transition-colors">
               {brand.ownerName} ({brand.brandName})
             </Link>
             {t('footer.madeWith')}

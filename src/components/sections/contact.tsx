@@ -10,6 +10,7 @@ import { Mail, MapPin, Github, Linkedin, Twitter, Instagram, MessageCircle, Send
 import { brand } from '@/lib/brand'
 import Link from 'next/link'
 import { useI18n } from '@/lib/i18n-context'
+import { trackEvent } from '@/lib/analytics/client'
 
 const contactInfo = [
   {
@@ -27,7 +28,7 @@ const contactInfo = [
   {
     icon: MapPin,
     label: 'Location',
-    value: 'Remote / Global',
+    value: 'Tehran / Remote (Iran)',
     href: undefined,
   },
 ]
@@ -65,6 +66,11 @@ const socialLinks = [
   },
 ].filter((social) => Boolean(social.href))
 
+function withLocale(path: string, language: 'fa' | 'en'): string {
+  const normalized = path.startsWith('/') ? path : `/${path}`
+  return `/${language}${normalized === '/' ? '/' : normalized}`
+}
+
 export function Contact() {
   const { language } = useI18n()
   const [formData, setFormData] = useState({
@@ -85,6 +91,11 @@ export function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
+    void trackEvent({
+      name: 'contact_submit_attempt',
+      category: 'conversion',
+      locale: language,
+    })
 
     try {
       const response = await fetch('/api/contact', {
@@ -96,9 +107,26 @@ export function Contact() {
       })
 
       if (response.ok) {
+        void trackEvent({
+          name: 'contact_submit_success',
+          category: 'conversion',
+          locale: language,
+        })
         setIsSubmitted(true)
         setFormData({ name: '', email: '', subject: '', message: '', website: '' })
+      } else {
+        void trackEvent({
+          name: 'contact_submit_failed',
+          category: 'conversion',
+          locale: language,
+        })
       }
+    } catch {
+      void trackEvent({
+        name: 'contact_submit_failed',
+        category: 'conversion',
+        locale: language,
+      })
     } finally {
       setIsSubmitting(false)
     }
@@ -145,35 +173,38 @@ export function Contact() {
         : 'در مورد مسئله زیرساخت/هدف پروژه کوتاه توضیح دهید...',
     submit: language === 'en' ? 'Send Message' : 'ارسال پیام',
     sending: language === 'en' ? 'Sending...' : 'در حال ارسال...',
-    locationValue: language === 'en' ? 'Remote / Global' : 'ریموت / بین‌المللی',
+    locationValue: language === 'en' ? 'Tehran / Remote (Iran)' : 'تهران / ریموت (سراسر ایران)',
     phoneLabel: language === 'en' ? 'Phone' : 'تلفن',
     namePh: language === 'en' ? 'Your name' : 'نام شما',
     emailPh: language === 'en' ? 'your.email@example.com' : 'name@company.com',
+    trustItemOne: language === 'en' ? 'NDA available for sensitive projects' : 'امکان امضای NDA برای پروژه‌های حساس',
+    trustItemTwo: language === 'en' ? 'Initial response within one business day' : 'پاسخ اولیه حداکثر تا یک روز کاری',
+    trustItemThree: language === 'en' ? 'Structured discovery and qualification path' : 'مسیر Discovery و Qualification ساختاریافته',
   }
 
   return (
-    <section id="contact" className="py-20 bg-muted/30 relative overflow-hidden">
+    <section id="contact" className="py-20 bg-muted/30 relative overflow-hidden subtle-grid">
       <div className="absolute inset-0 bg-gradient-to-bl from-background via-background/50 to-muted/30 pointer-events-none" />
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center space-y-4 mb-12">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold">
+          <h2 className="headline-tight text-3xl md:text-4xl lg:text-5xl font-bold">
             {copy.title}
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-8">
             {copy.subtitle}
           </p>
         </div>
 
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div className="space-y-6">
-            <Card className="glass">
+            <Card className="glass card-hover">
               <CardHeader>
                 <CardTitle>{copy.directContact}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 {contactInfo.map((info) => (
-                  <div key={info.label} className="p-4 rounded-xl bg-card border border-border/50">
+                  <div key={info.label} className="p-4 rounded-xl bg-card border border-border/50 card-hover">
                     <div className="flex items-start gap-4">
                       <div className="p-3 bg-primary/10 rounded-xl">
                         <info.icon className="h-6 w-6 text-primary" />
@@ -203,7 +234,7 @@ export function Contact() {
               </CardContent>
             </Card>
 
-            <Card className="glass">
+            <Card className="glass card-hover">
               <CardHeader>
                 <CardTitle>{copy.profiles}</CardTitle>
               </CardHeader>
@@ -219,7 +250,7 @@ export function Contact() {
                       title={social.name}
                       className="flex-1"
                     >
-                      <div className="p-3 bg-primary/10 rounded-xl hover:bg-primary/15 transition-colors">
+                      <div className="p-3 bg-primary/10 rounded-xl hover:bg-primary/15 transition-colors card-hover">
                         <social.icon className="h-6 w-6 text-primary" />
                       </div>
                     </a>
@@ -228,7 +259,7 @@ export function Contact() {
               </CardContent>
             </Card>
 
-            <Card className="bg-primary/5 border-primary/20">
+            <Card className="bg-primary/5 border-primary/20 card-hover">
               <CardContent className="p-6 text-center space-y-4">
                 <div className="inline-flex p-4 bg-primary rounded-xl">
                   <CheckCircle className="h-12 w-12 text-primary-foreground" />
@@ -239,14 +270,14 @@ export function Contact() {
                     {copy.acceptingDesc}
                   </p>
                 </div>
-                <Button asChild variant="outline" className="w-full">
-                  <Link href="/qualification">{copy.qualifyCta}</Link>
+                <Button asChild variant="outline" className="w-full card-hover">
+                  <Link href={withLocale('/qualification', language)}>{copy.qualifyCta}</Link>
                 </Button>
               </CardContent>
             </Card>
           </div>
 
-          <Card className="glass">
+          <Card className="glass card-hover">
             <CardHeader>
               <CardTitle>{copy.formTitle}</CardTitle>
             </CardHeader>
@@ -286,6 +317,7 @@ export function Contact() {
                       value={formData.name}
                       onChange={handleChange}
                       placeholder={copy.namePh}
+                      className="h-11"
                       required
                     />
                   </div>
@@ -299,6 +331,7 @@ export function Contact() {
                       value={formData.email}
                       onChange={handleChange}
                       placeholder={copy.emailPh}
+                      className="h-11"
                       required
                     />
                   </div>
@@ -311,6 +344,7 @@ export function Contact() {
                       value={formData.subject}
                       onChange={handleChange}
                       placeholder={copy.subjectPh}
+                      className="h-11"
                     />
                   </div>
 
@@ -327,7 +361,7 @@ export function Contact() {
                     />
                   </div>
 
-                  <Button type="submit" className="w-full gap-2" disabled={isSubmitting || !validateForm()}>
+                  <Button type="submit" className="w-full gap-2 shine-effect" disabled={isSubmitting || !validateForm()}>
                     {isSubmitting ? (
                       copy.sending
                     ) : (
@@ -337,6 +371,11 @@ export function Contact() {
                       </>
                     )}
                   </Button>
+                  <div className="rounded-md border border-border/70 bg-card/50 p-3 text-xs text-muted-foreground space-y-1">
+                    <p>{copy.trustItemOne}</p>
+                    <p>{copy.trustItemTwo}</p>
+                    <p>{copy.trustItemThree}</p>
+                  </div>
                 </form>
               )}
             </CardContent>

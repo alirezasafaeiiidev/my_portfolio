@@ -21,11 +21,21 @@ import {
 import { Languages, X, Menu, Sparkles } from 'lucide-react'
 
 const navItems = [
-  { key: 'home', name: 'nav.home', href: '#home' },
-  { key: 'services', name: 'nav.services', href: '#services' },
-  { key: 'caseStudies', name: 'nav.caseStudies', href: '#case-studies' },
-  { key: 'contact', name: 'nav.contact', href: '#contact' },
+  { key: 'home', name: 'nav.home', href: '/' },
+  { key: 'services', name: 'nav.services', href: '/services' },
+  { key: 'caseStudies', name: 'nav.caseStudies', href: '/case-studies' },
+  { key: 'contact', name: 'nav.contact', href: '/qualification' },
 ]
+
+function withLocale(path: string, lang: 'fa' | 'en'): string {
+  const normalized = path.startsWith('/') ? path : `/${path}`
+  return `/${lang}${normalized === '/' ? '/' : normalized}`
+}
+
+function getLocalizedPathname(pathname: string, lang: 'fa' | 'en'): string {
+  const withoutLocale = pathname.replace(/^\/(fa|en)(?=\/|$)/, '') || '/'
+  return withLocale(withoutLocale, lang)
+}
 
 export function Header() {
   const { t, language, setLanguage } = useI18n()
@@ -43,27 +53,10 @@ export function Header() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const handleNavClick = (href: string) => {
-    setMobileMenuOpen(false)
-    const element = document.querySelector(href)
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
-      return
-    }
-
-    if (href.startsWith('#')) {
-      const target = `/${href}`
-      if (pathname !== '/') {
-        router.push(target)
-      } else {
-        window.location.hash = href.slice(1)
-      }
-    }
-  }
-
   const changeLanguage = (lang: 'en' | 'fa') => {
     setLanguage(lang)
-    // Refresh server components (SSR sections) to match cookie-based language.
+    const localizedPath = getLocalizedPathname(pathname, lang)
+    router.push(localizedPath)
     router.refresh()
   }
 
@@ -75,38 +68,40 @@ export function Header() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-background/80 backdrop-blur-lg border-b shadow-sm'
+          ? 'bg-background/75 backdrop-blur-xl border-b shadow-sm'
           : 'bg-transparent'
       }`}
     >
       <nav className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <Link
-            href="#home"
-            onClick={(e) => {
-              e.preventDefault()
-              handleNavClick('#home')
-            }}
+            href={withLocale('/', language)}
             className="text-2xl font-bold gradient-text hover:opacity-80 transition-opacity flex items-center gap-2"
+            onClick={() => setMobileMenuOpen(false)}
           >
             <Sparkles className="h-6 w-6" />
             {brand.brandName}
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
-            {navItems.map((item) => (
-              <button
-                key={item.key}
-                onClick={() => handleNavClick(item.href)}
-                className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors relative group"
-              >
-                {getNavText(item.name)}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
-              </button>
-            ))}
-            
-            {/* Language & Theme Toggles */}
+          <div className="hidden md:flex items-center gap-6 rounded-full border border-border/70 bg-card/70 px-4 py-2 shadow-sm">
+            {navItems.map((item) => {
+              const target = withLocale(item.href, language)
+              const active = pathname === target || pathname.startsWith(`${target}/`)
+              return (
+                <Link
+                  key={item.key}
+                  href={target}
+                  aria-current={active ? 'page' : undefined}
+                  className={`text-sm font-medium transition-colors relative group px-2 py-1 rounded-md ${
+                    active ? 'text-primary bg-primary/10' : 'text-muted-foreground hover:text-primary hover:bg-muted/60'
+                  }`}
+                >
+                  {getNavText(item.name)}
+                  <span className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all ${active ? 'w-full' : 'w-0 group-hover:w-full'}`} />
+                </Link>
+              )
+            })}
+
             <div className="flex items-center gap-2">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -132,7 +127,6 @@ export function Header() {
             </div>
           </div>
 
-          {/* Mobile Navigation */}
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger asChild className="md:hidden">
               <Button
@@ -145,15 +139,23 @@ export function Header() {
             </SheetTrigger>
             <SheetContent side={language === 'fa' ? 'left' : 'right'} className="w-72">
               <nav className="flex flex-col gap-4 mt-8">
-                {navItems.map((item) => (
-                  <button
-                    key={item.key}
-                    onClick={() => handleNavClick(item.href)}
-                    className="text-lg font-medium text-left px-4 py-2 rounded-lg hover:bg-muted transition-colors"
-                  >
-                    {getNavText(item.name)}
-                  </button>
-                ))}
+                {navItems.map((item) => {
+                  const target = withLocale(item.href, language)
+                  const active = pathname === target || pathname.startsWith(`${target}/`)
+                  return (
+                    <Link
+                      key={item.key}
+                      href={target}
+                      aria-current={active ? 'page' : undefined}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={`text-lg font-medium px-4 py-2 rounded-lg transition-colors ${language === 'fa' ? 'text-right' : 'text-left'} ${
+                        active ? 'bg-primary/10 text-primary' : 'hover:bg-muted text-foreground/90'
+                      }`}
+                    >
+                      {getNavText(item.name)}
+                    </Link>
+                  )
+                })}
               </nav>
               <div className="mt-8 pt-8 border-t space-y-4">
                 <div className="flex items-center justify-between px-4">

@@ -2,9 +2,10 @@
   "ci": {
     "collect": {
       "url": [
-        "http://127.0.0.1:3000/",
-        "http://127.0.0.1:3000/services",
-        "http://127.0.0.1:3000/case-studies"
+        "http://127.0.0.1:3000/fa/",
+        "http://127.0.0.1:3000/fa/services",
+        "http://127.0.0.1:3000/fa/case-studies",
+        "http://127.0.0.1:3000/fa/services/infrastructure-localization"
       ],
       "startServerCommand": "NO_PROXY=127.0.0.1,localhost no_proxy=127.0.0.1,localhost pnpm run build && PORT=3000 pnpm run start",
       "startServerReadyTimeout": 240000,
