@@ -1,11 +1,11 @@
 # Deployment Prechecklist
 
-## Latest Verified Snapshot (2026-02-19)
-- Active production release: `20260218T225147Z`
-- Post-deploy validation: PASS (`/api/ready` local and edge = `200`)
-- Production smoke checks from VPS: PASS
+## Latest Verified Snapshot (2026-02-20)
+- Active production release: `20260220T141000Z-hotfix5`
+- Post-deploy validation: PASS (`/api/ready` edge = `200`)
+- Production smoke checks from CI: PASS (PR #71)
 - TLS/cert checks on edge: PASS
-- Rollback/governance drills: recorded in runtime evidence
+- Rollback/governance drills: prior evidence exists in `docs/runtime/`; no new rollback drill was required for this hotfix window
 
 Evidence:
 - `docs/runtime/` (deployment evidence snapshots)
