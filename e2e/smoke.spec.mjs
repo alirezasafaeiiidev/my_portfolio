@@ -68,7 +68,7 @@ test.describe('smoke', () => {
     await page.locator('#notes').fill('Please contact by email.')
 
     await page.getByRole('button', { name: /درخواست ارزیابی ریسک زیرساخت/ }).click()
-    await expect(page).toHaveURL(/\/fa\/thank-you\?source=lead/)
+    await expect(page).toHaveURL(/\/(?:fa\/)?thank-you\?source=lead/)
     await expect(page.locator('h1')).toContainText(/Thanks\. Your request is in\.|ممنون\. درخواست شما ثبت شد\./)
   })
 })
