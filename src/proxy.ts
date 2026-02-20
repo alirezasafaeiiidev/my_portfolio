@@ -117,29 +117,12 @@ export async function proxy(request: NextRequest) {
   const [, maybeLocale] = pathname.split('/')
   const hasLocalePrefix = SUPPORTED_LOCALES.has(maybeLocale ?? '')
 
-  if (isLocalizedCandidate && !hasLocalePrefix) {
-    const cookieLang = request.cookies.get('lang')?.value
-    const locale = cookieLang === 'en' ? 'en' : 'fa'
-    const redirectUrl = request.nextUrl.clone()
-    redirectUrl.pathname = `/${locale}${pathname}`
-    const response = NextResponse.redirect(redirectUrl)
-    response.headers.set('X-Request-ID', correlationId)
-    response.headers.set('X-Correlation-ID', correlationId)
-    response.headers.set('x-csp-nonce', nonce)
-    return withSecurityHeaders(response, pathname, nonce)
-  }
-
   if (isLocalizedCandidate && hasLocalePrefix) {
     const locale = maybeLocale as 'fa' | 'en'
     const internalPath = pathname.replace(/^\/(fa|en)(?=\/|$)/, '') || '/'
-    const rewriteUrl = request.nextUrl.clone()
-    rewriteUrl.pathname = internalPath
-    const localizedHeaders = new Headers(requestHeaders)
-    localizedHeaders.set('x-asdev-locale', locale)
-    localizedHeaders.set('x-asdev-pathname', pathname)
-    const response = NextResponse.rewrite(rewriteUrl, {
-      request: { headers: localizedHeaders },
-    })
+    const redirectUrl = request.nextUrl.clone()
+    redirectUrl.pathname = internalPath
+    const response = NextResponse.redirect(redirectUrl)
     response.cookies.set('lang', locale, {
       path: '/',
       sameSite: 'lax',
