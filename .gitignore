@@ -68,3 +68,7 @@ backups/
 # Local owner-specific secrets (must never be committed)
 secret_alireza.md
 secret_*.md
+
+# local prisma sqlite artifacts
+prisma/*.db
+prisma/*.db-journal

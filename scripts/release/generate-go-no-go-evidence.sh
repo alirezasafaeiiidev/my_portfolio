@@ -26,6 +26,7 @@ VERIFY_STATUS="skipped"
 SMOKE_STATUS="skipped"
 LHCI_STATUS="skipped"
 OWNERSHIP_STATUS="skipped"
+CURL_NO_PROXY="${CURL_NO_PROXY:-*}"
 
 run_and_capture() {
   local label="$1"
@@ -50,7 +51,7 @@ if [[ "$RUN_VERIFY" == "1" ]]; then
 fi
 
 if [[ "$RUN_SMOKE" == "1" ]]; then
-  if run_and_capture "smoke" "pnpm -s run test:e2e:smoke" "artifacts/${BASENAME}.smoke.log"; then
+  if run_and_capture "smoke" "PORT=3100 pnpm run start >/tmp/asdev-smoke-server.log 2>&1 & srv=\$!; for i in {1..40}; do code=\$(curl -s -o /dev/null -w \"%{http_code}\" http://127.0.0.1:3100/ || true); if [[ \"\$code\" != \"000\" ]]; then break; fi; sleep 1; done; PLAYWRIGHT_DISABLE_WEBSERVER=true PLAYWRIGHT_BASE_URL=http://127.0.0.1:3100 pnpm -s run test:e2e:smoke; ec=\$?; kill \$srv >/dev/null 2>&1 || true; wait \$srv 2>/dev/null || true; exit \$ec" "artifacts/${BASENAME}.smoke.log"; then
     SMOKE_STATUS="pass"
   else
     SMOKE_STATUS="fail"
@@ -76,7 +77,7 @@ fi
 safe_http_code() {
   local url="$1"
   local code
-  code="$(curl -s --connect-timeout 5 --max-time 15 -o /dev/null -w "%{http_code}" "${url}" || true)"
+  code="$(curl --noproxy "${CURL_NO_PROXY}" -s --connect-timeout 5 --max-time 15 -o /dev/null -w "%{http_code}" "${url}" || true)"
   if [[ -z "$code" || "$code" == "000" ]]; then
     echo "unreachable"
   else
@@ -88,7 +89,7 @@ safe_header() {
   local url="$1"
   local header_name="$2"
   local headers
-  headers="$(curl -sI --connect-timeout 5 --max-time 15 "${url}" || true)"
+  headers="$(curl --noproxy "${CURL_NO_PROXY}" -sI --connect-timeout 5 --max-time 15 "${url}" || true)"
   if [[ -z "$headers" ]]; then
     echo "missing"
     return
